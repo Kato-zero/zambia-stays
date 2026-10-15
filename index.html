@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="Zambia Stays — find lodges, hotels and guesthouses across Zambia and book your room.">
+<title>Zambia Stays</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--g1:#F2F2F7;--g2:#E5E5EA;--tx:#000;--t2:#6C6C70;--t3:#AEAEB2;--ac:rgb(210, 86, 20);--rd:#FF3B30;--sep:rgba(60,60,67,.14);--sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",Roboto,sans-serif;background:#fff;color:var(--tx);line-height:1.35;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit;border:0;outline:0;background:none}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:6px}
+.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:calc(90px + var(--sb))}
+.pg{display:none;padding:0 20px}.pg.on{display:block;animation:f .3s}
+@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1.lt{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;padding:calc(var(--st) + 22px) 0 8px}
+.h2{font-size:1.25rem;font-weight:700;letter-spacing:-.02em;margin:18px 0 12px}
+
+/* ===== brand row with logo ===== */
+.brand{display:flex;align-items:center;justify-content:center;gap:1px;padding:calc(var(--st) + 22px) 0 8px}.brand h1.lt{padding:0}
+.brand .logo{width:250px;height:250px;border-radius:12px;object-fit:center;flex:0 0 auto;display:block}
+/* ==================================== */
+
+.sbar{position:sticky;top:0;z-index:5;margin:0 -20px 6px;padding:6px 20px 8px;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;gap:10px}
+.search{flex:1;display:flex;align-items:center;gap:8px;background:var(--g1);border-radius:12px;padding:10px 12px;color:var(--t2);min-width:0}
+.search input{flex:1;color:var(--tx);font-size:1rem;min-width:0}
+.fbtn{position:relative;width:44px;height:44px;flex-shrink:0;border-radius:12px;background:var(--g1);color:var(--ac);display:grid;place-items:center;transition:.15s}
+.fbtn:active{opacity:.7;transform:scale(.96)}
+.fbtn.on{background:var(--ac);color:#fff}
+.fbadge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--rd);color:#fff;font-size:.68rem;font-weight:700;display:grid;place-items:center;border:2px solid #fff;line-height:1}
+.fbadge:empty{display:none}
+.cw{display:flex;flex-wrap:wrap;gap:8px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:0 -20px;padding:2px 20px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar,.car::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:7px 14px;border-radius:99px;background:var(--g1);font-size:.85rem;font-weight:600;color:var(--tx)}
+.chip.on{background:var(--ac);color:#fff}
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:0 20px 4px;scrollbar-width:none}
+.fcard{flex:0 0 82%;height:210px;border-radius:22px;position:relative;overflow:hidden;scroll-snap-align:center;background:linear-gradient(135deg,#007AFF,#5856D6);color:#fff;cursor:pointer}
+.fcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fo{position:absolute;inset:auto 0 0 0;padding:44px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,.72))}
+.fo small{font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;opacity:.9}
+.fo b{display:block;font-size:1.2rem;margin:2px 0;letter-spacing:-.02em}.fo span{font-size:.82rem;opacity:.92}
+.row{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--sep);cursor:pointer;position:relative}
+.th{width:88px;height:88px;border-radius:14px;background:var(--g1);overflow:hidden;display:grid;place-items:center;color:var(--t3);flex-shrink:0}
+.th img{width:100%;height:100%;object-fit:cover}
+.rb{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.rb small,.cat{color:var(--ac);font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.rb b{font-size:1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb span{color:var(--t2);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb em{font-style:normal;font-weight:700;font-size:.85rem;margin-top:auto}
+.btn{background:var(--ac);color:#fff;border-radius:14px;padding:14px 20px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.btn:active{opacity:.7;transform:scale(.98)}.btn:disabled{background:var(--g2);color:var(--t3);pointer-events:none}
+.btn.s{background:var(--g1);color:var(--ac)}.btn.d{background:rgba(255,59,48,.1);color:var(--rd)}.btn.b{width:100%}
+.btn.sm{padding:8px 14px;font-size:.85rem;border-radius:99px}
+.btn.icon{width:40px;height:40px;padding:0;border-radius:50%;display:grid;place-items:center;position:absolute;top:12px;right:14px}
+.heart{color:var(--t3);transition:.2s}.heart.saved{color:var(--rd)}
+.tb{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:flex;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--sep);padding:8px 0 calc(8px + var(--sb));z-index:20}
+.tb button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.68rem;font-weight:600;color:var(--t3)}
+.tb button.on{color:var(--ac)}.tb .i{width:24px;height:24px}
+#detail{position:fixed;top:0;bottom:0;left:50%;width:min(520px,100%);background:#fff;z-index:50;overflow-y:auto;transform:translate(calc(-50% + 110vw),0);transition:transform .38s cubic-bezier(.32,.72,0,1)}
+#detail.on{transform:translate(-50%,0)}
+.dimg{height:300px;background:var(--g1);position:relative;display:grid;place-items:center;color:var(--t3)}
+.dimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bk{position:absolute;top:calc(var(--st) + 12px);left:14px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);display:grid;place-items:center;color:var(--ac);box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:10}
+.dbd{padding:20px 20px 8px;margin-top:-22px;position:relative;background:#fff;border-radius:24px 24px 0 0}
+.dbd h1{font-size:1.8rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:6px 0 16px}
+.dbd .btn.icon{position:static;background:var(--g1);color:var(--ac)}
+.dbd .btn.icon.heart{color:var(--t3)}
+.dbd .btn.icon.heart.saved{color:var(--rd)}
+button.gi{width:100%;text-align:left;cursor:pointer}
+.desc{color:var(--t2);line-height:1.6;white-space:pre-line}
+.grp{background:var(--g1);border-radius:16px;overflow:hidden}
+.gi{display:flex;gap:12px;padding:13px 16px;align-items:center;border-bottom:1px solid var(--sep);font-size:.95rem}
+.gi:last-child{border:0}.gi .i{color:var(--ac)}.gi .sp{margin-left:auto;font-weight:700}
+.gi small{display:block;color:var(--t2);font-size:.75rem}
+.bar{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 20px calc(12px + var(--sb));background:rgba(255,255,255,.94);backdrop-filter:blur(20px);border-top:1px solid var(--sep);margin-top:20px}
+.bar small{display:block;color:var(--t2);font-size:.72rem}.bar b{font-size:1.2rem}.bar .btn{flex:1;max-width:240px}
+.ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.35);display:flex;align-items:flex-end;justify-content:center;animation:o .25s}
+@keyframes o{from{opacity:0}}
+.ov.out{opacity:0;transition:.22s}.ov.out .sh{transform:translateY(100%);transition:.22s}
+.sh{width:min(520px,100%);max-height:92vh;overflow-y:auto;background:#fff;border-radius:22px 22px 0 0;padding:8px 20px calc(24px + var(--sb));animation:u .35s cubic-bezier(.32,.72,0,1)}
+@keyframes u{from{transform:translateY(100%)}}
+.grab{width:38px;height:5px;border-radius:9px;background:var(--g2);margin:0 auto 12px}
+.sht{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px}.sht h3{font-size:1.3rem;font-weight:700;letter-spacing:-.02em}
+.xb{width:30px;height:30px;border-radius:50%;background:var(--g1);display:grid;place-items:center;color:var(--t2)}.xb .i{width:16px;height:16px}
+.sub{color:var(--t2);font-size:.9rem;margin:-6px 0 16px}.hint{color:var(--t3);font-size:.78rem;margin-top:12px}.hint.c{text-align:center}
+.fld{margin-bottom:12px}.fld label{display:block;font-size:.78rem;color:var(--t2);font-weight:600;margin:0 0 6px 4px}
+.in{width:100%;background:var(--g1);border-radius:12px;padding:13px 14px;font-size:1rem;appearance:none;-webkit-appearance:none}
+textarea.in{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;background:var(--g1);border-radius:10px;padding:2px;margin-bottom:16px}
+.seg button{flex:1;padding:8px;border-radius:8px;font-weight:600;font-size:.88rem;color:var(--t2)}
+.seg button.on{background:#fff;color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.fld .seg{margin:0}
+.qty{display:flex;align-items:center;justify-content:space-between;background:var(--g1);border-radius:12px;padding:6px}
+.qty button{width:44px;height:36px;border-radius:9px;background:#fff;display:grid;place-items:center;color:var(--ac);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.tot{display:flex;justify-content:space-between;align-items:center;padding:14px 4px;font-size:1.1rem;border-top:1px solid var(--sep);margin:6px 0 12px}
+.pass{background:var(--g1);border-radius:20px;overflow:hidden;margin-bottom:16px}
+.pt{padding:20px}.pt h3{font-size:1.4rem;letter-spacing:-.02em;margin:6px 0 12px}
+.pt p{color:var(--t2);font-size:.88rem;display:flex;gap:8px;align-items:center;margin-top:5px}.pt .i{width:15px;height:15px}
+.pc{border-top:2px dashed var(--g2);padding:16px;text-align:center}
+.code{font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:1.3rem;letter-spacing:.08em;color:var(--ac);margin:4px 0}
+.qr{margin:12px auto;display:inline-block;background:#fff;padding:14px;border-radius:14px;line-height:0;max-width:100%}
+.qr svg,.qr canvas,.qr img{max-width:100%;height:auto;image-rendering:pixelated}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.kpi{background:var(--g1);border-radius:16px;padding:14px}.kpi small{color:var(--t2);font-size:.75rem;font-weight:600}.kpi b{display:block;font-size:1.3rem;margin-top:4px}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.upload{background:var(--g1);border-radius:14px;min-height:140px;display:grid;place-items:center;position:relative;overflow:hidden;color:var(--t2);font-size:.85rem;text-align:center}
+.upload input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
+.upload img{width:100%;height:190px;object-fit:cover;display:block}
+.trow{display:flex;gap:8px;align-items:center;background:var(--g1);border-radius:14px;padding:8px;margin-bottom:8px}
+.trow .in{background:#fff;padding:10px;font-size:.9rem;min-width:0}
+.trow .in.n{flex:1.5}.trow .in.p,.trow .in.q{flex:1}
+.trow .btn{width:40px;height:40px;padding:0;border-radius:11px;flex-shrink:0}
+.ocard{border-bottom:1px solid var(--sep);padding:14px 0}
+.ocard:last-child{border:0}
+.ocard .top{display:flex;gap:14px;cursor:pointer;align-items:center}
+.chk{display:flex;gap:10px;align-items:center;padding:12px 4px;font-size:.95rem}.chk input{width:22px;height:22px;accent-color:var(--ac)}
+.emp{text-align:center;color:var(--t2);padding:48px 0}.emp .i{width:40px;height:40px;color:var(--t3);margin-bottom:8px}
+.me{text-align:center;padding-top:10px}.av{width:84px;height:84px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:2rem;font-weight:700;margin:0 auto 14px}
+.toast{position:fixed;top:calc(var(--st) + 12px);left:50%;transform:translateX(-50%);background:#1c1c1e;color:#fff;padding:12px 18px;border-radius:99px;font-size:.88rem;z-index:300;animation:f .25s;max-width:92vw;text-align:center}
+.spin{width:22px;height:22px;border:3px solid var(--g2);border-top-color:var(--ac);border-radius:50%;animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}
+.ps{margin:0 -20px}
+.pst{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:8px calc(50% - min(29vw,150px)) 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pst::-webkit-scrollbar{display:none}
+.psl{flex:0 0 min(58vw,300px);scroll-snap-align:center;text-align:center;transform:scale(.8);opacity:.4;transition:transform .55s cubic-bezier(.32,.72,0,1),opacity .55s;cursor:pointer}
+.psl.on{transform:scale(1);opacity:1}
+.psl .ph{width:100%;aspect-ratio:1;border-radius:26px;overflow:hidden;background:var(--g1);box-shadow:0 10px 28px rgba(0,0,0,.14)}
+.psl .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.psl b{display:block;margin-top:14px;font-size:1.1rem;letter-spacing:-.02em}.psl small{color:var(--t2);font-size:.85rem}
+.dots{display:flex;justify-content:center;gap:6px}.dots i{width:7px;height:7px;border-radius:99px;background:var(--g2);transition:.4s;cursor:pointer}.dots i.on{width:22px;background:var(--ac)}
+
+/* ===== gallery slideshow ===== */
+.gsl{position:relative;border-radius:20px;overflow:hidden;background:var(--g1);aspect-ratio:4/3;margin-bottom:8px;touch-action:pan-y;user-select:none}
+.gsl-track{display:flex;height:100%;transition:transform .5s cubic-bezier(.32,.72,0,1);will-change:transform}
+.gsl-slide{flex:0 0 100%;height:100%;position:relative}
+.gsl-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.gsl-cap{position:absolute;inset:auto 0 0 0;padding:52px 16px 18px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;pointer-events:none}
+.gsl-cap b{display:block;font-size:1rem;font-weight:700;letter-spacing:-.02em}
+.gsl-cap small{display:block;font-size:.78rem;opacity:.9;margin-top:2px}
+.gsl-nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;place-items:center;color:var(--tx);box-shadow:0 2px 10px rgba(0,0,0,.22);z-index:2;cursor:pointer}
+.gsl-nav .i{width:18px;height:18px}
+.gsl-nav.prev{left:10px}
+.gsl-nav.next{right:10px}
+.gsl-dots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:6px;z-index:2}
+.gsl-dots i{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.55);cursor:pointer;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.gsl-dots i.on{width:20px;background:#fff}
+.gsl-cnt{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);color:#fff;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:99px;z-index:2;backdrop-filter:blur(6px)}
+/* ============================ */
+
+.pr{display:flex;gap:10px;align-items:center;background:var(--g1);border-radius:14px;padding:10px;margin-bottom:10px}
+.pth{width:56px;height:56px;border-radius:14px;background:#fff;overflow:hidden;display:grid;place-items:center;color:var(--t3);position:relative;flex-shrink:0;cursor:pointer}
+.pth input{position:absolute;inset:0;opacity:0;cursor:pointer}.pth img{width:100%;height:100%;object-fit:cover}
+.pf{flex:1;display:grid;gap:6px;min-width:0}.pf .in{background:#fff;padding:9px 12px}
+select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236C6C70' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+.tt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--g1);border-radius:14px;padding:13px 14px;margin-bottom:8px;border:2px solid transparent;transition:.2s}
+.tt.on{border-color:var(--ac);background:rgba(0,122,255,.06)}.tt:disabled{opacity:.45;pointer-events:none}
+.rd{width:22px;height:22px;border-radius:50%;border:2px solid var(--t3);flex-shrink:0;transition:.2s}
+.tt.on .rd{border-color:var(--ac);background:var(--ac);box-shadow:inset 0 0 0 4px #fff}
+.tn{flex:1;font-weight:600}.tn small{display:block;color:var(--t2);font-weight:400;font-size:.78rem}.tt b{font-weight:700}
+.bkw{position:sticky;top:0;height:0;z-index:10}
+.sk{animation:sk-load 1.2s infinite}@keyframes sk-load{0%,80%,100%{opacity:.4}40%{opacity:1}}
+.sk-row{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--sep)}
+.sk-th{width:88px;height:88px;border-radius:14px;background:var(--g1);flex-shrink:0}
+.sk-rb{flex:1;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.sk-line{height:12px;background:var(--g1);border-radius:6px}
+.sk-line.short{width:60%}
+.chart-container{position:relative;height:240px;margin:6px 0 4px}
+.chk-tile{display:flex;align-items:center;gap:12px;padding:12px;background:var(--g1);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.chk-tile .rt{margin-left:auto;font-weight:700}
+.chk-tile small{color:var(--t2)}
+.chk-tick{width:36px;height:36px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-weight:700;flex-shrink:0}
+.chk-tick.off{background:var(--g2);color:var(--t2)}.chk-tick.part{background:#FF9500}
+.res{border-radius:16px;padding:16px;margin-top:14px;text-align:center;background:var(--g1)}
+.res b{display:block;font-size:1.15rem}
+.res span{display:block;margin-top:4px;font-size:.92rem;line-height:1.45}
+.res.g{background:rgba(52,199,89,.14);color:#1a7f37}
+.res.a{background:rgba(255,149,0,.16);color:#a55a00}
+.res.r{background:rgba(255,59,48,.12);color:#c4281e}
+.res .qty{margin:12px 0 10px;color:var(--tx)}
+.res .qty b{display:inline;color:var(--tx)}
+.cnt{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 8px}
+.cnt b{font-size:2rem;letter-spacing:-.03em}.cnt small{margin-left:6px;color:var(--t2);font-size:.85rem}
+.cnt span{color:var(--t2);font-weight:600;font-size:.9rem}
+.pbar{height:8px;border-radius:99px;background:var(--g1);overflow:hidden;margin-bottom:14px}
+.pbar i{display:block;height:100%;background:#34C759;transition:width .4s}
+.scn{position:fixed;inset:0;z-index:250;background:#000}
+.scn video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scn .frame{position:absolute;top:36%;left:50%;width:min(72vw,300px);aspect-ratio:1;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 0 0 100vmax rgba(0,0,0,.4)}
+.scn .scs{position:absolute;top:calc(var(--st) + 24px);left:20px;right:70px;color:#fff;font-weight:600}
+.scn .scx{position:absolute;top:calc(var(--st) + 14px);right:16px;width:40px;height:40px;background:rgba(255,255,255,.9)}
+.scn .scr{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:16px 20px calc(18px + var(--sb));transform:translateY(105%);transition:transform .3s;max-height:70vh;overflow-y:auto}
+.scn .scr.on{transform:none}
+.scn .scr .res{margin-top:0}
+.scn .scr #sn{margin-top:10px}
+.scn .scgo{position:absolute;left:0;right:0;margin:0 auto;width:fit-content;min-width:150px;top:calc(36% + min(36vw,150px) + 22px);z-index:2}
+.scn .scgo.stop{background:#fff;color:var(--rd)}
+
+/* ===== featured status badges ===== */
+.fbadge-pill{display:inline-block;margin-top:4px;font-size:.66rem;font-weight:700;padding:3px 8px;border-radius:99px}
+.fbadge-pending{background:rgba(255,149,0,.16);color:#a55a00}
+.fbadge-approved{background:rgba(52,199,89,.18);color:#1a7f37}
+.fbadge-rejected{background:rgba(255,59,48,.12);color:#c4281e}
+/* ================================== */
+
+/* ===== payouts ===== */
+.pay-card{background:var(--g1);border-radius:16px;padding:16px;margin:12px 0}
+.pay-card small{color:var(--t2);font-size:.75rem;font-weight:600}
+.pay-card b{display:block;font-size:1.4rem;margin:4px 0 10px}
+.pay-status{display:inline-block;font-size:.66rem;font-weight:700;padding:3px 8px;border-radius:99px}
+.ps-requested,.ps-verifying{background:rgba(255,149,0,.16);color:#a55a00}
+.ps-approved,.ps-paid{background:rgba(52,199,89,.18);color:#1a7f37}
+.ps-rejected{background:rgba(255,59,48,.12);color:#c4281e}
+.okicon{width:56px;height:56px;border-radius:50%;background:rgba(52,199,89,.18);color:#1a7f37;display:grid;place-items:center;margin:8px auto 12px;font-size:1.6rem;font-weight:700}
+/* ==================== */
+
+/* ===== booking breakdown ===== */
+.brk{text-align:center;color:var(--t2);font-size:.82rem;margin-top:10px}
+.brk b{color:var(--tx)}
+/* ======================== */
+
+/* ===== check-out ===== */
+.co-strip{display:flex;align-items:center;gap:10px;background:var(--g1);border-radius:14px;padding:12px 14px;margin:0 0 12px}
+.co-strip .i{color:var(--ac)}
+.co-strip b{font-size:1.1rem}
+.co-strip small{display:block;color:var(--t2);font-size:.76rem}
+.chk-tile .btn{margin-left:auto;flex-shrink:0}
+.pbar i.co{background:#FF9500}
+/* ===================== */
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="pg on" id="p-home">
+    <div class="brand">
+      <img class="logo" src="https://i.postimg.cc/x8HHBBHj/Zambia-Stays-Lodge-Logo.png" alt="Zambia Stays logo" onerror="this.remove()">
+    </div>
+    <h2 class="lt">Find Your Stay in Zambia</h2>
+    <div class="sbar">
+      <div class="search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input id="q" type="search" placeholder="Search lodges, hotels or cities" autocomplete="off"></div>
+      <button class="fbtn" id="fb" aria-label="Filters"><svg class="i" viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></svg><span class="fbadge" id="fbadge"></span></button>
+    </div>
+    <div id="feat"></div>
+    <h2 class="h2" id="hl">Places to stay</h2>
+    <div id="list"></div>
+  </section>
+  <section class="pg" id="p-tix"><h1 class="lt">Stay</h1><div id="tl"></div></section>
+  <section class="pg" id="p-org"><h1 class="lt">Host</h1><div id="ol"></div></section>
+  <section class="pg" id="p-chk"><h1 class="lt">Check In</h1><div id="cl"></div></section>
+  <section class="pg" id="p-me"><h1 class="lt">Account</h1><div id="ml"></div></section>
+</div>
+<div id="detail"></div>
+<nav class="tb" id="tb"></nav>
+
+<script>
+"use strict";
+
+/* ===== ZAMBIA STAYS — IMPROVEMENTS SUMMARY =====
+  ✓ Converted from event ticketing to lodge / hotel room booking
+  ✓ Better event listener cleanup (no memory leaks)
+  ✓ Debounced search input
+  ✓ Proper error handling & validation
+  ✓ Safe localStorage quota management
+  ✓ Robust phone number validation
+  ✓ Better async/await error boundaries
+  ✓ Proper QR code failure handling
+  ✓ Scanner resource cleanup
+  ✓ Chart instance management
+  ✓ Faster local storage performance
+  ✓ Real Lipila mobile-money payments
+  ✓ Stay sharing (native share, copy link, WhatsApp)
+  ✓ Deep links: ?stay=<id> opens the property; back button closes it
+  ✓ Featured approval workflow (host request → admin approve/decline)
+  ✓ Host payout requests (balance, request, status history)
+  ✓ Bookings now carry a `nights` value (checkout date is derived)
+  ✓ Fixed UTC date-shift bug in ymd()/today()/dAhead()
+  ✓ Gallery slideshow (auto-play, arrows, dots, swipe) right after
+    Rooms & rates — captions optional per slide
+  ✓ AUTOMATIC CHECK-OUT: every guest checked in is checked out at
+    10:00 AM the morning after check-in (CHECKOUT_HOUR). Check In tab
+    now has Check in / Check out modes, an in-house list, overdue
+    flags, manual early check-out, and a background sweep that runs
+    on load and every 60 seconds.
+  ===============================================*/
+
+const SUPABASE_URL = "https://jxvszcxgpbjczwggdzzm.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4dnN6Y3hncGJqY3p3Z2dkenptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwNjA0MzYsImV4cCI6MjEwNzYzNjQzNn0.2_pEKlH-K4_u9KUTczMSYfI6BoWit_bSsADQdKoaOBo";
+const USE_LOCAL = false;
+const sb = USE_LOCAL ? localSb() : supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* ---------- PAYMENTS (Lipila mobile money via /api) ---------- */
+const PAY = {
+  create: "/api/createpayment",
+  status: "/api/checkpayment",
+  pollMs: 4000,
+  timeoutMs: 120000
+};
+
+function paymentState(resp) {
+  const root = resp && typeof resp === "object" ? resp : {};
+  const body = root.data && typeof root.data === "object" ? root.data : root;
+  const vals = [];
+  const scan = (o, depth) => {
+    if (!o || typeof o !== "object" || depth > 3) return;
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === "string" && /status|state|result/i.test(k)) vals.push(v);
+      else if (v && typeof v === "object") scan(v, depth + 1);
+    }
+  };
+  scan(body, 0);
+  const s = vals.join(" ").toLowerCase();
+  if (/\b(successful|success|succeeded|completed|complete|paid|approved|collected)\b/.test(s)) return "paid";
+  if (/\b(failed|failure|declined|decline|cancelled|canceled|rejected|expired|reversed|insufficient|invalid)\b/.test(s)) return "failed";
+  return "pending";
+}
+
+async function startPayment({ amount, name, phone }) {
+  let r;
+  try {
+    r = await fetch(PAY.create, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", accept: "application/json" },
+      body: JSON.stringify({ amount, customer_name: name, phone })
+    });
+  } catch (e) {
+    throw new Error("Could not reach the payment service. Check your connection and try again.");
+  }
+  let data = null;
+  try { data = await r.json() } catch { data = null }
+  if (!r.ok || !data || !data.success || !data.referenceId) {
+    throw new Error((data && data.message) || "Could not start the payment. Please try again.");
+  }
+  return data.referenceId;
+}
+
+async function pollPayment(referenceId, onUpdate) {
+  const started = Date.now();
+  let tries = 0;
+  while (Date.now() - started < PAY.timeoutMs) {
+    await new Promise(r => setTimeout(r, tries === 0 ? 2500 : PAY.pollMs));
+    tries++;
+    let resp = null;
+    try {
+      const r = await fetch(PAY.status + "?referenceId=" + encodeURIComponent(referenceId), {
+        headers: { accept: "application/json" }
+      });
+      resp = await r.json().catch(() => null);
+    } catch (e) {
+      console.warn("Payment status check failed:", e);
+    }
+    const st = paymentState(resp);
+    if (onUpdate) onUpdate(st);
+    if (st === "paid") return { status: "paid", referenceId, response: resp };
+    if (st === "failed") return { status: "failed", referenceId, response: resp };
+  }
+  return { status: "pending", referenceId };
+}
+
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const money = v => "ZMW " + Number(v || 0).toLocaleString();
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+/* --- date helpers (local-time safe: no UTC shifting) --- */
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const today = () => ymd(new Date());
+const addDays = (d, n) => { const x = new Date(d + "T00:00:00"); x.setDate(x.getDate() + n); return ymd(x) };
+const fdate = d => d ? new Date(d + "T00:00:00").toLocaleDateString("en-ZM", { day: "numeric", month: "short", year: "numeric" }) : "";
+const ftime = t => { if (!t) return ""; const [h, m] = t.split(":"), d = new Date(); d.setHours(+h, +m); return d.toLocaleTimeString("en-ZM", { hour: "numeric", minute: "2-digit" }) };
+const fts = s => s ? new Date(s).toLocaleTimeString("en-ZM", { hour: "numeric", minute: "2-digit" }) : "";
+
+/* A property never expires — `date` is simply the earliest check-in date. */
+const ended = () => false;
+
+const isValidEmail = e => /^\S+@\S+\.\S+$/.test(e);
+const isValidPhone = p => /^\d{9,}$/.test(String(p).replace(/\D/g, ""));
+const sanitizePhone = p => String(p).replace(/\D/g, "");
+
+const CATS = ["Lodge", "Hotel", "Guesthouse", "Safari Camp", "Bed & Breakfast", "Self-Catering", "Boutique Hotel", "Backpackers"];
+const CITIES = ["Lusaka", "Ndola", "Kitwe", "Livingstone", "Kabwe", "Chipata", "Solwezi", "Mongu", "Kasama", "Siavonga", "South Luangwa", "Lower Zambezi"];
+
+const P = {
+  search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>', cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  pin: '<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>', clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  ticket: '<path d="M2 9a3 3 0 010 6v2a2 2 0 002 2h16a2 2 0 002-2v-2a3 3 0 010-6V7a2 2 0 00-2-2H4a2 2 0 00-2 2z"/><path d="M13 5v14"/>',
+  bed: '<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 18h18"/><path d="M7 10V7.5A1.5 1.5 0 0 1 8.5 6h2A1.5 1.5 0 0 1 12 7.5V10"/><path d="M12 10V7.5A1.5 1.5 0 0 1 13.5 6h2A1.5 1.5 0 0 1 17 7.5V10"/>',
+  home: '<path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M9.5 21v-6h5v6"/>',
+  user: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>', grid: '<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',
+  back: '<path d="M15 18l-6-6 6-6"/>', chevR: '<path d="M9 18l6-6-6-6"/>', x: '<path d="M18 6L6 18M6 6l12 12"/>', plus: '<path d="M12 5v14M5 12h14"/>', minus: '<path d="M5 12h14"/>',
+  trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>', edit: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/>',
+  users: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8"/>', img: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+  heart: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+  share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51a6 6 0 0 0 6.82 0M15.41 6.49a6 6 0 0 0-6.82 0"/>',
+  link: '<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>',
+  copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>',
+  scan: '<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="10" height="10"/>'
+};
+const I = (n, c = "") => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+
+let me = null, ALL = [], MINE = [], BOOKINGS = [], SAVED = [], fee = 5, openStayId = null;
+let cat = "", city = "", dateF = "", priceF = "", q = "", psT = null, chartInst = null;
+let qSearchTimeout = null;
+
+/* ---------- PLACEHOLDER PROPERTIES ---------- */
+const SHOW_SAMPLES = false;
+const dAhead = n => { const d = new Date(); d.setDate(d.getDate() + n); return ymd(d) };
+
+const art = (a, b) => "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/></svg>`);
+const gimg = (t, a, b) => "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="600" height="600" fill="url(#g)"/><text x="300" y="315" font-family="Helvetica,Arial,sans-serif" font-size="42" font-weight="700" fill="#ffffff" text-anchor="middle">${String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</text></svg>`);
+
+const SAMPLES = [
+  ["Zambezi River Lodge", "Lodge", "Livingstone", "Mosi-oa-Tunya Road, Livingstone", 3, "14:00", true, ["#007AFF", "#5856D6"],
+    [["Standard Room", 850, 14, 5], ["Deluxe River View", 1450, 8, 3], ["Executive Suite", 2400, 4, 1]],
+    "Riverside chalets ten minutes from Victoria Falls.",
+    "Twenty-six thatched chalets set in mature gardens along the banks of the Zambezi. Every room has air conditioning, an en-suite bathroom, mosquito nets and a private veranda.\n\nThe lodge has an outdoor pool, a riverside bar and a restaurant serving local and international dishes. Sunset cruises and Victoria Falls tours can be arranged at reception.\n\nCheck-in is from 14:00 and check-out is by 10:00. Airport transfers from Harry Mwanga Nkumbula International Airport can be booked in advance.",
+    ["Infinity Pool|Open 6am – 9pm daily", "Riverside Bar|Sundowners from 17:00", "The Deck Restaurant|Breakfast, lunch and dinner", "Garden Chalets|Twenty-six rooms in total", "Sunset Cruise Jetty|Departs at 16:30"]],
+
+  ["Copperbelt Executive Hotel", "Hotel", "Ndola", "President Avenue, Ndola", 6, "14:00", true, ["#0A84FF", "#30B0C7"],
+    [["Standard Room", 950, 24, 9], ["Executive Room", 1600, 12, 4], ["Presidential Suite", 2900, 3, 1]],
+    "Business hotel in the heart of Ndola with a conference centre.",
+    "A modern hotel built for business travellers, five minutes from Ndola city centre and twenty minutes from Simon Mwansa Kapwepwe International Airport.\n\nAll rooms include air conditioning, DSTV, free fibre Wi-Fi, a work desk and tea and coffee facilities. The hotel has two conference rooms, a gym, a rooftop bar and secure on-site parking.\n\nBreakfast is served from 06:00 to 10:00 and is included in the Executive and Presidential rates.",
+    ["Rooftop Bar|Open until midnight", "Conference Centre|Two rooms, up to 120 guests", "Fitness Centre|Open 5am – 10pm", "Secure Parking|24-hour security", "Restaurant|Local and international menu"]],
+
+  ["Leopards Hill Guesthouse", "Guesthouse", "Lusaka", "Leopards Hill Road, Lusaka", 2, "13:00", false, ["#34C759", "#248A3D"],
+    [["Garden Room", 620, 8, 3], ["Family Room", 980, 5, 2]],
+    "Quiet garden guesthouse in Kabulonga, Lusaka.",
+    "A small family-run guesthouse in a leafy part of Lusaka, ten minutes from Kabulonga and fifteen from the city centre.\n\nRooms open onto a shared garden with a shaded breakfast terrace. Breakfast is included and served from 06:30 to 09:30. Laundry and airport pick-up can be arranged.\n\nFree secure parking and Wi-Fi throughout.",
+    ["Garden Terrace|Breakfast served daily", "Secure Parking|Off-street, gated", "Breakfast Room|06:30 – 09:30", "Lounge|Books, TV and board games"]],
+
+  ["South Luangwa Safari Camp", "Safari Camp", "South Luangwa", "Mfuwe, South Luangwa National Park", 9, "14:00", true, ["#A2845E", "#FF9500"],
+    [["Safari Tent", 1250, 10, 4], ["Luxury Tent", 2100, 6, 2], ["Family Chalet", 3200, 3, 1]],
+    "Tented camp on the banks of the Luangwa River.",
+    "A classic bush camp overlooking a busy stretch of the Luangwa River, inside the national park. Elephants and hippos are regularly seen from the deck.\n\nRates include all meals, two game activities per day (game drive or walking safari) and park fees. Tents have en-suite open-air bathrooms, solar lighting and mosquito nets.\n\nThe camp runs on solar power. There is no mobile signal in camp, but Wi-Fi is available in the main area. Closed during the rainy season.",
+    ["River Deck|Elephant and hippo sightings", "Game Drives|Morning and afternoon", "Walking Safaris|With a licensed guide", "Dining Under the Stars|Three-course dinners", "Bar|Ice-cold drinks all day"]],
+
+  ["Lake Kariba B&B", "Bed & Breakfast", "Siavonga", "Lake Kariba Shoreline, Siavonga", 5, "14:00", false, ["#00C7BE", "#007AFF"],
+    [["Garden Room", 520, 6, 2], ["Lakeview Room", 700, 4, 3]],
+    "Bed and breakfast on the shores of Lake Kariba.",
+    "A relaxed B&B a short walk from the lake shore, with views across the water from the upper rooms.\n\nBreakfast is included and served on the veranda. There is a small pool, a braai area and secure parking. Boat trips and fishing charters can be booked at reception.\n\nSiavonga town centre is a five-minute drive away.",
+    ["Lakeview Veranda|Breakfast with a view", "Braai Area|Guests welcome to use", "Small Pool|Open 7am – 8pm", "Boat Trips|Booked at reception"]],
+
+  ["Lower Zambezi Tented Camp", "Safari Camp", "Lower Zambezi", "Chiawa, Lower Zambezi", 14, "14:00", false, ["#FF9500", "#FF2D55"],
+    [["River Tent", 2200, 8, 3], ["Luxury Tent", 3400, 4, 1]],
+    "Exclusive tented camp in the Lower Zambezi valley.",
+    "An intimate camp of twelve tents set under winterthorn trees on the Zambezi floodplain, facing the Mana Pools escarpment.\n\nRates include all meals, drinks, two daily activities and park fees. Activities include canoe safaris, boat cruises, game drives and walking safaris.\n\nAccess is by light aircraft from Lusaka or Kariba. Transfers can be arranged.",
+    ["Canoe Safaris|Guided, half day", "Boat Cruises|Sunset and sunrise", "Main Deck|Views of Mana Pools", "Fire Pit|Evening drinks and stories"]],
+
+  ["Chipata Garden Lodge", "Lodge", "Chipata", "Great East Road, Chipata", 4, "14:00", false, ["#64D2FF", "#5E5CE6"],
+    [["Standard Room", 480, 12, 4], ["Deluxe Room", 720, 6, 2], ["Family Chalet", 1100, 3, 0]],
+    "Comfortable stopover on the Great East Road.",
+    "A convenient lodge on the Great East Road, popular with travellers heading to or from South Luangwa and Malawi.\n\nAll rooms have en-suite bathrooms, air conditioning, DSTV and free Wi-Fi. The restaurant serves breakfast, lunch and dinner, and there is a bar and a secure car park.\n\nCheck-in is from 14:00, and early check-in can be arranged on request.",
+    ["Restaurant|06:30 – 21:30", "Bar|Open until 23:00", "Secure Parking|Gated, 24-hour guard", "Garden|Shaded seating area"]],
+
+  ["Lusaka Backpackers Hub", "Backpackers", "Lusaka", "Cairo Road, Lusaka", 1, "12:00", false, ["#5E5CE6", "#BF5AF2"],
+    [["Dorm Bed", 180, 20, 11], ["Private Room", 420, 6, 2]],
+    "Budget beds in the centre of Lusaka.",
+    "A friendly backpackers in the middle of Lusaka, walking distance from the bus terminals and the main markets.\n\nDorm beds are in shared rooms with lockers and reading lights. Private rooms have en-suite bathrooms. There is a shared kitchen, a courtyard bar and a travel desk that arranges onward transport and safaris.\n\nFree Wi-Fi in all areas.",
+    ["Shared Kitchen|Self-catering", "Courtyard Bar|Open until late", "Travel Desk|Tours and transport", "Lockers|Bring your own padlock"]],
+
+  ["Kitwe Business Suites", "Self-Catering", "Kitwe", "Freedom Avenue, Kitwe", 8, "15:00", false, ["#0A84FF", "#34C759"],
+    [["Studio", 640, 10, 4], ["One-Bedroom", 890, 6, 1], ["Two-Bedroom", 1250, 3, 0]],
+    "Serviced apartments for longer stays in Kitwe.",
+    "Fully serviced self-catering apartments in central Kitwe, ideal for contractors, consultants and families on longer stays.\n\nEach apartment has a full kitchen, a lounge, DSTV, free Wi-Fi and a washing machine. Housekeeping is provided three times a week. Secure parking and 24-hour security are included.\n\nMinimum stay is two nights.",
+    ["Full Kitchen|Cook for yourself", "Housekeeping|Three times a week", "Secure Parking|Undercover bays", "Laundry|In-apartment washing machine"]],
+
+  ["Kasama Coffee Lodge", "Boutique Hotel", "Kasama", "Chikumanino Road, Kasama", 11, "14:00", false, ["#BF5AF2", "#FF375F"],
+    [["Garden Room", 580, 8, 2], ["Coffee Suite", 940, 4, 1]],
+    "Boutique lodge on a working coffee farm outside Kasama.",
+    "A small boutique lodge built around a working arabica coffee farm in the Northern Province highlands.\n\nRooms are furnished with local timber and hand-woven textiles. Rates include breakfast, a farm tour and a coffee tasting. Dinner is available on request.\n\nThe lodge is a 25-minute drive from Kasama town and an hour from the Kalambo Falls.",
+    ["Coffee Farm Tour|Included in your stay", "Coffee Tasting|Guided, every afternoon", "Farm Kitchen|Dinner on request", "Fireplace Lounge|Cool highland evenings"]]
+].map((s, i) => ({
+  id: "demo_" + i, demo: true, owner: "demo", owner_name: "Zambia Stays Sample",
+  title: s[0], category: s[1], city: s[2], venue: s[3], date: dAhead(s[4]), time: s[5],
+  featured: s[6], img: art(...s[7]),
+  tiers: s[8].map(t => ({ name: t[0], price: t[1], qty: t[2], sold: t[3] })),
+  tagline: s[9], description: s[10],
+  presenters: s[11].map((x, gi) => {
+    const [n, r] = x.split("|");
+    return { name: n, role: r, img: gimg(n, s[7][gi % 2], s[7][(gi + 1) % 2]) };
+  }),
+  status: "live"
+}));
+
+/* ---------- LOCALSTORAGE BACKEND (only used when USE_LOCAL=true) ---------- */
+function localSb() {
+  const K = "zs_", SEED = "1", now = () => new Date().toISOString();
+  const rd = (t, d) => {
+    try {
+      const v = localStorage.getItem(K + t);
+      return v ? JSON.parse(v) : d;
+    } catch (e) {
+      console.warn("localStorage read failed:", e);
+      return d;
+    }
+  };
+  const wr = (t, v) => {
+    try {
+      const s = JSON.stringify(v);
+      if (s.length > 5242880) { console.warn("Skipping write - data too large"); return false; }
+      localStorage.setItem(K + t, s);
+      return true;
+    } catch (e) {
+      if (e.name === "QuotaExceededError") { console.warn("localStorage quota exceeded"); return false; }
+      console.warn("localStorage write failed:", e);
+      return false;
+    }
+  };
+
+  let seeded = false;
+  const seed = () => {
+    if (seeded) return;
+    seeded = true;
+    let ev = rd("events", []);
+    if (localStorage.getItem(K + "seeded") !== SEED) ev = SAMPLES.map(({ demo, ...e }) => e);
+    ev = ev.map(e => { const s = SAMPLES.find(z => z.id === e.id); return s ? { ...e, date: s.date } : e });
+    wr("events", ev);
+    wr("seeded", SEED);
+  };
+
+  function from(table) {
+    let op = "select", fl = [], ord = null, pl = null, one = null;
+    const b = {
+      select() { return b },
+      eq(c, v) { fl.push(r => r[c] === v); return b },
+      neq(c, v) { fl.push(r => r[c] !== v); return b },
+      order(c, o) { ord = [c, o && o.ascending === false]; return b },
+      single() { one = "single"; return b },
+      maybeSingle() { one = "maybe"; return b },
+      insert(p) { op = "insert"; pl = p; return b },
+      update(p) { op = "update"; pl = p; return b },
+      upsert(p) { op = "upsert"; pl = p; return b },
+      delete() { op = "delete"; return b },
+      then(res, rej) {
+        try { return Promise.resolve(run()).then(res, rej); }
+        catch (e) { return Promise.reject(e); }
+      }
+    };
+    function run() {
+      if (table === "events") seed();
+      let rows = table === "settings" ? [{ id: 1, fee: 5 }] : rd(table, []);
+      const hit = r => fl.every(f => f(r));
+      if (op === "insert") {
+        const add = [].concat(pl).map(r => ({ ...r, created_at: now() }));
+        if (!wr(table, [...rows, ...add])) return { data: null, error: { message: "Storage quota exceeded" } };
+        return { data: add, error: null };
+      }
+      if (op === "upsert") {
+        const i = rows.findIndex(r => r.id === pl.id);
+        if (i >= 0) rows[i] = { ...rows[i], ...pl }; else rows.push({ ...pl, created_at: now() });
+        if (!wr(table, rows)) return { data: null, error: { message: "Storage quota exceeded" } };
+        return { data: [pl], error: null };
+      }
+      if (op === "update") {
+        if (!wr(table, rows.map(r => hit(r) ? { ...r, ...pl } : r))) return { data: null, error: { message: "Storage quota exceeded" } };
+        return { data: null, error: null };
+      }
+      if (op === "delete") {
+        if (!wr(table, rows.filter(r => !hit(r)))) return { data: null, error: { message: "Storage quota exceeded" } };
+        return { data: null, error: null };
+      }
+      const out = rows.filter(hit);
+      if (ord) out.sort((x, y) => (x[ord[0]] > y[ord[0]] ? 1 : -1) * (ord[1] ? -1 : 1));
+      if (one) return out.length ? { data: out[0], error: null } : { data: null, error: one === "single" ? { message: "Not found" } : null };
+      return { data: out, error: null };
+    }
+    return b;
+  }
+  return {
+    from,
+    async rpc(fn, a) {
+      if (fn === "buy_ticket") {
+        seed();
+        const ev = rd("events", []), e = ev.find(x => x.id === a.p_event_id), t = e && e.tiers.find(x => x.name === a.p_tier_name);
+        if (!t) return { error: { message: "Room type not found" } };
+        if (t.qty - t.sold < a.p_qty) return { error: { message: "Not enough rooms left" } };
+        t.sold += a.p_qty;
+        if (!wr("events", ev)) return { error: { message: "Storage quota exceeded" } };
+        return { data: null, error: null };
+      }
+      return { data: null, error: null };
+    },
+    auth: {
+      async getSession() { return { data: { session: rd("session", null) } } },
+      async signUp({ email, password, options }) {
+        const us = rd("users", []);
+        if (us.some(u => u.email === email)) return { data: { user: null }, error: { message: "An account with this email already exists" } };
+        const u = { id: "u_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), email, password, name: options?.data?.name || "" };
+        if (!wr("users", [...us, u])) return { data: { user: null }, error: { message: "Storage quota exceeded" } };
+        if (!wr("session", { user: { id: u.id, email } })) return { data: { user: null }, error: { message: "Storage quota exceeded" } };
+        return { data: { user: { id: u.id } }, error: null };
+      },
+      async signInWithPassword({ email, password }) {
+        const u = rd("users", []).find(x => x.email === email && x.password === password);
+        if (!u) return { error: { message: "Incorrect email or password" } };
+        if (!wr("session", { user: { id: u.id, email } })) return { error: { message: "Storage quota exceeded" } };
+        return { error: null };
+      },
+      async signOut() { localStorage.removeItem(K + "session"); return {} },
+      onAuthStateChange() { }
+    }
+  };
+}
+
+/* ---------- IMAGE HELPERS ---------- */
+const pimg = n => {
+  const h = [...n].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+  const ini = n.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join("");
+  return "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${h},75%,58%)"/><stop offset="1" stop-color="hsl(${(h + 50) % 360},75%,46%)"/></linearGradient></defs><rect width="400" height="400" fill="url(#g)"/><text x="200" y="240" font-family="Helvetica,Arial,sans-serif" font-size="140" font-weight="700" fill="#fff" text-anchor="middle">${ini}</text></svg>`);
+};
+function shrink(f, max, cb) {
+  if (!f) return;
+  if (!f.type.startsWith("image/")) return toast("Choose an image file");
+  if (f.size > 10485760) return toast("Image is too large (max 10MB)");
+  const r = new FileReader();
+  r.onerror = () => toast("Could not read that image");
+  r.onload = x => {
+    const im = new Image();
+    im.onload = () => {
+      const k = Math.min(1, max / Math.max(im.width, im.height));
+      const c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(im.width * k));
+      c.height = Math.max(1, Math.round(im.height * k));
+      const cx = c.getContext("2d");
+      if (!cx) return toast("Canvas rendering failed");
+      cx.drawImage(im, 0, 0, c.width, c.height);
+      try { cb(c.toDataURL("image/jpeg", .8)); }
+      catch (e) { console.error("Image encoding error:", e); toast("Could not encode image"); }
+    };
+    im.onerror = () => toast("Could not read that image");
+    im.src = x.target.result;
+  };
+  r.readAsDataURL(f);
+}
+
+/* ---------- UI HELPERS ---------- */
+function toast(m) {
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.setAttribute("role", "status");
+  t.textContent = m;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+function sheet(html) {
+  const o = document.createElement("div");
+  o.className = "ov";
+  o.innerHTML = `<div class="sh"><div class="grab"></div>${html}</div>`;
+  let d = 0;
+  o.close = () => {
+    if (d) return;
+    d = 1;
+    o.classList.add("out");
+    setTimeout(() => { try { o.remove() } catch { } }, 230);
+  };
+  o.onclick = e => {
+    if (e.target === o || e.target.closest("[data-x]")) o.close();
+  };
+  document.body.appendChild(o);
+  return o;
+}
+
+const sh = (t, x) => `<div class="sht"><h3>${t}</h3><button class="xb" data-x aria-label="Close">${I("x")}</button></div>${x ? `<p class="sub">${x}</p>` : ""}`;
+const ask = (t, x, ok, cls = "") => new Promise(r => {
+  let v = 0;
+  const m = sheet(`<div class="sht"><h3>${t}</h3></div><p class="sub">${x}</p><button class="btn b ${cls}" id="y">${ok}</button><button class="btn s b" data-x style="margin-top:8px">Cancel</button>`);
+  m.querySelector("#y").onclick = () => { v = 1; m.close() };
+  const originalClose = m.close;
+  m.close = () => { originalClose(); r(v) };
+});
+
+/* ---------- SAVED STAYS ---------- */
+function loadSaved() {
+  try {
+    SAVED = JSON.parse(localStorage.getItem("zs_saved") || "[]");
+    if (!Array.isArray(SAVED)) SAVED = [];
+  } catch { SAVED = []; }
+}
+
+const isSaved = id => SAVED.includes(id);
+function toggleSave(id) {
+  const was = isSaved(id);
+  SAVED = was ? SAVED.filter(x => x !== id) : [...SAVED, id];
+  try { localStorage.setItem("zs_saved", JSON.stringify(SAVED)); }
+  catch (e) {
+    console.warn("Could not save favourites:", e);
+    toast("Could not save this stay");
+    SAVED = was ? [...SAVED, id] : SAVED.filter(x => x !== id);
+  }
+  document.querySelectorAll(`[data-save="${id}"]`).forEach(b => b.classList.toggle("saved", !was));
+  toast(was ? "Removed from saved" : "Saved for later");
+}
+
+/* ---------- AUTH ---------- */
+async function loadMe() {
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { me = null; return }
+    const { data: p, error } = await sb.from("profiles").select("*").eq("id", session.user.id).single();
+    if (error || !p) {
+      try { await sb.auth.signOut() } catch { }
+      me = null;
+      return;
+    }
+    if (p.suspended) {
+      try { await sb.auth.signOut() } catch { }
+      me = null;
+      toast("This account has been suspended");
+      return;
+    }
+    me = { ...p, email: session.user.email };
+  } catch (e) {
+    console.error("loadMe error:", e);
+    me = null;
+  }
+}
+
+const needAuth = cb => me ? cb() : openAuth(cb);
+
+function openAuth(after, startMode = "login") {
+  let mode = startMode, role = "customer";
+  const m = sheet(""), g = s => m.querySelector(s);
+  const f = (id, l, t, ph, ac) => `<div class="fld"><label>${l}</label><input class="in" id="${id}" type="${t}" placeholder="${ph}" autocomplete="${ac}"></div>`;
+  const draw = () => {
+    g(".sh").innerHTML = `<div class="grab"></div>` +
+      sh(mode === "login" ? "Welcome back" : "Create account",
+         mode === "login" ? "Sign in to book a stay and manage your properties." : "Join Zambia Stays in under a minute.") +
+      `<div class="seg"><button data-m="login" class="${mode === "login" ? "on" : ""}">Sign in</button><button data-m="register" class="${mode === "register" ? "on" : ""}">Create account</button></div>` +
+      (mode === "register"
+        ? f("rn", "Full name", "text", "Your full name", "name") +
+          f("re", "Email", "email", "you@example.com", "email") +
+          f("rp", "Phone (WhatsApp)", "tel", "0977 123 456", "tel") +
+          f("rw", "Password", "password", "At least 8 characters", "new-password") +
+          `<div class="fld"><label>I want to</label><div class="seg"><button data-r="customer" class="${role === "customer" ? "on" : ""}">Book stays</button><button data-r="organiser" class="${role === "organiser" ? "on" : ""}">List a property</button></div><p class="hint">Guests book rooms. Hosts list and manage properties.</p></div>`
+        : f("le", "Email", "email", "you@example.com", "email") + f("lw", "Password", "password", "Your password", "current-password")) +
+      `<button class="btn b" id="go" style="margin-top:6px">${mode === "login" ? "Sign in" : "Create account"}</button>`;
+
+    m.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { mode = b.dataset.m; draw() });
+    m.querySelectorAll("[data-r]").forEach(b => b.onclick = () => {
+      role = b.dataset.r;
+      m.querySelectorAll("[data-r]").forEach(x => x.classList.toggle("on", x === b));
+    });
+    m.querySelectorAll("input").forEach(i => {
+      i.onkeydown = e => { if (e.key === "Enter") g("#go").click() };
+    });
+    g("#go").onclick = submit;
+  };
+
+  const v = id => {
+    const el = g("#" + id);
+    return el ? el.value.trim() : "";
+  };
+
+  async function submit() {
+    const btn = g("#go");
+    if (mode === "register") {
+      const n = v("rn"), e = v("re").toLowerCase(), p = v("rp"), pw = g("#rw").value;
+      if (n.length < 2) return toast("Enter your full name");
+      if (!isValidEmail(e)) return toast("Enter a valid email address");
+      if (!isValidPhone(p)) return toast("Enter a valid phone number (at least 9 digits)");
+      if (pw.length < 8) return toast("Password must be at least 8 characters");
+      btn.disabled = true;
+      try {
+        const { data, error } = await sb.auth.signUp({
+          email: e, password: pw,
+          options: { data: { name: n, phone: sanitizePhone(p), role } }
+        });
+        if (error) { btn.disabled = false; return toast(error.message) }
+        if (!data.session) {
+          btn.disabled = false;
+          return toast("Check your email to confirm, then sign in");
+        }
+        await loadMe();
+        await loadAll();
+        drawTabs();
+        m.close();
+        toast("Welcome, " + n.split(" ")[0] + "!");
+        if (after) after(); else go(role === "organiser" ? "org" : "home");
+      } catch (e) {
+        btn.disabled = false;
+        console.error("Signup error:", e);
+        toast("An error occurred during signup");
+      }
+    } else {
+      const e = v("le"), pw = g("#lw").value;
+      if (!isValidEmail(e)) return toast("Enter a valid email address");
+      if (!pw) return toast("Enter your password");
+      btn.disabled = true;
+      try {
+        const { error } = await sb.auth.signInWithPassword({ email: e, password: pw });
+        if (error) { btn.disabled = false; return toast(error.message) }
+        await loadMe();
+        if (!me) { btn.disabled = false; return toast("Could not load your profile") }
+        await loadAll();
+        drawTabs();
+        m.close();
+        toast("Welcome back!");
+        if (after) after(); else go(tab);
+      } catch (e) {
+        btn.disabled = false;
+        console.error("Login error:", e);
+        toast("An error occurred during login");
+      }
+    }
+  }
+  draw();
+}
+
+/* ---------- DATA ---------- */
+async function loadAll() {
+  try {
+    const [{ data: ev }, { data: st }] = await Promise.all([
+      sb.from("events").select("*").neq("status", "suspended").order("date"),
+      sb.from("settings").select("fee").eq("id", 1).maybeSingle()
+    ]);
+    if (ev) ALL = ev;
+    if (st && typeof st.fee === "number") fee = st.fee;
+    ALL = ALL.filter(e => !e.demo);
+    if (SHOW_SAMPLES && !USE_LOCAL) ALL = [...ALL, ...SAMPLES];
+    if (me) {
+      const [{ data: my }, { data: tk }] = await Promise.all([
+        sb.from("events").select("*").eq("owner", me.id),
+        sb.from("tickets").select("*").eq("user_id", me.id).order("created_at", { ascending: false })
+      ]);
+      MINE = my || [];
+      BOOKINGS = tk || [];
+      await loadPayouts();
+    } else {
+      MINE = [];
+      BOOKINGS = [];
+      PAYOUTS = [];
+    }
+  } catch (e) {
+    console.error("loadAll error:", e);
+    ALL = SHOW_SAMPLES ? SAMPLES : [];
+  }
+}
+
+const minP = e => { const p = (e.tiers || []).map(t => +t.price); return p.length ? Math.min(...p) : 0 };
+const left = e => (e.tiers || []).reduce((s, t) => s + (t.qty - t.sold), 0);
+
+/* Rooms are counted as guests for check-in purposes — `qty` = rooms booked. */
+const adm = t => {
+  if (!t) return 0;
+  if (typeof t.admitted === "number") return t.admitted;
+  if (t.checked_out) return t.qty;
+  return t.used ? t.qty : 0;
+};
+
+/* ============================================================
+   CHECK-OUT
+   Every guest who checks in is checked out automatically at
+   CHECKOUT_HOUR (10:00 AM) the morning after their check-in.
+   ============================================================ */
+const CHECKOUT_HOUR = 10, CHECKOUT_MIN = 0;
+
+/* Builds the ISO timestamp of the next 10:00 AM local time after `iso`. */
+function checkoutDueFrom(iso) {
+  const d = iso ? new Date(iso) : new Date();
+  if (isNaN(d.getTime())) return null;
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, CHECKOUT_HOUR, CHECKOUT_MIN, 0, 0).toISOString();
+}
+
+/* Stored due date if present, otherwise derived from the first check-in. */
+function checkoutDueOf(t) {
+  if (!t) return null;
+  if (t.checkout_due) return t.checkout_due;
+  const base = t.checked_in_at || t.used_at;
+  return base ? checkoutDueFrom(base) : null;
+}
+
+const dueMs = t => { const d = checkoutDueOf(t); return d ? new Date(d).getTime() : Infinity };
+const inHouse = t => adm(t) > 0 && !t.checked_out;
+const isDueOut = t => inHouse(t) && Date.now() >= dueMs(t);
+
+const fdt = iso => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  return d.toLocaleTimeString("en-ZM", { hour: "numeric", minute: "2-digit" }) + ", " +
+         d.toLocaleDateString("en-ZM", { day: "numeric", month: "short" });
+};
+
+const outLabel = t => t.checked_out
+  ? "Checked out " + (fdt(t.checked_out_at) || "")
+  : "Due out " + fdt(checkoutDueOf(t)) + " (10:00 AM)";
+
+/* Updates a ticket, gracefully degrading if the check-out columns
+   have not been added to the database yet. */
+let checkoutWarned = false;
+async function updateTicket(id, patch) {
+  let { error } = await sb.from("tickets").update(patch).eq("id", id);
+  if (error && /column|schema|does not exist|unknown/i.test(error.message || "")) {
+    const { checked_in_at, checkout_due, checked_out, checked_out_at, ...safe } = patch;
+    if (Object.keys(safe).length !== Object.keys(patch).length) {
+      ({ error } = await sb.from("tickets").update(safe).eq("id", id));
+      if (!error) {
+        if (!checkoutWarned) {
+          checkoutWarned = true;
+          console.warn("Check-out columns missing. Run the SQL in the setup notes to enable automatic check-out.");
+          toast("Check-out needs a database update — see the setup notes.");
+        }
+        return { error: null, degraded: true };
+      }
+    }
+  }
+  return { error };
+}
+
+/* ---------- NAVIGATION ---------- */
+let tab = "home";
+const TABS = [["home", "Explore", "search"], ["tix", "Stays", "bed"], ["org", "Host", "home"], ["chk", "Check in", "scan"], ["me", "Account", "user"]];
+const isOrg = () => !!me && (me.role === "organiser" || me.role === "admin");
+
+function drawTabs() {
+  $("#tb").innerHTML = TABS
+    .filter(t => (t[0] !== "org" && t[0] !== "chk") || isOrg())
+    .map(t => `<button data-t="${t[0]}">${I(t[2])}${t[1]}</button>`).join("");
+}
+
+$("#tb").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  closeStay();
+  stopScanner();
+  go(b.dataset.t);
+}, { passive: true });
+
+function go(t) {
+  if (!TABS.some(x => x[0] === t)) t = "home";
+  if (t === "org" && me && !isOrg()) { toast("Host accounts only"); t = "home" }
+  if ((t === "tix" || t === "org" || t === "chk") && !me) return openAuth(() => go(t));
+  tab = t;
+  if (t !== "org" && chartInst) { chartInst.destroy(); chartInst = null }
+  drawTabs();
+  document.querySelectorAll(".pg").forEach(p => p.classList.toggle("on", p.id === "p-" + t));
+  document.querySelectorAll("#tb button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  ({ home: rHome, tix: rStays, org: rOrg, chk: rChk, me: rMe })[t]?.();
+  scrollTo(0, 0);
+}
+
+/* ---------- EXPLORE ---------- */
+function updateFbtn() {
+  const n = [cat, city, dateF, priceF].filter(Boolean).length;
+  $("#fb").classList.toggle("on", n > 0);
+  $("#fbadge").textContent = n || "";
+}
+
+function openFilters() {
+  const m = sheet(""), g = s => m.querySelector(s);
+  const grp = (t, arr, all, c, k) =>
+    `<div class="fld"><label>${t}</label><div class="cw">${[all, ...arr].map((x, i) =>
+      `<button class="chip ${(i ? x : "") === c ? "on" : ""}" data-k="${k}" data-v="${i ? esc(x) : ""}">${esc(x)}</button>`).join("")}</div></div>`;
+  const draw = () => {
+    g(".sh").innerHTML = `<div class="grab"></div>` + sh("Filters") +
+      grp("Property type", CATS, "All", cat, "c") +
+      grp("City", CITIES, "Anywhere", city, "y") +
+      grp("Check-in", ["Today", "This weekend", "Next week"], "Any date", dateF, "d") +
+      grp("Price per night", ["Under ZMW 500", "ZMW 500-1500", "ZMW 1500+"], "Any price", priceF, "p") +
+      `<div class="two" style="margin-top:18px"><button class="btn s" id="fr">Reset</button><button class="btn" id="fd">Show results</button></div>`;
+    m.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+      const k = b.dataset.k, v = b.dataset.v;
+      if (k === "c") cat = v; else if (k === "y") city = v; else if (k === "d") dateF = v; else priceF = v;
+      draw(); updateFbtn(); rHome();
+    });
+    g("#fr").onclick = () => { cat = city = dateF = priceF = ""; draw(); updateFbtn(); rHome() };
+    g("#fd").onclick = () => m.close();
+  };
+  draw();
+}
+
+$("#fb").addEventListener("click", openFilters, { passive: true });
+
+$("#q").addEventListener("input", e => {
+  q = e.target.value;
+  clearTimeout(qSearchTimeout);
+  qSearchTimeout = setTimeout(rHome, 160);
+}, { passive: true });
+
+const fc = e => `<div class="fcard" onclick="openStay('${e.id}')">${e.img ? `<img src="${e.img}" alt="" loading="lazy">` : ""}<div class="fo"><small>Featured</small><b>${esc(e.title)}</b><span>${esc(e.city)} · from ${money(minP(e))}/night</span></div></div>`;
+const row = e => {
+  const p = minP(e), soldOut = left(e) <= 0;
+  return `<div class="row" onclick="openStay('${e.id}')"><div class="th">${e.img ? `<img src="${e.img}" loading="lazy" alt="">` : I("bed")}</div>
+  <div class="rb"><small>${esc(e.category)}</small><b>${esc(e.title)}</b><span>${esc(e.venue)}</span><span>${esc(e.city)}</span>
+  <em>${soldOut ? "No rooms available" : p ? "From " + money(p) + "/night" : "Free"}</em></div>
+  <button class="btn icon heart ${isSaved(e.id) ? "saved" : ""}" data-save="${e.id}" onclick="event.stopPropagation();toggleSave('${e.id}')" aria-label="Save stay">${I("heart")}</button></div>`;
+};
+const skeleton = (n = 5) => Array.from({ length: n }, () => `<div class="sk-row sk"><div class="sk-th"></div><div class="sk-rb"><div class="sk-line short"></div><div class="sk-line"></div><div class="sk-line short"></div></div></div>`).join("");
+
+function matchesDate(e) {
+  if (!dateF) return true;
+  const ed = e.date;
+  if (dateF === "Today") return ed === today();
+  if (dateF === "This weekend") {
+    const d = new Date(), day = d.getDay();
+    let fri, sun;
+    if (day === 0) { fri = new Date(d); fri.setDate(fri.getDate() - 2); sun = d }
+    else if (day === 6) { fri = new Date(d); fri.setDate(fri.getDate() - 1); sun = new Date(d); sun.setDate(sun.getDate() + 1) }
+    else { fri = new Date(d); fri.setDate(fri.getDate() + (5 - day)); sun = new Date(fri); sun.setDate(sun.getDate() + 2) }
+    return ed >= ymd(fri) && ed <= ymd(sun);
+  }
+  if (dateF === "Next week") {
+    const d = new Date(), mon = new Date(d);
+    mon.setDate(mon.getDate() + (1 + 7 - mon.getDay()));
+    const sun = new Date(mon); sun.setDate(sun.getDate() + 6);
+    return ed >= ymd(mon) && ed <= ymd(sun);
+  }
+  return true;
+}
+
+function matchesPrice(e) {
+  if (!priceF) return true;
+  const p = minP(e);
+  if (priceF === "Under ZMW 500") return p < 500;
+  if (priceF === "ZMW 500-1500") return p >= 500 && p <= 1500;
+  if (priceF === "ZMW 1500+") return p > 1500;
+  return true;
+}
+
+function rHome() {
+  const ql = q.toLowerCase().trim(), filt = ql || cat || city || dateF || priceF;
+  const l = ALL.filter(e => {
+    if (ql && ![e.title, e.city, e.venue, e.category].some(x => (x || "").toLowerCase().includes(ql))) return false;
+    if (cat && e.category !== cat) return false;
+    if (city && e.city !== city) return false;
+    return matchesDate(e) && matchesPrice(e);
+  }).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+
+  const fe = ALL.filter(e => e.featured && !ended(e));
+  $("#feat").innerHTML = !filt && fe.length ? `<h2 class="h2">Featured stays</h2><div class="car">${fe.map(fc).join("")}</div>` : "";
+  $("#hl").textContent = filt ? `${l.length} stay${l.length === 1 ? "" : "s"}` : "Places to stay";
+  $("#list").innerHTML = l.length ? l.map(row).join("") : `<div class="emp">${I("search")}<p>No properties found</p></div>`;
+}
+
+/* ---------- GALLERY SLIDESHOW ---------- */
+/* Builds slideshow markup. A caption is drawn on a slide only when that
+   slide has a name or role, so a gallery with no titles shows plain images. */
+function gallerySlides(pr) {
+  if (!pr || !pr.length) return "";
+  const many = pr.length > 1;
+  return `<div class="gsl" id="gsl">
+    <div class="gsl-track" id="gslTrack">
+      ${pr.map(x => {
+        const src = x.img || pimg(x.name || "Gallery");
+        const cap = (x.name || x.role)
+          ? `<div class="gsl-cap">${x.name ? `<b>${esc(x.name)}</b>` : ""}${x.role ? `<small>${esc(x.role)}</small>` : ""}</div>`
+          : "";
+        return `<div class="gsl-slide"><img src="${src}" alt="${esc(x.name || "Photo")}" loading="lazy" draggable="false">${cap}</div>`;
+      }).join("")}
+    </div>
+    ${many ? `
+      <button class="gsl-nav prev" id="gslPrev" aria-label="Previous photo">${I("back")}</button>
+      <button class="gsl-nav next" id="gslNext" aria-label="Next photo">${I("chevR")}</button>
+      <div class="gsl-dots" id="gslDots">${pr.map((_, i) => `<i data-i="${i}" class="${i === 0 ? "on" : ""}"></i>`).join("")}</div>
+      <span class="gsl-cnt" id="gslCnt">1 / ${pr.length}</span>` : ""}
+  </div>`;
+}
+
+/* ---------- STAY DETAIL ---------- */
+function openStay(id, fromHistory) {
+  const e = ALL.find(x => x.id === id);
+  if (!e) return toast("Property not found");
+  const dis = left(e) <= 0, p = minP(e), pr = e.presenters || [];
+  $("#detail").innerHTML = `<div class="bkw"><button class="bk" onclick="closeStay()" aria-label="Back">${I("back")}</button></div>
+  <div class="dimg">${e.img ? `<img src="${e.img}" alt="" loading="lazy">` : I("bed")}</div>
+  <div class="dbd"><span class="cat">${esc(e.category)}</span><h1>${esc(e.title)}</h1>
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button class="btn icon heart ${isSaved(e.id) ? "saved" : ""}" data-save="${e.id}" onclick="toggleSave('${e.id}')" aria-label="Save stay">${I("heart")}</button>
+    <button class="btn icon" onclick="shareStay('${e.id}')" aria-label="Share stay">${I("share")}</button>
+  </div>
+  <div class="grp">
+    <div class="gi">${I("cal")}<span>${fdate(e.date)} onwards</span></div>
+    <div class="gi">${I("clock")}<span>Check-in from ${ftime(e.time)}</span></div>
+    <div class="gi">${I("clock")}<span>Check-out by 10:00 AM</span></div>
+    <div class="gi">${I("pin")}<span>${esc(e.venue)}, ${esc(e.city)}</span></div>
+  </div>
+  <h2 class="h2">Rooms &amp; rates</h2>
+  <div class="grp">${(e.tiers || []).map(t => `<div class="gi"><span>${esc(t.name)}<small>${t.qty - t.sold <= 0 ? "No rooms left" : (t.qty - t.sold) + " room" + (t.qty - t.sold === 1 ? "" : "s") + " left"}</small></span><span class="sp">${+t.price === 0 ? "Free" : money(t.price)}</span></div>`).join("") || `<div class="gi"><span>No room types listed</span></div>`}</div>
+  <p class="hint">Rates are per room, per night.</p>
+  ${pr.length ? `<h2 class="h2">Gallery</h2>${gallerySlides(pr)}` : ""}
+  ${e.tagline ? `<h2 class="h2">About</h2><p class="desc">${esc(e.tagline)}</p>` : ""}
+  <h2 class="h2">${e.tagline || pr.length ? "Full description" : "About"}</h2>
+  <p class="desc">${esc(e.description || "No description provided.")}</p>
+  <p class="hint">Hosted by ${esc(e.owner_name || "Host")}</p></div>
+  <div class="bar"><div><small>From</small><b>${p ? money(p) : "Free"}</b></div>
+  <button class="btn" ${dis ? "disabled" : ""} onclick="book('${e.id}')">${dis ? "No rooms available" : "Book now"}</button></div>`;
+  $("#detail").classList.add("on");
+  $("#detail").scrollTop = 0;
+  if (pr.length) initPS($("#detail"));
+  openStayId = id;
+  if (!fromHistory) pushStayUrl(id);
+}
+
+function closeStay(fromHistory) {
+  const wasOpen = $("#detail").classList.contains("on");
+  $("#detail").classList.remove("on");
+  openStayId = null;
+  if (psT !== null) { clearInterval(psT); psT = null; }
+  const gsl = document.getElementById("gsl");
+  if (gsl) gsl.replaceChildren();
+  if (!fromHistory && wasOpen && history.state && history.state.stay) {
+    history.back();
+  }
+}
+/* Backwards-compatible aliases (used by inline handlers in older markup) */
+const openEv = openStay, closeEv = closeStay;
+
+/* Slideshow controller. Runs whenever the detail view is built. */
+function initPS(root) {
+  /* Kill any timer left over from a previously opened property */
+  if (psT !== null) { clearInterval(psT); psT = null; }
+
+  const box = root.querySelector("#gsl");
+  if (!box) return;
+  const track = box.querySelector("#gslTrack");
+  if (!track) return;
+  const slides = [...track.children];
+  if (!slides.length) return;
+
+  const dots  = [...box.querySelectorAll(".gsl-dots i")];
+  const cnt   = box.querySelector("#gslCnt");
+  const prev  = box.querySelector("#gslPrev");
+  const next  = box.querySelector("#gslNext");
+
+  let i = 0;
+  let paused = false;
+  let startX = 0, startY = 0, dragging = false;
+
+  const render = () => {
+    track.style.transform = `translateX(${-i * 100}%)`;
+    dots.forEach((d, k) => d.classList.toggle("on", k === i));
+    if (cnt) cnt.textContent = (i + 1) + " / " + slides.length;
+  };
+
+  const restart = () => {
+    if (psT !== null) { clearInterval(psT); psT = null; }
+    if (slides.length <= 1) return;
+    psT = setInterval(() => { if (!paused) goTo(i + 1); }, 4200);
+  };
+
+  const goTo = n => {
+    i = (n + slides.length) % slides.length;
+    render();
+    restart();
+  };
+
+  if (prev) prev.onclick = () => goTo(i - 1);
+  if (next) next.onclick = () => goTo(i + 1);
+  dots.forEach(d => d.onclick = () => goTo(+d.dataset.i));
+
+  /* Swipe left / right on touch or mouse */
+  box.addEventListener("pointerdown", e => {
+    dragging = true; paused = true;
+    startX = e.clientX; startY = e.clientY;
+  }, { passive: true });
+  box.addEventListener("pointerup", e => {
+    if (!dragging) return;
+    dragging = false; paused = false;
+    const dx = e.clientX - startX, dy = e.clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) goTo(dx < 0 ? i + 1 : i - 1);
+    else restart();
+  }, { passive: true });
+  box.addEventListener("pointercancel", () => { dragging = false; paused = false; restart(); }, { passive: true });
+
+  /* Pause while the pointer hovers, resume when it leaves */
+  box.addEventListener("mouseenter", () => { paused = true; }, { passive: true });
+  box.addEventListener("mouseleave", () => { paused = false; }, { passive: true });
+
+  render();
+  restart();
+}
+
+/* ---------- SHARE & DEEP LINKS ---------- */
+function stayUrl(id) {
+  const u = new URL(location.href);
+  u.searchParams.set("stay", id);
+  u.hash = "";
+  return u.toString();
+}
+
+function pushStayUrl(id) {
+  if (history.state && history.state.stay === id) return;
+  const u = new URL(location.href);
+  u.searchParams.set("stay", id);
+  try { history.pushState({ stay: id }, "", u.toString()); }
+  catch (e) { console.warn("pushState failed:", e); }
+}
+
+async function copyText(t) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(t);
+      return true;
+    }
+  } catch (e) { console.warn("Clipboard API failed:", e); }
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = t;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:-1000px;left:-1000px;opacity:0";
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  } catch (e) { console.warn("Copy fallback failed:", e); return false; }
+}
+
+function shareStay(id) {
+  const e = ALL.find(x => x.id === id);
+  if (!e) return toast("Property not found");
+  const url = stayUrl(id);
+  const text = `${e.title} · ${e.category} in ${e.city} — from ${money(minP(e))}/night`;
+  if (navigator.share) {
+    try {
+      navigator.share({ title: e.title, text, url }).catch(err => {
+        if (err && err.name === "AbortError") return;
+        openShareSheet(e, url, text);
+      });
+      return;
+    } catch (err) { console.warn("navigator.share failed:", err); }
+  }
+  openShareSheet(e, url, text);
+}
+const shareEvent = shareStay; // alias for any inline handler references
+
+function openShareSheet(e, url, text) {
+  const m = sheet(sh("Share this stay", esc(e.title)) +
+    `<div class="grp">
+       <button class="gi" data-sh="copy">${I("copy")}<span>Copy link</span></button>
+       <button class="gi" data-sh="wa">${I("share")}<span>Share on WhatsApp</span></button>
+       ${navigator.share ? `<button class="gi" data-sh="more">${I("share")}<span>More sharing options</span></button>` : ""}
+     </div>
+     <div class="fld" style="margin-top:14px"><label>Property link</label>
+       <input class="in" id="shu" readonly value="${esc(url)}"></div>
+     <p class="hint c">Anyone with this link can open this property in Zambia Stays.</p>`);
+
+  m.querySelectorAll("[data-sh]").forEach(b => b.onclick = async () => {
+    const k = b.dataset.sh;
+    if (k === "copy") {
+      const ok = await copyText(url);
+      toast(ok ? "Link copied" : "Could not copy the link");
+      if (ok) m.close();
+    } else if (k === "wa") {
+      window.open(`https://wa.me/?text=${encodeURIComponent(text + "\n\n" + url)}`, "_blank", "noopener");
+      m.close();
+    } else {
+      try { await navigator.share({ title: e.title, text, url }); m.close(); }
+      catch (err) { if (!err || err.name !== "AbortError") toast("Could not open sharing"); }
+    }
+  });
+
+  const inp = m.querySelector("#shu");
+  if (inp) inp.onclick = () => inp.select();
+}
+
+function openFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("stay") || params.get("event");
+  if (!id) return;
+  const u = new URL(location.href);
+  u.searchParams.delete("stay");
+  u.searchParams.delete("event");
+  try { history.replaceState({ stay: null }, "", u.pathname + u.search + u.hash); }
+  catch (e) { console.warn("replaceState failed:", e); }
+  if (ALL.some(e => e.id === id)) openStay(id);
+  else toast("That property is no longer available");
+}
+
+window.addEventListener("popstate", ev => {
+  const id = ev.state && ev.state.stay;
+  if (id) { if (id !== openStayId) openStay(id, true); }
+  else { closeStay(true); }
+});
+
+/* ---------- BOOK A ROOM ---------- */
+function book(id) {
+  needAuth(() => {
+    const e = ALL.find(x => x.id === id);
+    if (!e) return;
+    if (e.demo) return toast("Sample property: booking is disabled");
+    if (!(e.tiers || []).length) return toast("No rooms available for this property");
+    if (left(e) <= 0) return toast("No rooms available");
+
+    let ti = Math.max(0, e.tiers.findIndex(t => t.qty - t.sold > 0));
+    let qty = 1, nights = 1, pay = "MTN", nm = me.name || "", ph = me.phone || "";
+    const m = sheet(""), g = s => m.querySelector(s);
+
+    const draw = () => {
+      const t = e.tiers[ti], av = t.qty - t.sold, tot = t.price * qty * nights;
+      g(".sh").innerHTML = `<div class="grab"></div>` + sh("Book your stay", esc(e.title) + " · " + esc(e.city)) +
+        `<div class="fld"><label>Room type</label>${e.tiers.map((x, i) =>
+          `<button class="tt ${i === ti ? "on" : ""}" data-ti="${i}" ${x.qty - x.sold <= 0 ? "disabled" : ""}>
+            <span class="rd"></span>
+            <span class="tn">${esc(x.name)}<small>${x.qty - x.sold <= 0 ? "Sold out" : (x.qty - x.sold) + " left"}</small></span>
+            <b>${+x.price === 0 ? "Free" : money(x.price) + "/night"}</b></button>`).join("")}</div>
+       
+        <div class="two">
+          <div class="fld"><label>Rooms · ${av} left</label><div class="qty"><button id="qm" aria-label="Fewer rooms">${I("minus")}</button><b>${qty}</b><button id="qp" aria-label="More rooms">${I("plus")}</button></div></div>
+          <div class="fld"><label>Nights</label><div class="qty"><button id="nm2" aria-label="Fewer nights">${I("minus")}</button><b>${nights}</b><button id="np" aria-label="More nights">${I("plus")}</button></div></div>
+        </div>
+        <div class="fld"><label>Full name</label><input class="in" id="bn" value="${esc(nm)}" autocomplete="name"></div>
+        <div class="fld"><label>Phone number(mobile number )</label><input class="in" id="bp" type="tel" value="${esc(ph)}" placeholder="0977 123 456" autocomplete="tel"></div>
+        ${tot > 0 ? `<div class="fld"><label>Pay with mobile money</label><div class="seg">${["MTN", "Airtel", "Zamtel"].map(p => `<button data-p="${p}" class="${p === pay ? "on" : ""}">${p}</button>`).join("")}</div></div>` : ""}
+        <div class="tot"><span>Total</span><b>${tot ? money(tot) : "Free"}</b></div>
+        ${tot > 0 ? `<p class="brk">${money(t.price)} × ${qty} room${qty > 1 ? "s" : ""} × ${nights} night${nights > 1 ? "s" : ""}</p>` : ""}
+        <button class="btn b" id="pay" style="margin-top:12px">${tot ? "Pay " + money(tot) : "Confirm booking"}</button>
+        <p class="hint c">${tot
+          ? "You'll receive a mobile money prompt on your phone to approve this payment."
+          : "No payment is needed for free rooms."}</p>`;
+
+      const syncDates = () => {
+        const inEl = g("#bin"), outEl = g("#bout");
+        if (!inEl || !outEl) return;
+        outEl.min = addDays(inEl.value || today(), 1);
+        if (!outEl.value || outEl.value <= inEl.value) outEl.value = addDays(inEl.value || today(), 1);
+        const n = Math.round((new Date(outEl.value + "T00:00:00") - new Date(inEl.value + "T00:00:00")) / 86400000);
+        nights = Math.max(1, Math.min(30, n || 1));
+        draw();
+      };
+
+      const inEl = g("#bin"), outEl = g("#bout");
+      if (inEl) inEl.onchange = syncDates;
+      if (outEl) outEl.onchange = () => {
+        const n = Math.round((new Date(outEl.value + "T00:00:00") - new Date(inEl.value + "T00:00:00")) / 86400000);
+        if (n < 1) { outEl.value = addDays(inEl.value, 1); nights = 1; }
+        else nights = Math.min(30, n);
+        draw();
+      };
+
+      g("#bn").oninput = x => { nm = x.target.value };
+      g("#bp").oninput = x => { ph = x.target.value };
+
+      m.querySelectorAll("[data-ti]").forEach(b => {
+        b.onclick = () => {
+          ti = +b.dataset.ti;
+          qty = Math.max(1, Math.min(qty, e.tiers[ti].qty - e.tiers[ti].sold));
+          draw();
+        };
+      });
+
+      g("#qm").onclick = () => { if (qty > 1) { qty--; draw() } };
+      g("#qp").onclick = () => {
+        if (qty < Math.min(10, av)) { qty++; draw() }
+        else toast(av < 10 ? "Only " + av + " room" + (av === 1 ? "" : "s") + " left" : "Maximum 10 rooms per booking");
+      };
+      g("#nm2").onclick = () => { if (nights > 1) { nights--; draw() } };
+      g("#np").onclick = () => {
+        if (nights < 30) { nights++; draw() }
+        else toast("Maximum 30 nights per booking");
+      };
+
+      m.querySelectorAll("[data-p]").forEach(b => {
+        b.onclick = () => { pay = b.dataset.p; draw() };
+      });
+
+      g("#pay").onclick = async () => {
+        if (nm.trim().length < 2) return toast("Enter your name");
+        if (!isValidPhone(ph)) return toast("Enter a valid WhatsApp number");
+
+        const btn = g("#pay");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spin"></span>';
+
+        let referenceId = "";
+
+        try {
+          if (tot > 0) {
+            referenceId = await startPayment({ amount: tot, name: nm.trim(), phone: ph });
+            btn.innerHTML = '<span class="spin"></span> Approve on your phone…';
+            const paid = await pollPayment(referenceId, st => {
+              if (st === "pending") btn.innerHTML = '<span class="spin"></span> Waiting for confirmation…';
+            });
+            if (paid.status !== "paid") {
+              draw();
+              return toast(paid.status === "failed"
+                ? "Payment was not completed. You have not been charged."
+                : "Payment is still pending. Approve it on your phone, then try again.");
+            }
+            btn.innerHTML = '<span class="spin"></span> Confirming your booking…';
+          }
+
+          const { error: be } = await sb.rpc("buy_ticket", { p_event_id: e.id, p_tier_name: t.name, p_qty: qty });
+          if (be) {
+            draw();
+            return toast(referenceId
+              ? "Payment received (ref " + referenceId + ") but the rooms just sold out. Please contact support for a refund."
+              : be.message);
+          }
+
+          const bk = {
+            id: uid("bk_"),
+            code: "ZS-" + Math.random().toString(36).slice(2, 10).toUpperCase(),
+            event_id: e.id, event_title: e.title, date: inEl ? inEl.value : e.date, time: e.time,
+            venue: e.venue, city: e.city,
+            tier: t.name, price: +t.price, qty, nights, total: tot,
+            buyer_name: nm.trim(), buyer_email: me.email || "", buyer_phone: sanitizePhone(ph),
+            user_id: me.id, method: tot > 0 ? pay : "", used: false, admitted: 0
+          };
+
+          let { error: te } = await sb.from("tickets").insert(bk);
+          if (te && /nights/i.test(te.message || "")) {
+            const { nights: _omit, ...fallback } = bk;
+            ({ error: te } = await sb.from("tickets").insert(fallback));
+          }
+          if (te) {
+            draw();
+            return toast(referenceId
+              ? "Payment received (ref " + referenceId + ") but we could not confirm the booking. Please contact support."
+              : te.message);
+          }
+
+          m.close();
+          await loadAll();
+          if ($("#detail").classList.contains("on")) openStay(e.id);
+          showBooking(bk, true);
+        } catch (err) {
+          draw();
+          console.error("Booking error:", err);
+          toast(err && err.message ? err.message : "An error occurred");
+        }
+      };
+    };
+    draw();
+  });
+}
+const buy = book; // alias
+
+const nightsOf = b => {
+  const n = Number(b && b.nights);
+  if (n > 0) return n;
+  const p = Number(b && b.price), q = Number(b && b.qty);
+  if (p > 0 && q > 0) return Math.max(1, Math.round(Number(b.total || 0) / (p * q)));
+  return 1;
+};
+
+function showBooking(t, fresh) {
+  if (!t) return;
+  const n = nightsOf(t);
+  const out = addDays(t.date, n);
+  const m = sheet(sh(fresh ? "Booking confirmed" : "Your booking") +
+    `<div class="pass"><div class="pt"><span class="cat">${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}</span><h3>${esc(t.event_title)}</h3>
+      <p>${I("cal")}Check-in: ${fdate(t.date)}${t.time ? " from " + ftime(t.time) : ""}</p>
+      <p>${I("cal")}Check-out: ${fdate(out)} by 10:00 AM</p>
+      <p>${I("pin")}${esc(t.venue)}, ${esc(t.city)}</p><p>${I("user")}${esc(t.buyer_name)}</p>
+      ${t.checked_out ? `<p>${I("clock")}Checked out ${fdt(t.checked_out_at)}</p>` : inHouse(t) ? `<p>${I("clock")}In house · due out ${fdt(checkoutDueOf(t))}</p>` : ""}</div>
+      <div class="pc"><small style="color:var(--t2)">Booking code</small><div class="code">${esc(t.code)}</div><div class="qr" id="qr"></div><br>
+      <small style="color:var(--t2)">${(t.total || 0) === 0 ? "Free" : "Paid " + money(t.total) + (t.method ? " via " + esc(t.method) : "")}</small></div>
+      <div style="display:flex;gap:8px;padding:0 16px 16px"><button class="btn s b" id="gift">${I("share")}Send to WhatsApp</button></div></div>
+    ${fresh ? `<button class="btn b" id="vt">View my Stays</button>` : `<button class="btn s b" data-x>Close</button>`}`);
+
+  const qrDiv = m.querySelector("#qr");
+  try {
+    if (typeof QRCode !== "undefined") {
+      new QRCode(qrDiv, { text: t.code, width: 280, height: 280, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
+    } else { qrDiv.textContent = t.code; }
+  } catch (e) { console.warn("QR render failed:", e); qrDiv.textContent = t.code; }
+
+  m.querySelector("#gift").onclick = () => shareBooking(t, m);
+  const b = m.querySelector("#vt");
+  if (b) b.onclick = () => { m.close(); closeStay(); go("tix") };
+}
+const showTicket = showBooking; // alias
+
+function shareBooking(t, parent) {
+  const inner = sheet(sh("Send booking details") +
+    `<div class="fld"><label>WhatsApp number</label><input class="in" id="gph" type="tel" placeholder="0977 123 456"></div>
+     <div class="fld"><label>Message (optional)</label><textarea class="in" id="gmsg" placeholder="Add a personal message"></textarea></div>
+     <button class="btn b" id="gsend">Send via WhatsApp</button>`);
+  inner.querySelector("#gsend").onclick = () => {
+    const ph = inner.querySelector("#gph").value.trim();
+    const msg = inner.querySelector("#gmsg").value.trim();
+    if (!isValidPhone(ph)) return toast("Enter a valid phone number");
+    const n = nightsOf(t);
+    const text = `Here are the booking details:\n\n${t.event_title}\n${t.tier} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}\nCheck-in ${fdate(t.date)} — check-out ${fdate(addDays(t.date, n))} by 10:00 AM\n${t.venue}, ${t.city}\n\nCode: ${t.code}\n\n${msg ? "Message: " + msg + "\n\n" : ""}Booked with Zambia Stays.`;
+    window.open(`https://wa.me/${sanitizePhone(ph)}?text=${encodeURIComponent(text)}`, "_blank");
+    inner.close();
+    parent.close();
+    toast("Opening WhatsApp…");
+  };
+}
+const giftTicket = shareBooking; // alias
+
+/* ---------- Stays (my bookings) ---------- */
+function rStays() {
+  const box = $("#tl");
+  if (!BOOKINGS.length) {
+    box.innerHTML = `<div class="emp">${I("bed")}<p>No Stays booked yet</p><button class="btn" style="margin-top:16px" onclick="go('home')">Find a stay</button></div>`;
+    return;
+  }
+
+  const grouped = {};
+  BOOKINGS.forEach(t => {
+    const property = esc(t.event_title || "Unknown Property");
+    if (!grouped[property]) grouped[property] = [];
+    grouped[property].push(t);
+  });
+
+  const sorted = Object.keys(grouped).sort();
+
+  box.innerHTML = sorted.map(property => `
+    <h2 class="h2" style="margin-top:16px;margin-bottom:12px">${property}</h2>
+    ${grouped[property].map(t => {
+      const n = nightsOf(t);
+      const status = t.checked_out
+        ? " ✓ Checked out"
+        : (t.used || adm(t) >= t.qty)
+          ? " ✓ Checked in"
+          : adm(t) > 0 ? ` · ${adm(t)}/${t.qty} in` : "";
+      return `<div class="row" data-bk="${esc(t.id)}">
+        <div class="th">${I("bed")}</div>
+        <div class="rb"><small>${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}</small><b>${esc(t.event_title)}</b>
+        <span>${fdate(t.date)} → ${fdate(addDays(t.date, n))}</span><span>${esc(t.venue)}, ${esc(t.city)}</span>
+        <em style="color:var(--ac);font-family:ui-monospace,Menlo,monospace">${esc(t.code)}${status}</em></div>
+        <button class="btn icon d" title="Cancel booking" onclick="delBooking('${esc(t.id)}')">${I("trash")}</button></div>`;
+    }).join("")}
+  `).join("");
+
+  box.onclick = e => {
+    const r = e.target.closest("[data-bk]");
+    if (r && !e.target.closest("button")) showBooking(BOOKINGS.find(x => x.id === r.dataset.bk));
+  };
+}
+const rTix = rStays; // alias
+
+async function delBooking(id) {
+  const t = BOOKINGS.find(x => x.id === id);
+  if (!t) return;
+  if (!confirm(`Cancel your booking at ${t.event_title}?\n\nBooking: ${t.code}`)) return;
+  try {
+    await sb.from("tickets").delete().eq("id", id);
+    await loadAll();
+    rStays();
+    toast("Stay cancelled");
+  } catch (e) { console.error("Delete booking error:", e); toast("Failed to cancel booking"); }
+}
+const delTix = delBooking; // alias
+
+/* ---------- CHECK IN / CHECK OUT ---------- */
+let chEv = "", chFilter = "out", chRows = [], chPoll = null, chMode = "in";
+
+function rChk() {
+  if (!isOrg()) return void ($("#cl").innerHTML = `<div class="emp">${I("scan")}<p>Host accounts only</p></div>`);
+  if (!MINE.some(e => e.id === chEv)) chEv = "";
+
+  $("#cl").innerHTML = `
+    <div class="fld" style="margin-top:20px"><label>Property</label>
+      <select class="in" id="che"><option value="">Select a property</option>${MINE.map(e => `<option value="${esc(e.id)}" ${e.id === chEv ? "selected" : ""}>${esc(e.title)}</option>`).join("")}</select></div>
+    <div class="seg" id="chm">
+      <button data-mo="in" class="${chMode === "in" ? "on" : ""}">Check in</button>
+      <button data-mo="out" class="${chMode === "out" ? "on" : ""}">Check out</button>
+    </div>
+    <div id="chpane"></div>`;
+
+  $("#che").onchange = e => {
+    chEv = e.target.value;
+    const r = $("#chres"); if (r) r.innerHTML = "";
+    refreshRoster();
+  };
+  $("#chm").onclick = e => {
+    const b = e.target.closest("[data-mo]");
+    if (!b) return;
+    const mo = b.dataset.mo;
+    if (mo === chMode) return;
+    chMode = mo;
+    chFilter = mo === "out" ? "house" : "out";
+    stopScanner();
+    rChk();
+  };
+
+  drawChPane();
+  clearInterval(chPoll);
+  chPoll = setInterval(() => { if (tab === "chk" && chEv && !document.querySelector(".scn")) refreshRoster() }, 8000);
+  refreshRoster();
+  runAutoCheckout(true);
+}
+
+function drawChPane() {
+  const box = document.getElementById("chpane");
+  if (!box) return;
+  const out = chMode === "out";
+  box.innerHTML = `
+    <button class="btn b" id="scb">${I("scan")}${out ? "Scan booking QR to check out" : "Scan booking QR"}</button>
+    <div class="fld" style="margin-top:16px"><label>${out ? "Or type the booking code" : "Or type the booking code (damaged QR)"}</label>
+      <div style="display:flex;gap:8px"><input class="in" id="chc" type="text" placeholder="ZS-XXXXXXXX" autocomplete="off" autocapitalize="characters"><button class="btn" id="chg">${out ? "Check out" : "Check"}</button></div></div>
+    <div id="chres"></div><div id="chlist"></div>`;
+
+  $("#scb").onclick = openScan;
+  $("#chg").onclick = () => runTyped($("#chc").value);
+  $("#chc").onkeydown = e => { if (e.key === "Enter") runTyped(e.target.value) };
+  $("#chlist").onclick = e => {
+    const f = e.target.closest("[data-f]");
+    if (f) { chFilter = f.dataset.f; return drawRoster() }
+    const x = e.target.closest("[data-x]");
+    if (x) { checkoutNow(x.dataset.x); return }
+    const c = e.target.closest("[data-c]");
+    if (c) { runTyped(c.dataset.c); scrollTo({ top: 0, behavior: "smooth" }) }
+  };
+}
+
+async function checkCode(code, evId, mode) {
+  try {
+    const { data: t } = await sb.from("tickets").select("*").eq("code", code).maybeSingle();
+    if (!t) return { s: "nf" };
+    if (t.event_id !== evId) return { s: "wrong", t };
+    if (t.checked_out) return { s: "out", t };
+    if (mode === "out") {
+      if (adm(t) <= 0) return { s: "notin", t };
+      return { s: "okout", t };
+    }
+    if (adm(t) >= t.qty) return { s: "used", t };
+    return { s: "ok", t };
+  } catch (e) { console.error("checkCode error:", e); return { s: "err", msg: "Could not check booking" }; }
+}
+
+async function admit(id, n) {
+  try {
+    const { data: f } = await sb.from("tickets").select("*").eq("id", id).single();
+    if (!f) return { err: "Booking not found" };
+    if (f.checked_out) return { s: "out", t: f };
+    const rem = f.qty - adm(f);
+    if (rem <= 0) return { s: "used", t: f };
+    n = Math.min(n, rem);
+    const a = adm(f) + n;
+    const nowIso = new Date().toISOString();
+    const u = { admitted: a, used: a >= f.qty, used_at: nowIso };
+    /* First admission sets the automatic check-out time: 10:00 AM tomorrow. */
+    if (!f.checked_in_at) {
+      u.checked_in_at = nowIso;
+      u.checkout_due = checkoutDueFrom(nowIso);
+    }
+    const { error } = await updateTicket(id, u);
+    if (error) return { err: error.message };
+    return { s: "done", t: { ...f, ...u }, n };
+  } catch (e) { console.error("admit error:", e); return { err: "An error occurred" }; }
+}
+
+async function checkoutTicket(id, at) {
+  try {
+    const { data: f } = await sb.from("tickets").select("*").eq("id", id).single();
+    if (!f) return { err: "Booking not found" };
+    if (f.checked_out) return { s: "done", t: f, already: true };
+    const u = { checked_out: true, checked_out_at: at || new Date().toISOString() };
+    if (!f.checkout_due) u.checkout_due = checkoutDueOf(f) || checkoutDueFrom(f.used_at || u.checked_out_at);
+    if (!f.checked_in_at && f.used_at) u.checked_in_at = f.used_at;
+    const { error } = await updateTicket(id, u);
+    if (error) return { err: error.message };
+    return { s: "done", t: { ...f, ...u } };
+  } catch (e) { console.error("checkout error:", e); return { err: "An error occurred" }; }
+}
+
+/* Sweeps every booking belonging to this host and checks out anyone
+   whose 10:00 AM departure time has passed. The check-out timestamp is
+   stamped with the due time, not the moment the sweep happens to run. */
+async function autoCheckout() {
+  if (!me || !isOrg() || !MINE.length) return 0;
+  let rows = [];
+  try {
+    const { data, error } = await sb.from("tickets").select("*").in("event_id", MINE.map(e => e.id));
+    if (error) throw error;
+    rows = data || [];
+  } catch (e) { console.warn("autoCheckout fetch failed:", e); return 0; }
+
+  const due = rows.filter(isDueOut);
+  let n = 0;
+  for (const t of due) {
+    const r = await checkoutTicket(t.id, checkoutDueOf(t));
+    if (r.s === "done" && !r.already) n++;
+  }
+  return n;
+}
+
+let lastAuto = 0;
+async function runAutoCheckout(quiet) {
+  if (!me || !isOrg()) return 0;
+  if (Date.now() - lastAuto < 15000) return 0;
+  lastAuto = Date.now();
+  const n = await autoCheckout();
+  if (n && !quiet) {
+    toast(n + " guest" + (n === 1 ? "" : "s") + " checked out automatically (10:00 AM)");
+    if (tab === "chk") refreshRoster();
+  }
+  return n;
+}
+
+const res = (c, h, body, extra = "") => `<div class="res ${c}"><b>${h}</b><span>${body}</span>${extra}</div>`;
+
+async function showRes(el, r, code, after) {
+  const t = r.t;
+  const n = t ? nightsOf(t) : 1;
+
+  if (r.s === "err") return void (el.innerHTML = res("r", "Could not check", esc(r.msg || "An error occurred")));
+  if (r.s === "nf") return void (el.innerHTML = res("r", "Booking not found", `No booking matches ${esc(code)}`));
+  if (r.s === "wrong") return void (el.innerHTML = res("r", "Wrong property", `This booking is for <b style="display:inline">${esc(t.event_title)}</b>, checking in ${fdate(t.date)}`));
+  if (r.s === "notin") return void (el.innerHTML = res("a", "Not checked in", `<b style="display:inline">${esc(t.buyer_name)}</b> has not checked in yet, so there is nothing to check out.`));
+
+  if (r.s === "out" || r.s === "outdone") {
+    return void (el.innerHTML = res("g", "Checked out ✓",
+      `<b style="display:inline">${esc(t.buyer_name)}</b><br>${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""}<br>Checked out ${fdt(t.checked_out_at) || "already"}`));
+  }
+
+  if (r.s === "used") {
+    const day = t.used_at && t.used_at.slice(0, 10) !== today() ? fdate(t.used_at.slice(0, 10)) + " at " : "";
+    return void (el.innerHTML = res("a", "Already checked in",
+      `${esc(t.buyer_name)} · ${esc(t.tier)} × ${t.qty} room${t.qty > 1 ? "s" : ""}<br>All ${t.qty} checked in. Last at ${day}${fts(t.used_at)}<br>${outLabel(t)}`));
+  }
+
+  if (r.s === "okout") {
+    el.innerHTML = res("g", "Ready to check out",
+      `<b style="display:inline">${esc(t.buyer_name)}</b><br>${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}<br>Checked in ${fdt(t.checked_in_at || t.used_at)}<br>Check-out due ${fdt(checkoutDueOf(t))} (10:00 AM)`,
+      `<button class="btn b" id="xgo">Check out now</button>`);
+    el.querySelector("#xgo").onclick = e => { e.target.disabled = true; doCheckout(el, t, after) };
+    return;
+  }
+
+  const rem = t.qty - adm(t);
+  if (rem === 1) return doAdmit(el, t, 1, after);
+  let n2 = rem;
+  const already = adm(t) ? `<br>${adm(t)} of ${t.qty} already checked in${t.used_at ? " (last at " + fts(t.used_at) + ")" : ""}` : "";
+  el.innerHTML = res("g", "Valid booking",
+    `<b style="display:inline">${esc(t.buyer_name)}</b><br>${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}${already}<br>How many rooms are checking in now?`,
+    `<div class="qty"><button id="am" aria-label="Fewer">${I("minus")}</button><b id="an">${n2}</b><button id="ap" aria-label="More">${I("plus")}</button></div>
+     <button class="btn b" id="ago">Check in ${n2} of ${rem}</button>`);
+  const upd = () => { el.querySelector("#an").textContent = n2; el.querySelector("#ago").textContent = `Check in ${n2} of ${rem}` };
+  el.querySelector("#am").onclick = () => { if (n2 > 1) { n2--; upd() } };
+  el.querySelector("#ap").onclick = () => { if (n2 < rem) { n2++; upd() } };
+  el.querySelector("#ago").onclick = e => { e.target.disabled = true; doAdmit(el, t, n2, after) };
+}
+
+async function doAdmit(el, t, n, after) {
+  const r = await admit(t.id, n);
+  if (r.err) return void (el.innerHTML = res("r", "Could not check in", esc(r.err)));
+  if (r.s === "used" || r.s === "out") return showRes(el, r, t.code, after);
+  const f = r.t, remaining = f.qty - adm(f);
+  el.innerHTML = res("g", "Checked in ✓",
+    `<b style="display:inline">${esc(f.buyer_name)}</b><br>${esc(f.tier)} · ${r.n} room${r.n > 1 ? "s" : ""} admitted${f.qty > 1 ? " of " + f.qty : ""}<br>Auto check-out ${fdt(checkoutDueOf(f))} (10:00 AM)<br>${remaining ? remaining + " still to arrive (scan again later)" : f.qty > 1 ? "All " + f.qty + " rooms are in" : "Enjoy the stay"}`);
+  if (navigator.vibrate) navigator.vibrate(60);
+  refreshRoster();
+  if (after) after(true);
+}
+
+async function doCheckout(el, t, after) {
+  const r = await checkoutTicket(t.id, new Date().toISOString());
+  if (r.err) return void (el.innerHTML = res("r", "Could not check out", esc(r.err)));
+  const f = r.t;
+  el.innerHTML = res("g", "Checked out ✓",
+    `<b style="display:inline">${esc(f.buyer_name)}</b><br>${esc(f.tier)} · ${f.qty} room${f.qty > 1 ? "s" : ""}<br>Checked out ${fdt(f.checked_out_at)}`);
+  if (navigator.vibrate) navigator.vibrate(60);
+  refreshRoster();
+  if (after) after(true);
+}
+
+async function checkoutNow(id) {
+  const t = chRows.find(x => x.id === id);
+  const r = await checkoutTicket(id, new Date().toISOString());
+  if (r.err) return toast(r.err);
+  if (r.already) return toast("Already checked out");
+  if (navigator.vibrate) navigator.vibrate(60);
+  toast((t && t.buyer_name ? t.buyer_name + " " : "Guest ") + "checked out ✓");
+  refreshRoster();
+}
+
+async function runTyped(code) {
+  code = (code || "").trim().toUpperCase();
+  if (!chEv) return toast("Select a property first");
+  if (!code) return toast("Enter a booking code");
+  const el = $("#chres");
+  el.innerHTML = `<div class="res"><span class="spin" style="display:inline-block"></span></div>`;
+  const r = await checkCode(code, chEv, chMode);
+
+  if (chMode === "out" && r.s === "okout" && r.t) {
+    const done = await checkoutTicket(r.t.id, new Date().toISOString());
+    showRes(el, done.err ? { s: "err", msg: done.err } : { s: "outdone", t: done.t }, code,
+      () => { const i = $("#chc"); if (i) i.value = "" });
+    refreshRoster();
+    return;
+  }
+
+  showRes(el, r, code, () => { const i = $("#chc"); if (i) i.value = "" });
+}
+
+async function refreshRoster() {
+  if (tab !== "chk" || !$("#chlist")) return;
+  if (!chEv) { chRows = []; return void ($("#chlist").innerHTML = "") }
+  try {
+    const { data } = await sb.from("tickets").select("*").eq("event_id", chEv);
+    chRows = data || [];
+  } catch (e) { console.error("refreshRoster error:", e); return; }
+  drawRoster();
+}
+
+function drawRoster() {
+  const box = $("#chlist");
+  if (!box || !chEv) return;
+
+  /* ---------- CHECK IN VIEW ---------- */
+  if (chMode === "in") {
+    const tot = chRows.reduce((s, t) => s + t.qty, 0);
+    const inn = chRows.reduce((s, t) => s + adm(t), 0);
+    const pct = tot ? Math.round(inn / tot * 100) : 0;
+    const rows = chRows
+      .filter(t => chFilter === "out" ? adm(t) < t.qty : chFilter === "in" ? adm(t) > 0 : true)
+      .sort((a, b) => (a.buyer_name || "").localeCompare(b.buyer_name || ""));
+    const F = [["out", "Expected"], ["in", "Checked in"], ["all", "All"]];
+    box.innerHTML = `
+      <div class="cnt"><div><b>${inn}</b> / ${tot}<small>rooms checked in</small></div><span>${tot - inn} to arrive</span></div>
+      <div class="pbar"><i style="width:${pct}%"></i></div>
+      <div class="seg">${F.map(f => `<button data-f="${f[0]}" class="${chFilter === f[0] ? "on" : ""}">${f[1]}</button>`).join("")}</div>
+      ${rows.length ? rows.map(t => {
+        const a = adm(t);
+        const tick = t.checked_out ? "✓" : a >= t.qty ? "✓" : a ? a : "·";
+        const cls = t.checked_out ? "" : a >= t.qty ? "" : a ? "part" : "off";
+        return `<div class="chk-tile" data-c="${esc(t.code)}"><div class="chk-tick ${cls}">${tick}</div>
+        <div><b>${esc(t.buyer_name)}</b><br><small>${esc(t.tier)} · ${esc(t.code)}${t.checked_out ? "<br>" + outLabel(t) : ""}</small></div>
+        <span class="rt">${a}/${t.qty}</span></div>`;
+      }).join("") : `<p class="hint c">${chRows.length ? "Nobody in this list" : "No bookings for this property yet"}</p>`}
+      ${rows.length ? `<p class="hint c">Tap a guest to check them in by hand.</p>` : ""}`;
+    return;
+  }
+
+  /* ---------- CHECK OUT VIEW ---------- */
+  const house = chRows.filter(inHouse);
+  const due = house.filter(isDueOut);
+  const done = chRows.filter(t => t.checked_out);
+
+  let rows;
+  if (chFilter === "due") rows = due.slice();
+  else if (chFilter === "done") rows = done.slice();
+  else if (chFilter === "all") rows = chRows.slice();
+  else rows = house.slice();
+  rows.sort((a, b) => dueMs(a) - dueMs(b));
+
+  const F = [["house", "In house"], ["due", "Due out"], ["done", "Checked out"], ["all", "All"]];
+  const pct = chRows.length ? Math.round(done.length / chRows.length * 100) : 0;
+
+  box.innerHTML = `
+    <div class="co-strip">${I("clock")}<div><b>Check-out is ${CHECKOUT_HOUR}:00 AM</b><small>Guests are checked out automatically the morning after check-in.</small></div></div>
+    <div class="cnt"><div><b>${house.length}</b><small>in house</small></div><span>${due.length ? due.length + " due out now" : "Nobody due out"}</span></div>
+    <div class="pbar"><i class="co" style="width:${pct}%"></i></div>
+    <div class="seg">${F.map(f => `<button data-f="${f[0]}" class="${chFilter === f[0] ? "on" : ""}">${f[1]}</button>`).join("")}</div>
+    ${rows.length ? rows.map(t => {
+      const out = !!t.checked_out;
+      const late = !out && isDueOut(t);
+      return `<div class="chk-tile">
+        <div class="chk-tick ${out ? "" : late ? "part" : "off"}">${out ? "✓" : late ? "!" : "·"}</div>
+        <div><b>${esc(t.buyer_name)}</b><br><small>${esc(t.tier)} · ${esc(t.code)}<br>${outLabel(t)}</small></div>
+        ${out
+          ? `<span class="rt" style="color:var(--t2)">Out</span>`
+          : `<button class="btn sm" data-x="${esc(t.id)}">Check out</button>`}
+      </div>`;
+    }).join("") : `<p class="hint c">${house.length ? "Nobody in this list" : "No guests are checked in right now"}</p>`}
+    ${rows.some(t => !t.checked_out) ? `<p class="hint c">Tap “Check out” to release a room early. Otherwise the guest is checked out automatically at ${CHECKOUT_HOUR}:00 AM.</p>` : ""}`;
+}
+
+/* ---- SCANNER ---- */
+let jsqrP = null, scannerActive = null;
+const loadJsQR = () => {
+  if (window.jsQR) return Promise.resolve();
+  if (jsqrP) return jsqrP;
+  jsqrP = new Promise((ok, no) => {
+    const sources = [
+      "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"
+    ];
+    let i = 0;
+    const tryNext = () => {
+      if (i >= sources.length) { jsqrP = null; return no(new Error("All jsQR CDNs failed")) }
+      const s = document.createElement("script");
+      s.src = sources[i++];
+      s.onload = () => window.jsQR ? ok() : tryNext();
+      s.onerror = tryNext;
+      document.head.appendChild(s);
+    };
+    tryNext();
+  });
+  return jsqrP;
+};
+
+const stopScanner = () => {
+  if (scannerActive) {
+    try { scannerActive() } catch (e) { console.warn("stopScanner error:", e) }
+    scannerActive = null;
+  }
+};
+
+async function openScan() {
+  if (!chEv) return toast("Select a property first");
+  if (scannerActive) return;
+  if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) return toast("Camera needs HTTPS or localhost. Type the code instead.");
+
+  const isOut = chMode === "out";
+  const IDLE = isOut ? "Tap Start to scan a guest out" : "Tap Start to turn on the camera";
+  const LIVE = isOut ? "Point the camera at the booking QR code to check out" : "Point the camera at the booking QR code";
+  const o = document.createElement("div");
+  o.className = "scn";
+  o.innerHTML = `<video playsinline muted autoplay></video><canvas hidden></canvas><div class="frame"></div>
+    <div class="scs">${IDLE}</div><button class="btn scgo" id="sgo">Start</button>
+    <button class="xb scx" aria-label="Close">${I("x")}</button>
+    <div class="scr"><div id="sres"></div><button class="btn s b" id="sn">Scan next</button></div>`;
+  document.body.appendChild(o);
+
+  const v = o.querySelector("video"), cv = o.querySelector("canvas");
+  const cx = cv.getContext("2d", { willReadFrequently: true });
+  const panel = o.querySelector(".scr"), out = o.querySelector("#sres"), hint = o.querySelector(".scs"), go = o.querySelector("#sgo");
+  let stream = null, det = null, ready = false, run = true, active = false, starting = false;
+  let token = 0, paused = false, last = "", lastT = 0;
+
+  const setBtn = (label, stop) => { go.textContent = label; go.classList.toggle("stop", !!stop); go.disabled = false };
+  const setHint = (msg, wide) => { hint.textContent = msg; hint.style.right = wide ? "20px" : "70px" };
+
+  const stop = () => {
+    active = false; starting = false; token++; paused = false;
+    if (stream) { stream.getTracks().forEach(t => { try { t.stop() } catch { } }); stream = null }
+    v.srcObject = null;
+    panel.classList.remove("on");
+    setBtn("Start", false);
+  };
+
+  const close = () => {
+    if (!run) return;
+    run = false;
+    stop();
+    try { o.remove() } catch { }
+    scannerActive = null;
+    refreshRoster();
+  };
+
+  scannerActive = close;
+  o.querySelector(".scx").onclick = close;
+
+  const resume = () => { panel.classList.remove("on"); paused = false; lastT = Date.now() };
+  o.querySelector("#sn").onclick = resume;
+
+  const grab = scale => {
+    if (!window.jsQR || !v.videoWidth) return null;
+    const w = Math.round(v.videoWidth * scale), h = Math.round(v.videoHeight * scale);
+    cv.width = w;
+    cv.height = h;
+    try {
+      cx.drawImage(v, 0, 0, w, h);
+      return cx.getImageData(0, 0, w, h);
+    } catch (e) { console.warn("Canvas draw error:", e); return null; }
+  };
+
+  const decodeWithJsQR = () => {
+    if (!window.jsQR || !v.videoWidth) return "";
+    for (const scale of [1, 0.5, 1.5]) {
+      const img = grab(scale);
+      if (!img) continue;
+      try {
+        const q = jsQR(img.data, img.width, img.height, { inversionAttempts: "attemptBoth" });
+        if (q && q.data) return q.data;
+      } catch (e) { console.warn("jsQR decode error:", e); }
+    }
+    return "";
+  };
+
+  const read = async () => {
+    if (det) {
+      try {
+        const b = await det.detect(v);
+        if (b && b[0] && b[0].rawValue) return b[0].rawValue;
+      } catch (e) {
+        console.warn("BarcodeDetector failed:", e);
+        det = null;
+        try { await loadJsQR() } catch { }
+      }
+      if (!window.jsQR) return "";
+    }
+    return decodeWithJsQR();
+  };
+
+  const handle = async code => {
+    paused = true;
+    last = code;
+    lastT = Date.now();
+    if (navigator.vibrate) navigator.vibrate(30);
+    out.innerHTML = `<div class="res"><span class="spin" style="display:inline-block"></span></div>`;
+    panel.classList.add("on");
+
+    const r = await checkCode(code, chEv, chMode);
+
+    /* In check-out mode a valid scan checks the guest out immediately. */
+    if (chMode === "out" && r.s === "okout" && r.t) {
+      const done = await checkoutTicket(r.t.id, new Date().toISOString());
+      if (navigator.vibrate) navigator.vibrate(60);
+      refreshRoster();
+      showRes(out, done.err ? { s: "err", msg: done.err } : { s: "outdone", t: done.t }, code,
+        () => setTimeout(() => { if (run && active && paused) resume() }, 1800));
+      return;
+    }
+
+    showRes(out, r, code, () => setTimeout(() => { if (run && active && paused) resume() }, 1800));
+  };
+
+  const loop = async my => {
+    if (!run || !active || my !== token) return;
+    if (!paused && v.readyState >= 2 && v.videoWidth) {
+      let val = "";
+      try { val = (await read()).trim().toUpperCase() } catch (e) { console.warn("Read error:", e) }
+      if (my !== token) return;
+      const m = val.match(/ZS-[A-Z0-9]{8}/);
+      if (m) val = m[0];
+      if (val && !(val === last && Date.now() - lastT < 3000)) handle(val);
+    }
+    setTimeout(() => loop(my), 120);
+  };
+
+  const start = async () => {
+    if (active || starting || !run) return;
+    starting = true; go.disabled = true; go.textContent = "Starting…";
+    let s;
+    try {
+      s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
+    } catch (err) {
+      console.error("getUserMedia failed:", err?.name, err?.message);
+      starting = false; setBtn("Start", false);
+      setHint(
+        err?.name === "NotAllowedError" ? "Camera permission was denied. Allow camera access in your browser settings, then tap Start, or type the booking code instead." :
+        err?.name === "NotFoundError" ? "No camera was found on this device. Type the booking code instead." :
+        err?.name === "NotReadableError" ? "The camera is in use by another app. Close it and tap Start, or type the booking code instead." :
+        err?.name === "OverconstrainedError" ? "This camera doesn't support the requested mode. Type the booking code instead." :
+        "Could not open the camera. Tap Start to retry, or type the booking code instead.", true);
+      return;
+    }
+    if (!run) { s.getTracks().forEach(t => { try { t.stop() } catch { } }); return }
+    stream = s; v.srcObject = s;
+    try { await v.play() } catch (e) { console.warn("Video play error:", e) }
+    try {
+      const tr = s.getVideoTracks()[0], caps = tr.getCapabilities ? tr.getCapabilities() : {};
+      if (caps.focusMode && caps.focusMode.includes("continuous")) await tr.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
+    } catch (e) { console.warn("Constraint error:", e) }
+
+    if (!ready) {
+      try {
+        if ("BarcodeDetector" in window && (await BarcodeDetector.getSupportedFormats()).includes("qr_code")) det = new BarcodeDetector({ formats: ["qr_code"] });
+      } catch (e) { console.warn("BarcodeDetector init error:", e) }
+      if (!det) {
+        try { await loadJsQR() } catch (e) {
+          console.error("jsQR failed to load:", e);
+          stop();
+          setHint("QR reader unavailable. Check your connection and tap Start, or type the booking code instead.", true);
+          return;
+        }
+      }
+      ready = true;
+    }
+    if (!run || !stream) return;
+    starting = false; active = true; paused = false; last = ""; lastT = 0;
+    setHint(LIVE, false); setBtn("Stop", true);
+    loop(++token);
+  };
+
+  go.onclick = () => { if (active || starting) { stop(); setHint(IDLE, false) } else start() };
+}
+
+/* ---------- HOST ---------- */
+function rOrg() {
+  const sold = MINE.reduce((s, e) => s + (e.tiers || []).reduce((a, t) => a + t.sold, 0), 0);
+  const gross = MINE.reduce((s, e) => s + (e.tiers || []).reduce((a, t) => a + t.sold * t.price, 0), 0);
+  const yourShare = Math.round(gross * (1 - fee / 100));
+
+  $("#ol").innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><small>Properties</small><b>${MINE.length}</b></div>
+      <div class="kpi"><small>Rooms booked</small><b>${sold}</b></div>
+      <div class="kpi"><small>Gross revenue</small><b>${money(gross)}</b></div>
+      <div class="kpi"><small>Your ${100 - fee}% share</small><b>${money(yourShare)}</b></div>
+    </div>
+    ${MINE.length ? `<h2 class="h2">Rooms booked per property</h2><div class="chart-container"><canvas id="orgChart"></canvas></div>` : ""}
+    <h2 class="h2">Earnings breakdown</h2>
+    <div class="grp">
+      <div class="gi"><span>Gross revenue</span><span class="sp">${money(gross)}</span></div>
+      <div class="gi"><span>Platform fee (${fee}%)</span><span class="sp" style="color:var(--t2)">-${money(Math.round(gross * fee / 100))}</span></div>
+      <div class="gi"><span><b>Your payout</b></span><span class="sp" style="color:var(--ac);font-weight:700">${money(yourShare)}</span></div>
+    </div>
+    <div class="pay-card">
+      <small>Available for payout</small>
+      <b>${money(payoutBalance())}</b>
+      <button class="btn sm" onclick="openPayoutRequest()" ${payoutBalance() <= 0 ? "disabled" : ""}>${I("ticket")}Request payout</button>
+    </div>
+    ${PAYOUTS.length ? `<h2 class="h2">Payout requests</h2><div class="grp">${PAYOUTS.map(p =>
+      `<div class="gi"><span>${money(p.amount)}<small>${esc(p.network)} · ${esc(p.phone)} · ${fdate((p.created_at || "").slice(0, 10))}</small></span>
+       <span class="sp"><span class="pay-status ps-${esc(p.status)}">${PAY_LABEL[p.status] || esc(p.status)}</span></span></div>`).join("")}</div>` : ""}
+    <button class="btn b" style="margin:12px 0 4px" onclick="openEditor()">${I("plus")}List a property</button>
+    ${MINE.length ? MINE.map(e => {
+      const s = (e.tiers || []).reduce((a, t) => a + t.sold, 0);
+      const n = (e.tiers || []).reduce((a, t) => a + t.qty, 0);
+      const rev = (e.tiers || []).reduce((a, t) => a + t.sold * t.price, 0);
+      const fstat = e.featured_status || (e.featured ? "approved" : "none");
+      const fbadge =
+        fstat === "pending"  ? `<span class="fbadge-pill fbadge-pending">⏳ Featured: pending</span>` :
+        fstat === "approved" ? `<span class="fbadge-pill fbadge-approved">★ Featured</span>` :
+        fstat === "rejected" ? `<span class="fbadge-pill fbadge-rejected">✗ Featured: declined</span>` :
+        "";
+      return `<div class="ocard"><div class="top" onclick="closeStay();openStay('${e.id}')">
+        <div class="th" style="width:64px;height:64px">${e.img ? `<img src="${e.img}" loading="lazy" alt="">` : I("bed")}</div>
+        <div class="rb"><b>${esc(e.title)}</b><span>${esc(e.city)} · ${fdate(e.date)}</span><span>${s} / ${n} rooms booked · ${money(rev)}</span>${fbadge}</div></div>
+        <div class="acts">
+          <button class="btn s sm" onclick="shareStay('${e.id}')">${I("share")}Share</button>
+          <button class="btn s sm" onclick="sales('${e.id}')">${I("users")}Guests</button>
+          <button class="btn s sm" onclick="openEditor('${e.id}')">${I("edit")}Edit</button>
+          <button class="btn d sm" onclick="del('${e.id}')" aria-label="Delete property">${I("trash")}</button>
+        </div></div>`;
+    }).join("") : `<div class="emp">${I("home")}<p>No properties yet. List your first one.</p></div>`}`;
+
+  drawOrgChart();
+}
+
+function drawOrgChart() {
+  if (chartInst) { try { chartInst.destroy() } catch { } chartInst = null }
+  const cv = document.getElementById("orgChart");
+  if (!cv || typeof Chart === "undefined" || !MINE.length) return;
+  const items = MINE.map(e => ({ label: e.title, sold: (e.tiers || []).reduce((a, t) => a + t.sold, 0) }))
+    .sort((a, b) => b.sold - a.sold).slice(0, 6);
+  try {
+    chartInst = new Chart(cv, {
+      type: "bar",
+      data: {
+        labels: items.map(x => x.label),
+        datasets: [{ label: "Rooms booked", data: items.map(x => x.sold), backgroundColor: "#007AFF", borderRadius: 8, maxBarThickness: 38 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: { duration: 500 },
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: "rgba(60,60,67,.10)" } },
+          x: { grid: { display: false }, ticks: { callback: function (v) { const l = this.getLabelForValue(v); return l.length > 12 ? l.slice(0, 11) + "…" : l } } }
+        }
+      }
+    });
+  } catch (e) { console.error("Chart init error:", e); }
+}
+
+async function sales(id) {
+  const e = MINE.find(x => x.id === id);
+  if (!e) return;
+  try {
+    const { data: l } = await sb.from("tickets").select("*").eq("event_id", id).order("created_at", { ascending: false });
+    sheet(sh("Guests", esc(e.title)) +
+      `<div class="grp">${(e.tiers || []).map(t => `<div class="gi"><span>${esc(t.name)}</span><span class="sp">${t.sold} / ${t.qty}</span></div>`).join("")}</div>
+       <h2 class="h2">Bookings</h2>
+       ${(l || []).length
+        ? `<div class="grp">${l.map(t => {
+            const n = nightsOf(t);
+            const mark = t.checked_out ? " ✓ out" : (t.used || adm(t) >= t.qty) ? " ✓ in" : adm(t) > 0 ? " · " + adm(t) + "/" + t.qty + " in" : "";
+            return `<div class="gi"><span>${esc(t.buyer_name)}<small>${esc(t.buyer_email)} · ${esc(t.buyer_phone)}</small></span><span class="sp">${t.qty} × ${esc(t.tier)} · ${n}n<small>${esc(t.code)}${mark}</small></span></div>`;
+          }).join("")}</div>`
+        : `<p class="hint">No bookings yet.</p>`}`);
+  } catch (e) { console.error("sales error:", e); toast("Could not load guests"); }
+}
+
+async function del(id) {
+  const e = MINE.find(x => x.id === id);
+  if (!e) return;
+  if (!await ask("Delete this property?", `<b>${esc(e.title)}</b> will be removed permanently.`, "Delete property", "d")) return;
+  try {
+    const { error } = await sb.from("events").delete().eq("id", id);
+    if (error) return toast(error.message);
+    toast("Property deleted");
+    await loadAll();
+    rOrg();
+    rHome();
+  } catch (e) { console.error("del error:", e); toast("Could not delete property"); }
+}
+
+function openEditor(id) {
+  needAuth(async () => {
+    if (!isOrg()) return toast("Only host accounts can list properties");
+    const e = id ? MINE.find(x => x.id === id) : null;
+    if (id && !e) return toast("Property not found");
+
+    const D = e
+      ? { title: e.title, category: e.category, city: e.city, venue: e.venue, date: e.date, time: e.time,
+          desc: e.description || "", tagline: e.tagline || "", featured: !!e.featured,
+          featuredStatus: e.featured_status || (e.featured ? "approved" : "none") }
+      : { title: "", category: "", city: "", venue: "", date: "", time: "14:00",
+          desc: "", tagline: "", featured: false, featuredStatus: "none" };
+
+    const T = e ? e.tiers.map(t => ({ ...t })) : [{ name: "Standard Room", price: "", qty: "", sold: 0 }];
+    const PR = e ? (e.presenters || []).map(x => ({ ...x })) : [];
+    let img = e ? e.img || "" : "";
+    const m = sheet(""), g = s => m.querySelector(s);
+
+    const draw = () => {
+      const featHint =
+        D.featuredStatus === "approved" ? "✓ Approved — your property is featured on Explore." :
+        D.featuredStatus === "pending"  ? "⏳ Awaiting admin approval." :
+        D.featuredStatus === "rejected" ? "✗ Request was declined. Tick to request again." :
+        "Featured properties appear in the carousel at the top of Explore.";
+
+      g(".sh").innerHTML = `<div class="grab"></div>` + sh(e ? "Edit property" : "List a property") + `
+        <div class="fld"><label>Property name</label><input class="in" data-k="title" value="${esc(D.title)}" placeholder="e.g. Zambezi River Lodge"></div>
+        <div class="two">
+          <div class="fld"><label>Property type</label><select class="in" data-k="category"><option value="">Select</option>${CATS.map(c => `<option ${c === D.category ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
+          <div class="fld"><label>City</label><input class="in" data-k="city" list="citylist" value="${esc(D.city)}" placeholder="Livingstone"><datalist id="citylist">${CITIES.map(c => `<option>${c}</option>`).join("")}</datalist></div>
+        </div>
+        <div class="fld"><label>Address / area</label><input class="in" data-k="venue" value="${esc(D.venue)}" placeholder="e.g. Mosi-oa-Tunya Road, Livingstone"></div>
+        <div class="two">
+          <div class="fld"><label>Available from</label><input class="in" type="date" data-k="date" value="${D.date}" ${e ? "" : `min="${today()}"`}></div>
+          <div class="fld"><label>Check-in time</label><input class="in" type="time" data-k="time" value="${D.time}"></div>
+        </div>
+        <p class="hint" style="margin:-6px 0 12px">Check-out is fixed at ${CHECKOUT_HOUR}:00 AM the morning after check-in.</p>
+        <div class="fld"><label>Short summary (shown under About)</label><input class="in" data-k="tagline" value="${esc(D.tagline)}" placeholder="One line that sells the stay"></div>
+        <div class="fld"><label>Full description</label><textarea class="in" data-k="desc" placeholder="Tell guests what to expect">${esc(D.desc)}</textarea></div>
+        <div class="fld"><label>Cover photo</label><div class="upload"><input type="file" accept="image/*" id="fi">${img ? `<img src="${img}" alt="" loading="lazy">` : `<div>${I("img")}<br>Tap to upload a cover photo</div>`}</div></div>
+        <h2 class="h2" style="margin-top:8px">Gallery</h2>
+        <p class="sub">Photos of the property — the pool, the rooms, the restaurant. Add a caption and a short description for each.</p>
+        ${PR.map((x, i) => `<div class="pr">
+          <label class="pth"><input type="file" accept="image/*" data-pi="${i}">${x.img ? `<img src="${x.img}" alt="">` : I("img")}</label>
+          <div class="pf"><input class="in" data-p="${i}" data-f="name" placeholder="Caption (e.g. Infinity Pool)" value="${esc(x.name)}"><input class="in" data-p="${i}" data-f="role" placeholder="Short description" value="${esc(x.role || "")}"></div>
+          <button class="btn d sm" data-pr="${i}" aria-label="Remove gallery photo">${I("trash")}</button></div>`).join("")}
+        <button class="btn s b" id="ap" style="margin-bottom:8px">${I("plus")}Add gallery photo</button>
+
+        <div class="fld" style="margin-top:12px">
+          <label>Explore tab featuring</label>
+          <label class="chk">
+            <input type="checkbox" id="featreq"
+              ${D.featuredStatus === "pending" || D.featuredStatus === "approved" ? "checked" : ""}
+              ${D.featuredStatus === "approved" ? "disabled" : ""}>
+            Request to be featured on Explore
+          </label>
+          <p class="hint">${featHint}</p>
+        </div>
+
+        <h2 class="h2" style="margin-top:8px">Rooms</h2>
+        <p class="sub">Price is per room, per night. Use 0 for free rooms. A ${fee}% platform fee applies.</p>
+        ${T.map((t, i) => `<div class="trow">
+          <input class="in n" data-t="${i}" data-f="name" placeholder="Room type" value="${esc(t.name)}">
+          <input class="in p" type="number" inputmode="numeric" min="0" data-t="${i}" data-f="price" placeholder="Per night" value="${t.price}">
+          <input class="in q" type="number" inputmode="numeric" min="1" data-t="${i}" data-f="qty" placeholder="Rooms" value="${t.qty}">
+          <button class="btn d sm" data-rm="${i}" ${T.length === 1 || t.sold > 0 ? "disabled" : ""} aria-label="Remove room type">${I("trash")}</button></div>`).join("")}
+        <button class="btn s b" id="at" style="margin-bottom:14px">${I("plus")}Add room type</button>
+        <button class="btn b" id="sv">${e ? "Save changes" : "Publish property"}</button>`;
+
+      m.querySelectorAll("[data-k]").forEach(i => {
+        const h = () => D[i.dataset.k] = i.type === "checkbox" ? i.checked : i.value;
+        i.oninput = h;
+        i.onchange = h;
+      });
+      m.querySelectorAll("[data-t]").forEach(i => i.oninput = () => T[i.dataset.t][i.dataset.f] = i.value);
+      m.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { T.splice(+b.dataset.rm, 1); draw() });
+      g("#at").onclick = () => { T.push({ name: "", price: "", qty: "", sold: 0 }); draw() };
+      m.querySelectorAll("[data-p]").forEach(i => i.oninput = () => PR[i.dataset.p][i.dataset.f] = i.value);
+      m.querySelectorAll("[data-pr]").forEach(b => b.onclick = () => { PR.splice(+b.dataset.pr, 1); draw() });
+      m.querySelectorAll("[data-pi]").forEach(i => i.onchange = () => shrink(i.files[0], 400, u => { PR[i.dataset.pi].img = u; draw() }));
+      g("#ap").onclick = () => { PR.push({ name: "", role: "", img: "" }); draw() };
+      g("#fi").onchange = pick;
+      g("#sv").onclick = save;
+    };
+
+    function pick(ev) {
+      const f = ev.target.files[0];
+      if (!f) return;
+      if (!f.type.startsWith("image/")) return toast("Choose an image file");
+      shrink(f, 900, u => { img = u; draw() });
+    }
+
+    async function save() {
+      for (const k of ["title", "category", "city", "venue", "date", "time"])
+        if (!String(D[k]).trim()) return toast("Please fill in all property details");
+      if (!e && D.date < today()) return toast("Pick an availability date of today or later");
+      for (const t of T) {
+        if (!String(t.name).trim()) return toast("Every room type needs a name");
+        if (t.price === "" || +t.price < 0) return toast("Enter a valid nightly price");
+        if (t.qty === "" || +t.qty < 1) return toast("Enter a room count");
+        if (+t.qty < (t.sold || 0)) return toast(`"${t.name}" already has ${t.sold} booked`);
+      }
+      const btn = g("#sv");
+      btn.disabled = true;
+
+      const wantsFeatured = !!(m.querySelector("#featreq") && m.querySelector("#featreq").checked);
+      const prevStatus = D.featuredStatus;
+      let featuredStatus = prevStatus;
+      let featured = !!D.featured;
+
+      if (prevStatus === "approved") {
+        featured = true;
+        featuredStatus = "approved";
+      } else if (wantsFeatured) {
+        featured = false;
+        featuredStatus = "pending";
+      } else {
+        featured = false;
+        featuredStatus = "none";
+      }
+
+      const requestedAt = (featuredStatus === "pending" && prevStatus !== "pending")
+        ? new Date().toISOString()
+        : (e && e.featured_requested_at) || null;
+
+      try {
+        const ev = {
+          id: e ? e.id : uid("ev_"),
+          owner: me.id,
+          owner_name: me.name,
+          title: D.title.trim(),
+          category: D.category,
+          city: D.city.trim(),
+          venue: D.venue.trim(),
+          date: D.date,
+          time: D.time,
+          description: D.desc.trim(),
+          img,
+          tiers: T.map(t => ({ name: t.name.trim(), price: +t.price || 0, qty: +t.qty, sold: t.sold || 0 })),
+          featured,
+          featured_status: featuredStatus,
+          featured_requested_at: requestedAt,
+          tagline: D.tagline.trim(),
+          presenters: PR.filter(x => String(x.name).trim() || x.img).map(x => ({ name: x.name.trim(), role: (x.role || "").trim(), img: x.img || "" })),
+          status: "live"
+        };
+        const { error } = await (e ? sb.from("events").update(ev).eq("id", ev.id) : sb.from("events").insert(ev));
+        if (error) { btn.disabled = false; return toast(error.message) }
+        m.close();
+        toast(e ? "Property updated" : "Property published");
+        await loadAll();
+        rOrg();
+        rHome();
+      } catch (err) {
+        btn.disabled = false;
+        console.error("save error:", err);
+        toast("An error occurred");
+      }
+    }
+    draw();
+  });
+}
+
+/* ---------- PAYOUTS ---------- */
+let PAYOUTS = [];
+const PAY_LABEL = { requested: "Requested", verifying: "Verifying", approved: "Approved", paid: "Paid", rejected: "Declined" };
+
+async function loadPayouts() {
+  if (!me) { PAYOUTS = []; return; }
+  try {
+    const { data } = await sb.from("payouts").select("*")
+      .eq("organiser_id", me.id).order("created_at", { ascending: false });
+    PAYOUTS = data || [];
+  } catch (e) {
+    console.warn("loadPayouts error:", e);
+    PAYOUTS = [];
+  }
+}
+
+function payoutBalance() {
+  const gross = MINE.reduce((s, e) => s + (e.tiers || []).reduce((a, t) => a + t.sold * t.price, 0), 0);
+  const earned = Math.round(gross * (1 - fee / 100));
+  const committed = PAYOUTS.filter(p => p.status !== "rejected")
+    .reduce((s, p) => s + Number(p.amount || 0), 0);
+  return Math.max(0, earned - committed);
+}
+
+function openPayoutRequest() {
+  needAuth(() => {
+    if (!isOrg()) return toast("Host accounts only");
+    const bal = payoutBalance();
+    if (bal <= 0) return toast("No funds available to pay out yet");
+
+    const m = sheet(""), g = s => m.querySelector(s);
+    let amt = bal, net = "MTN", ph = me.phone || "", nm = me.name || "";
+
+    const draw = () => {
+      g(".sh").innerHTML = `<div class="grab"></div>` +
+        sh("Request payout", `Available to withdraw: <b style="color:var(--tx)">${money(bal)}</b>`) +
+        `<div class="fld"><label>Amount (ZMW)</label>
+           <input class="in" id="pa" type="number" inputmode="numeric" min="1" max="${bal}" value="${amt}"></div>
+         <div class="fld"><label>Mobile money network</label>
+           <div class="seg">${["MTN", "Airtel", "Zamtel"].map(p =>
+             `<button data-n="${p}" class="${p === net ? "on" : ""}">${p}</button>`).join("")}</div></div>
+         <div class="fld"><label>Mobile money number</label>
+           <input class="in" id="pp" type="tel" value="${esc(ph)}" placeholder="0977 123 456" autocomplete="tel"></div>
+         <div class="fld"><label>Account name</label>
+           <input class="in" id="pn" value="${esc(nm)}" autocomplete="name"></div>
+         <button class="btn b" id="psub">Submit payout request</button>
+         <p class="hint c">Payouts are verified before they are sent.</p>`;
+
+      g("#pa").oninput = e => { amt = e.target.value };
+      g("#pp").oninput = e => { ph = e.target.value };
+      g("#pn").oninput = e => { nm = e.target.value };
+      m.querySelectorAll("[data-n]").forEach(b => b.onclick = () => { net = b.dataset.n; draw() });
+      g("#psub").onclick = submitPayout;
+    };
+
+    async function submitPayout() {
+      const a = Math.floor(Number(amt));
+      if (!a || a < 1) return toast("Enter an amount");
+      if (a > bal) return toast("Amount is more than your available balance");
+      if (!isValidPhone(ph)) return toast("Enter a valid mobile money number");
+      if (nm.trim().length < 2) return toast("Enter the account name");
+
+      const btn = g("#psub");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spin"></span>';
+
+      try {
+        const { error } = await sb.from("payouts").insert({
+          id: uid("po_"),
+          organiser_id: me.id,
+          organiser_name: me.name || "",
+          amount: a,
+          network: net,
+          phone: sanitizePhone(ph),
+          account_name: nm.trim(),
+          status: "requested"
+        });
+        if (error) throw error;
+        m.close();
+        await loadPayouts();
+        rOrg();
+        payoutConfirmed(a);
+      } catch (err) {
+        console.error("Payout request error:", err);
+        btn.disabled = false;
+        btn.textContent = "Submit payout request";
+        toast(err && err.message ? err.message : "Could not submit payout request");
+      }
+    }
+
+    draw();
+  });
+}
+
+function payoutConfirmed(a) {
+  sheet(`<div class="okicon">✓</div>` + sh("Payout requested") +
+    `<p class="desc">Your payout of <b style="color:var(--tx)">${money(a)}</b> will be disbursed to you after verification and within 2 working days.</p>
+     <button class="btn b" data-x style="margin-top:16px">Done</button>`);
+}
+
+/* ---------- END PAYOUTS ---------- */
+
+/* ---------- ACCOUNT ---------- */
+function rMe() {
+  $("#ml").innerHTML = me
+    ? `<div class="me"><div class="av">${esc((me.name || "U")[0].toUpperCase())}</div>
+        <h2>${esc(me.name || "")}</h2>
+        <p style="color:var(--t2);margin:6px 0 20px;font-size:.9rem">${esc(me.email || "")}${me.phone ? "<br>" + esc(me.phone) : ""}</p></div>
+       <div class="grp">
+         <div class="gi">${I("bed")}<span>Stays booked</span><span class="sp">${BOOKINGS.length}</span></div>
+         ${isOrg() ? `<div class="gi">${I("home")}<span>Properties listed</span><span class="sp">${MINE.length}</span></div>` : ""}
+         <div class="gi">${I("user")}<span>Account type</span><span class="sp">${me.role === "organiser" ? "Host" : me.role === "admin" ? "Admin" : "Guest"}</span></div>
+         <div class="gi">${I("clock")}<span>Standard check-out</span><span class="sp">${CHECKOUT_HOUR}:00 AM</span></div>
+       </div>
+       ${isOrg() ? "" : `<p class="hint c">Want to list a property? Create a separate host account.</p>`}
+       ${me.role === "admin" ? `<div id="adminFeat"></div>` : ""}
+       <button class="btn d b" style="margin-top:20px" id="so">Sign out</button>`
+    : `<div class="emp">${I("user")}<p>Sign in to book a stay and manage your properties.</p>
+       <button class="btn" style="margin-top:16px" onclick="openAuth()">Sign in or create account</button></div>`;
+
+  const b = $("#so");
+  if (b) b.onclick = async () => {
+    if (await ask("Sign out?", "You can sign back in any time.", "Sign out", "d")) {
+      try { await sb.auth.signOut() } catch { }
+      me = null;
+      MINE = [];
+      BOOKINGS = [];
+      PAYOUTS = [];
+      closeStay();
+      go("home");
+      toast("Signed out");
+    }
+  };
+
+  if (me && me.role === "admin") loadAdminFeatured();
+}
+
+async function loadAdminFeatured() {
+  const box = $("#adminFeat");
+  if (!box) return;
+  box.innerHTML = `<h2 class="h2">Feature requests</h2><div class="sk"><div class="sk-line"></div></div>`;
+  let data = [];
+  try {
+    const { data: rows } = await sb
+      .from("events")
+      .select("*")
+      .eq("featured_status", "pending")
+      .order("created_at", { ascending: false });
+    data = rows || [];
+  } catch (e) { console.warn("loadAdminFeatured:", e); }
+
+  if (!data.length) {
+    box.innerHTML = `<h2 class="h2">Feature requests</h2><p class="hint c">No pending requests.</p>`;
+    return;
+  }
+  box.innerHTML = `<h2 class="h2">Feature requests (${data.length})</h2>` +
+    data.map(e => `
+      <div class="ocard">
+        <div class="top" onclick="closeStay();openStay('${esc(e.id)}')">
+          <div class="th" style="width:64px;height:64px">${e.img ? `<img src="${e.img}" loading="lazy" alt="">` : I("bed")}</div>
+          <div class="rb">
+            <b>${esc(e.title)}</b>
+            <span>${esc(e.category || "")} · ${esc(e.city || "")}</span>
+            <span>by ${esc(e.owner_name || "Host")}</span>
+          </div>
+        </div>
+        <div class="acts">
+          <button class="btn sm" data-approve="${esc(e.id)}">✓ Approve</button>
+          <button class="btn d sm" data-reject="${esc(e.id)}">✗ Decline</button>
+        </div>
+      </div>`).join("");
+
+  box.querySelectorAll("[data-approve]").forEach(b => b.onclick = () => reviewFeatured(b.dataset.approve, "approved"));
+  box.querySelectorAll("[data-reject]").forEach(b => b.onclick = () => reviewFeatured(b.dataset.reject, "rejected"));
+}
+
+async function reviewFeatured(id, status) {
+  const updates = {
+    featured: status === "approved",
+    featured_status: status,
+    featured_reviewed_at: new Date().toISOString(),
+    featured_reviewed_by: me ? me.id : null
+  };
+  const { error } = await sb.from("events").update(updates).eq("id", id);
+  if (error) return toast(error.message);
+  toast(status === "approved" ? "Property approved for Explore" : "Request declined");
+  await loadAll();
+  loadAdminFeatured();
+  if (tab === "home") rHome();
+}
+
+/* ---------- INIT ---------- */
+loadSaved();
+updateFbtn();
+$("#list").innerHTML = `<div class="sk">${skeleton(5)}</div>`;
+(async () => {
+  try {
+    await loadMe();
+    await loadAll();
+    go("home");
+    openFromUrl();
+    runAutoCheckout(true);
+    sb.auth.onAuthStateChange(async (event) => {
+      if (!["SIGNED_IN", "SIGNED_OUT", "TOKEN_REFRESHED", "USER_UPDATED"].includes(event)) return;
+      try {
+        await loadMe();
+        await loadAll();
+        drawTabs();
+        if (tab === "home") rHome();
+        else if (tab === "tix") rStays();
+        else if (tab === "org") rOrg();
+        else if (tab === "chk") rChk();
+        else if (tab === "me") rMe();
+      } catch (e) { console.error("Auth state change error:", e); }
+    });
+  } catch (e) {
+    console.error("Init error:", e);
+    toast("Failed to load app");
+  }
+})();
+
+/* Auto check-out sweep — runs on load and then every minute while
+   the app is open, so nobody stays checked in past 10:00 AM. */
+setInterval(() => { runAutoCheckout(false); }, 60000);
+</script>
+</body>
+</html>
