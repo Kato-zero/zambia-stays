@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="Zambia Stays — find lodges, hotels and guesthouses across Zambia and book your room.">
-<title>Zambia-Stays-accomodation</title>
+<title>Zambia Stays</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -235,6 +235,58 @@ select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .chk-tile .btn{margin-left:auto;flex-shrink:0}
 .pbar i.co{background:#FF9500}
 /* ===================== */
+
+/* ===== daily check-in log ===== */
+.log-tools{display:flex;gap:8px;margin:16px 0 10px}
+.log-tools .btn{flex:1}
+.log-tools .btn.refresh{flex:0 0 auto;min-width:44px}
+.log-summary{background:var(--g1);border-radius:14px;padding:14px 16px;margin:0 0 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center}
+.log-summary .k small{display:block;color:var(--t2);font-size:.7rem;font-weight:600}
+.log-summary .k b{display:block;font-size:1.05rem;margin-top:2px;letter-spacing:-.02em}
+.log-day{background:var(--g1);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.log-day-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;-webkit-user-select:none}
+.log-day-h b{font-size:.95rem;display:block}
+.log-day-h small{display:block;color:var(--t2);font-size:.76rem;margin-top:3px}
+.log-day-h .today-badge{display:inline-block;margin-left:6px;font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:99px;background:var(--ac);color:#fff;vertical-align:middle}
+.log-chev{color:var(--t2);transition:transform .25s;display:inline-flex;align-items:center;flex-shrink:0}
+.log-chev .i{width:18px;height:18px}
+.log-day.open .log-chev{transform:rotate(90deg)}
+.log-entries{display:none;border-top:1px solid var(--sep);background:#fff}
+.log-day.open .log-entries{display:block}
+.log-entry{padding:12px 16px;border-bottom:1px solid var(--sep)}
+.log-entry:last-child{border-bottom:0}
+.log-row1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.log-row1 b{font-size:.92rem}
+.log-row1 .sp{font-weight:700;color:var(--ac);font-size:.92rem;white-space:nowrap}
+.log-row2{display:flex;flex-wrap:wrap;gap:8px;color:var(--t2);font-size:.78rem;margin-top:3px}
+.log-row3{display:flex;flex-wrap:wrap;gap:12px;color:var(--t2);font-size:.74rem;margin-top:6px}
+.log-row3 span{display:inline-flex;align-items:center;gap:4px}
+.log-row3 .i{width:12px;height:12px}
+.log-row4{margin-top:6px}
+.log-tag{display:inline-block;font-size:.64rem;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--g2);color:var(--t2)}
+.log-tag.direct{background:rgba(255,149,0,.16);color:#a55a00}
+.log-tag.app{background:rgba(0,122,255,.12);color:#0057b8}
+/* ============================== */
+
+/* ===== direct payments (host receives on their own mobile money) ===== */
+.paybox{background:var(--g1);border-radius:16px;padding:16px;margin:12px 0}
+.paybox small{color:var(--t2);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.paybox .amt{font-size:1.7rem;font-weight:800;letter-spacing:-.03em;margin:2px 0 10px}
+.paybox .num{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:10px 12px;margin-top:8px}
+.paybox .num b{flex:1;min-width:0;font-family:ui-monospace,Menlo,monospace;font-size:1rem;letter-spacing:.03em;word-break:break-all}
+.paybox .num button{color:var(--ac);font-weight:700;font-size:.8rem;padding:7px 10px;border-radius:9px;background:var(--g1);display:inline-flex;align-items:center;gap:5px}
+.steps{margin:10px 0 0 18px;color:var(--t2);font-size:.86rem;line-height:1.5}
+.steps li{margin-bottom:6px}.steps b{color:var(--tx)}
+.pstrip{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:12px 14px;font-size:.86rem;line-height:1.45;margin:0 0 12px}
+.pstrip .i{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.pstrip.wait{background:rgba(255,149,0,.14);color:#a55a00}
+.pstrip.ok{background:rgba(52,199,89,.16);color:#1a7f37}
+.pstrip.no{background:rgba(255,59,48,.12);color:#c4281e}
+.proof{background:var(--g1);border-radius:16px;padding:10px;margin:12px 0;text-align:center}
+.proof img{max-width:100%;max-height:52vh;border-radius:10px;display:block;margin:0 auto;object-fit:contain}
+.pay-status.ps-awaiting{background:rgba(255,149,0,.16);color:#a55a00}
+.pay-method-tag{display:inline-block;margin-top:4px;font-size:.64rem;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--g2);color:var(--t2)}
+/* ==================================================================== */
 </style>
 </head>
 <body>
@@ -289,6 +341,19 @@ select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
     now has Check in / Check out modes, an in-house list, overdue
     flags, manual early check-out, and a background sweep that runs
     on load and every 60 seconds.
+  ✓ Host-controlled payment collection: hosts choose "through the app"
+    (Lipila) or "direct to me" (mobile money number + screenshot).
+    Direct payments require the host to approve the uploaded screenshot
+    before the guest's booking receipt is issued and check-in is allowed.
+  ✓ Direct-payment properties now show the host's mobile money number,
+    account name and screenshot uploader right inside the booking form
+    (no separate step), so the guest sees exactly where to send money.
+  ✓ DAILY CHECK-IN LOG: third tab in Check In shows every guest who has
+    checked in, grouped by day. Each group starts collapsed (today's
+    starts open) and expands on tap. Includes name, property, room type,
+    rooms, payment method, amount, check-in time and check-out time.
+    One-tap CSV download (day, guest, phone, property, room, rooms,
+    payment method, amount, check-in, check-out) — ready for Excel.
   ===============================================*/
 
 const SUPABASE_URL = "https://jxvszcxgpbjczwggdzzm.supabase.co";
@@ -401,11 +466,15 @@ const P = {
   share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51a6 6 0 0 0 6.82 0M15.41 6.49a6 6 0 0 0-6.82 0"/>',
   link: '<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>',
   copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>',
-  scan: '<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="10" height="10"/>'
+  scan: '<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="10" height="10"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>',
+  refresh: '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>'
 };
 const I = (n, c = "") => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
 
 let me = null, ALL = [], MINE = [], BOOKINGS = [], SAVED = [], fee = 5, openStayId = null;
+let PENDING = [];   /* host-side bookings awaiting payment approval */
+let logRows = [], logLoaded = false, logExpanded = new Set();   /* daily check-in log */
 let cat = "", city = "", dateF = "", priceF = "", q = "", psT = null, chartInst = null;
 let qSearchTimeout = null;
 
@@ -838,6 +907,8 @@ async function loadAll() {
       BOOKINGS = [];
       PAYOUTS = [];
     }
+    /* Invalidate the daily log so it re-fetches the next time it's opened */
+    logLoaded = false;
   } catch (e) {
     console.error("loadAll error:", e);
     ALL = SHOW_SAMPLES ? SAMPLES : [];
@@ -1041,8 +1112,6 @@ function rHome() {
 }
 
 /* ---------- GALLERY SLIDESHOW ---------- */
-/* Builds slideshow markup. A caption is drawn on a slide only when that
-   slide has a name or role, so a gallery with no titles shows plain images. */
 function gallerySlides(pr) {
   if (!pr || !pr.length) return "";
   const many = pr.length > 1;
@@ -1110,12 +1179,9 @@ function closeStay(fromHistory) {
     history.back();
   }
 }
-/* Backwards-compatible aliases (used by inline handlers in older markup) */
 const openEv = openStay, closeEv = closeStay;
 
-/* Slideshow controller. Runs whenever the detail view is built. */
 function initPS(root) {
-  /* Kill any timer left over from a previously opened property */
   if (psT !== null) { clearInterval(psT); psT = null; }
 
   const box = root.querySelector("#gsl");
@@ -1156,7 +1222,6 @@ function initPS(root) {
   if (next) next.onclick = () => goTo(i + 1);
   dots.forEach(d => d.onclick = () => goTo(+d.dataset.i));
 
-  /* Swipe left / right on touch or mouse */
   box.addEventListener("pointerdown", e => {
     dragging = true; paused = true;
     startX = e.clientX; startY = e.clientY;
@@ -1170,7 +1235,6 @@ function initPS(root) {
   }, { passive: true });
   box.addEventListener("pointercancel", () => { dragging = false; paused = false; restart(); }, { passive: true });
 
-  /* Pause while the pointer hovers, resume when it leaves */
   box.addEventListener("mouseenter", () => { paused = true; }, { passive: true });
   box.addEventListener("mouseleave", () => { paused = false; }, { passive: true });
 
@@ -1231,7 +1295,7 @@ function shareStay(id) {
   }
   openShareSheet(e, url, text);
 }
-const shareEvent = shareStay; // alias for any inline handler references
+const shareEvent = shareStay;
 
 function openShareSheet(e, url, text) {
   const m = sheet(sh("Share this stay", esc(e.title)) +
@@ -1282,6 +1346,95 @@ window.addEventListener("popstate", ev => {
   else { closeStay(true); }
 });
 
+/* ============================================================
+   PAYMENT SETTINGS (chosen per property by the host)
+   ============================================================ */
+const PAY_NETWORKS = ["MTN", "Airtel", "Zamtel"];
+
+function payInfo(e) {
+  return {
+    method: (e && e.pay_method === "direct") ? "direct" : "app",
+    network: (e && e.pay_network) || "MTN",
+    phone: (e && e.pay_phone) || "",
+    name: (e && e.pay_name) || (e && e.owner_name) || ""
+  };
+}
+
+const payStatusOf = t => (t && t.pay_status) || "";
+const needsApproval = t => payStatusOf(t) === "awaiting";
+const isApproved = t => payStatusOf(t) === "approved";
+const isDeclined = t => payStatusOf(t) === "declined";
+
+/* Human-friendly payment-method label used in logs. */
+function payLabel(t) {
+  if (t && t.method) return t.method;
+  const s = payStatusOf(t);
+  if (s === "paid") return "In-app";
+  if (s === "approved") return "Direct";
+  if (s === "free") return "Free";
+  return s || "—";
+}
+
+/* Inserts a booking, dropping optional columns the database may not have yet. */
+async function insertTicket(bk) {
+  const attempts = [bk];
+  const noNights = { ...bk }; delete noNights.nights;
+  attempts.push(noNights);
+  const safe = { ...noNights };
+  ["pay_status", "pay_method", "pay_proof", "pay_ref", "pay_submitted_at",
+   "pay_approved_at", "pay_approved_by"].forEach(k => delete safe[k]);
+  attempts.push(safe);
+
+  let last = { message: "Could not save the booking" };
+  for (const row of attempts) {
+    const { error } = await sb.from("tickets").insert(row);
+    if (!error) return { error: null };
+    last = error;
+    if (!/column|schema|does not exist|unknown|could not find/i.test(error.message || "")) break;
+  }
+  return { error: last };
+}
+
+/* Saves a property, dropping payment columns if the DB isn't migrated yet. */
+async function saveEventRow(ev, isEdit) {
+  const run = row => isEdit
+    ? sb.from("events").update(row).eq("id", row.id)
+    : sb.from("events").insert(row);
+  let { error } = await run(ev);
+  if (error && /column|schema|does not exist|unknown|could not find/i.test(error.message || "")) {
+    const safe = { ...ev };
+    ["pay_method", "pay_network", "pay_phone", "pay_name"].forEach(k => delete safe[k]);
+    ({ error } = await run(safe));
+    if (!error) toast("Saved — add the payment columns to enable direct payments");
+  }
+  return { error };
+}
+
+/* Puts rooms back on sale when a host declines a direct payment. */
+async function releaseRooms(eventId, tierName, qty) {
+  try {
+    const { data: row } = await sb.from("events").select("*").eq("id", eventId).single();
+    if (!row || !Array.isArray(row.tiers)) return;
+    const tiers = row.tiers.map(t =>
+      t.name === tierName ? { ...t, sold: Math.max(0, (+t.sold || 0) - qty) } : t);
+    await sb.from("events").update({ tiers }).eq("id", eventId);
+  } catch (e) { console.warn("releaseRooms failed:", e); }
+}
+
+/* Shown to the guest right after they submit a screenshot. */
+function paymentPending(t) {
+  const m = sheet(sh("Payment submitted", "Your screenshot has been sent to the host.") +
+    `<div class="pstrip wait">${I("clock")}<div><b>Waiting for the host to confirm</b><br>
+       ${esc(t.event_title)} · ${esc(t.tier)} × ${t.qty} · ${money(t.total)}</div></div>
+     <div class="grp">
+       <div class="gi">${I("ticket")}<span>Booking code<small>${esc(t.code)}</small></span></div>
+       <div class="gi">${I("cal")}<span>Check-in<small>${fdate(t.date)} from ${ftime(t.time)}</small></span></div>
+     </div>
+     <p class="hint c">Your booking receipt appears in Stays as soon as the host approves the payment.</p>
+     <button class="btn b" id="ppv" style="margin-top:12px">View my Stays</button>`);
+  m.querySelector("#ppv").onclick = () => { m.close(); closeStay(); go("tix") };
+}
+
 /* ---------- BOOK A ROOM ---------- */
 function book(id) {
   needAuth(() => {
@@ -1293,52 +1446,72 @@ function book(id) {
 
     let ti = Math.max(0, e.tiers.findIndex(t => t.qty - t.sold > 0));
     let qty = 1, nights = 1, pay = "MTN", nm = me.name || "", ph = me.phone || "";
+    let proof = "", pref = "";
     const m = sheet(""), g = s => m.querySelector(s);
 
     const draw = () => {
       const t = e.tiers[ti], av = t.qty - t.sold, tot = t.price * qty * nights;
+      const info = payInfo(e);
+      const direct = info.method === "direct" && tot > 0 && !!info.phone;
+
       g(".sh").innerHTML = `<div class="grab"></div>` + sh("Book your stay", esc(e.title) + " · " + esc(e.city)) +
         `<div class="fld"><label>Room type</label>${e.tiers.map((x, i) =>
           `<button class="tt ${i === ti ? "on" : ""}" data-ti="${i}" ${x.qty - x.sold <= 0 ? "disabled" : ""}>
             <span class="rd"></span>
             <span class="tn">${esc(x.name)}<small>${x.qty - x.sold <= 0 ? "Sold out" : (x.qty - x.sold) + " left"}</small></span>
             <b>${+x.price === 0 ? "Free" : money(x.price) + "/night"}</b></button>`).join("")}</div>
-       
         <div class="two">
           <div class="fld"><label>Rooms · ${av} left</label><div class="qty"><button id="qm" aria-label="Fewer rooms">${I("minus")}</button><b>${qty}</b><button id="qp" aria-label="More rooms">${I("plus")}</button></div></div>
           <div class="fld"><label>Nights</label><div class="qty"><button id="nm2" aria-label="Fewer nights">${I("minus")}</button><b>${nights}</b><button id="np" aria-label="More nights">${I("plus")}</button></div></div>
         </div>
         <div class="fld"><label>Full name</label><input class="in" id="bn" value="${esc(nm)}" autocomplete="name"></div>
-        <div class="fld"><label>Phone number(mobile number )</label><input class="in" id="bp" type="tel" value="${esc(ph)}" placeholder="0977 123 456" autocomplete="tel"></div>
-        ${tot > 0 ? `<div class="fld"><label>Pay with mobile money</label><div class="seg">${["MTN", "Airtel", "Zamtel"].map(p => `<button data-p="${p}" class="${p === pay ? "on" : ""}">${p}</button>`).join("")}</div></div>` : ""}
+        <div class="fld"><label>Phone number (mobile number)</label><input class="in" id="bp" type="tel" value="${esc(ph)}" placeholder="0977 123 456" autocomplete="tel"></div>
+        ${direct ? `
+          <div class="paybox">
+            <small>Send payment to</small>
+            <div class="amt">${money(tot)}</div>
+            <div class="num"><b>${esc(info.network)} · ${esc(info.phone)}</b>
+              <button type="button" id="cpn">${I("copy")}Copy</button></div>
+            ${info.name ? `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--sep)">
+              <small style="display:block;margin-bottom:2px">Account name</small>
+              <b style="font-size:.95rem">${esc(info.name)}</b>
+            </div>` : ""}
+          </div>
+          <ol class="steps">
+            <li>Send <b>${money(tot)}</b> to <b>${esc(info.phone)}</b> using ${esc(info.network)} mobile money.</li>
+            <li>Take a screenshot of the confirmation message.</li>
+            <li>Upload it below, then tap "Submit payment".</li>
+          </ol>
+          <div class="fld" style="margin-top:14px"><label>Payment screenshot</label>
+            <div class="upload"><input type="file" accept="image/*" id="pfi">
+              ${proof ? `<img src="${proof}" alt="">` : `<div>${I("img")}<br>Tap to upload your payment screenshot</div>`}</div></div>
+          <div class="fld"><label>Transaction reference (optional)</label>
+            <input class="in" id="pref" value="${esc(pref)}" placeholder="From the confirmation SMS" autocomplete="off"></div>
+        ` : ""}
+        ${tot > 0 && !direct ? `<div class="fld"><label>Pay with mobile money</label><div class="seg">${["MTN", "Airtel", "Zamtel"].map(p => `<button data-p="${p}" class="${p === pay ? "on" : ""}">${p}</button>`).join("")}</div></div>` : ""}
         <div class="tot"><span>Total</span><b>${tot ? money(tot) : "Free"}</b></div>
         ${tot > 0 ? `<p class="brk">${money(t.price)} × ${qty} room${qty > 1 ? "s" : ""} × ${nights} night${nights > 1 ? "s" : ""}</p>` : ""}
-        <button class="btn b" id="pay" style="margin-top:12px">${tot ? "Pay " + money(tot) : "Confirm booking"}</button>
-        <p class="hint c">${tot
-          ? "You'll receive a mobile money prompt on your phone to approve this payment."
-          : "No payment is needed for free rooms."}</p>`;
-
-      const syncDates = () => {
-        const inEl = g("#bin"), outEl = g("#bout");
-        if (!inEl || !outEl) return;
-        outEl.min = addDays(inEl.value || today(), 1);
-        if (!outEl.value || outEl.value <= inEl.value) outEl.value = addDays(inEl.value || today(), 1);
-        const n = Math.round((new Date(outEl.value + "T00:00:00") - new Date(inEl.value + "T00:00:00")) / 86400000);
-        nights = Math.max(1, Math.min(30, n || 1));
-        draw();
-      };
-
-      const inEl = g("#bin"), outEl = g("#bout");
-      if (inEl) inEl.onchange = syncDates;
-      if (outEl) outEl.onchange = () => {
-        const n = Math.round((new Date(outEl.value + "T00:00:00") - new Date(inEl.value + "T00:00:00")) / 86400000);
-        if (n < 1) { outEl.value = addDays(inEl.value, 1); nights = 1; }
-        else nights = Math.min(30, n);
-        draw();
-      };
+        <button class="btn b" id="pay" style="margin-top:12px">${!tot ? "Confirm booking" : direct ? "Submit payment" : "Pay " + money(tot)}</button>
+        <p class="hint c">${!tot
+          ? "No payment is needed for free rooms."
+          : direct
+            ? `Send ${money(tot)} to the host, upload a screenshot, and your receipt is issued once the host confirms.`
+            : "You'll receive a mobile money prompt on your phone to approve this payment."}</p>`;
 
       g("#bn").oninput = x => { nm = x.target.value };
       g("#bp").oninput = x => { ph = x.target.value };
+
+      if (direct) {
+        const cpn = g("#cpn");
+        if (cpn) cpn.onclick = async () => {
+          const ok = await copyText(info.phone);
+          toast(ok ? "Number copied" : "Could not copy the number");
+        };
+        const pfi = g("#pfi");
+        if (pfi) pfi.onchange = ev => shrink(ev.target.files[0], 1100, u => { proof = u; draw() });
+        const prefEl = g("#pref");
+        if (prefEl) prefEl.oninput = ev => { pref = ev.target.value };
+      }
 
       m.querySelectorAll("[data-ti]").forEach(b => {
         b.onclick = () => {
@@ -1365,9 +1538,56 @@ function book(id) {
 
       g("#pay").onclick = async () => {
         if (nm.trim().length < 2) return toast("Enter your name");
-        if (!isValidPhone(ph)) return toast("Enter a valid WhatsApp number");
+        if (!isValidPhone(ph)) return toast("Enter a valid phone number");
 
         const btn = g("#pay");
+
+        if (direct) {
+          if (!proof) return toast("Upload a screenshot of your payment");
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spin"></span> Submitting…';
+          try {
+            const { error: be } = await sb.rpc("buy_ticket", { p_event_id: e.id, p_tier_name: t.name, p_qty: qty });
+            if (be) {
+              btn.disabled = false;
+              btn.textContent = "Submit payment";
+              return toast(be.message);
+            }
+
+            const bk = {
+              id: uid("bk_"),
+              code: "ZS-" + Math.random().toString(36).slice(2, 10).toUpperCase(),
+              event_id: e.id, event_title: e.title, date: e.date, time: e.time,
+              venue: e.venue, city: e.city,
+              tier: t.name, price: +t.price, qty, nights, total: tot,
+              buyer_name: nm.trim(), buyer_email: me.email || "", buyer_phone: sanitizePhone(ph),
+              user_id: me.id, method: "Direct · " + info.network, used: false, admitted: 0,
+              pay_status: "awaiting", pay_method: "direct",
+              pay_proof: proof, pay_ref: pref.trim(),
+              pay_submitted_at: new Date().toISOString()
+            };
+
+            const { error: te } = await insertTicket(bk);
+            if (te) {
+              await releaseRooms(e.id, t.name, qty);
+              btn.disabled = false;
+              btn.textContent = "Submit payment";
+              return toast(te.message);
+            }
+
+            m.close();
+            await loadAll();
+            if ($("#detail").classList.contains("on")) openStay(e.id);
+            paymentPending(bk);
+          } catch (err) {
+            console.error("Direct payment error:", err);
+            btn.disabled = false;
+            btn.textContent = "Submit payment";
+            toast(err && err.message ? err.message : "Could not submit the payment");
+          }
+          return;
+        }
+
         btn.disabled = true;
         btn.innerHTML = '<span class="spin"></span>';
 
@@ -1400,18 +1620,15 @@ function book(id) {
           const bk = {
             id: uid("bk_"),
             code: "ZS-" + Math.random().toString(36).slice(2, 10).toUpperCase(),
-            event_id: e.id, event_title: e.title, date: inEl ? inEl.value : e.date, time: e.time,
+            event_id: e.id, event_title: e.title, date: e.date, time: e.time,
             venue: e.venue, city: e.city,
             tier: t.name, price: +t.price, qty, nights, total: tot,
             buyer_name: nm.trim(), buyer_email: me.email || "", buyer_phone: sanitizePhone(ph),
-            user_id: me.id, method: tot > 0 ? pay : "", used: false, admitted: 0
+            user_id: me.id, method: tot > 0 ? pay : "", used: false, admitted: 0,
+            pay_status: tot > 0 ? "paid" : "free"
           };
 
-          let { error: te } = await sb.from("tickets").insert(bk);
-          if (te && /nights/i.test(te.message || "")) {
-            const { nights: _omit, ...fallback } = bk;
-            ({ error: te } = await sb.from("tickets").insert(fallback));
-          }
+          const { error: te } = await insertTicket(bk);
           if (te) {
             draw();
             return toast(referenceId
@@ -1430,6 +1647,7 @@ function book(id) {
         }
       };
     };
+
     draw();
   });
 }
@@ -1447,7 +1665,18 @@ function showBooking(t, fresh) {
   if (!t) return;
   const n = nightsOf(t);
   const out = addDays(t.date, n);
-  const m = sheet(sh(fresh ? "Booking confirmed" : "Your booking") +
+  const payStrip = isApproved(t)
+    ? `<div class="pstrip ok">${I("ticket")}<div><b>Payment approved</b><br>
+         This is your booking receipt — show the QR code at reception.</div></div>`
+    : needsApproval(t)
+    ? `<div class="pstrip wait">${I("clock")}<div><b>Awaiting host confirmation</b><br>
+         The host is checking your payment screenshot. Your receipt appears here once approved.</div></div>`
+    : isDeclined(t)
+    ? `<div class="pstrip no">${I("x")}<div><b>Payment declined</b><br>
+         The host could not confirm your payment. Please contact the property.</div></div>`
+    : "";
+
+  const m = sheet(sh(fresh ? "Booking confirmed" : "Your booking") + payStrip +
     `<div class="pass"><div class="pt"><span class="cat">${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}</span><h3>${esc(t.event_title)}</h3>
       <p>${I("cal")}Check-in: ${fdate(t.date)}${t.time ? " from " + ftime(t.time) : ""}</p>
       <p>${I("cal")}Check-out: ${fdate(out)} by 10:00 AM</p>
@@ -1469,7 +1698,7 @@ function showBooking(t, fresh) {
   const b = m.querySelector("#vt");
   if (b) b.onclick = () => { m.close(); closeStay(); go("tix") };
 }
-const showTicket = showBooking; // alias
+const showTicket = showBooking;
 
 function shareBooking(t, parent) {
   const inner = sheet(sh("Send booking details") +
@@ -1488,7 +1717,7 @@ function shareBooking(t, parent) {
     toast("Opening WhatsApp…");
   };
 }
-const giftTicket = shareBooking; // alias
+const giftTicket = shareBooking;
 
 /* ---------- Stays (my bookings) ---------- */
 function rStays() {
@@ -1516,11 +1745,14 @@ function rStays() {
         : (t.used || adm(t) >= t.qty)
           ? " ✓ Checked in"
           : adm(t) > 0 ? ` · ${adm(t)}/${t.qty} in` : "";
+      const payTag = isApproved(t) ? " · ✓ payment approved"
+        : needsApproval(t) ? " · ⏳ awaiting approval"
+        : isDeclined(t) ? " · ✗ payment declined" : "";
       return `<div class="row" data-bk="${esc(t.id)}">
         <div class="th">${I("bed")}</div>
         <div class="rb"><small>${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""} · ${n} night${n > 1 ? "s" : ""}</small><b>${esc(t.event_title)}</b>
         <span>${fdate(t.date)} → ${fdate(addDays(t.date, n))}</span><span>${esc(t.venue)}, ${esc(t.city)}</span>
-        <em style="color:var(--ac);font-family:ui-monospace,Menlo,monospace">${esc(t.code)}${status}</em></div>
+        <em style="color:var(--ac);font-family:ui-monospace,Menlo,monospace">${esc(t.code)}${status}${payTag}</em></div>
         <button class="btn icon d" title="Cancel booking" onclick="delBooking('${esc(t.id)}')">${I("trash")}</button></div>`;
     }).join("")}
   `).join("");
@@ -1530,7 +1762,7 @@ function rStays() {
     if (r && !e.target.closest("button")) showBooking(BOOKINGS.find(x => x.id === r.dataset.bk));
   };
 }
-const rTix = rStays; // alias
+const rTix = rStays;
 
 async function delBooking(id) {
   const t = BOOKINGS.find(x => x.id === id);
@@ -1543,50 +1775,67 @@ async function delBooking(id) {
     toast("Stay cancelled");
   } catch (e) { console.error("Delete booking error:", e); toast("Failed to cancel booking"); }
 }
-const delTix = delBooking; // alias
+const delTix = delBooking;
 
-/* ---------- CHECK IN / CHECK OUT ---------- */
+/* ---------- CHECK IN / CHECK OUT / LOG ---------- */
 let chEv = "", chFilter = "out", chRows = [], chPoll = null, chMode = "in";
 
 function rChk() {
   if (!isOrg()) return void ($("#cl").innerHTML = `<div class="emp">${I("scan")}<p>Host accounts only</p></div>`);
   if (!MINE.some(e => e.id === chEv)) chEv = "";
 
+  const showProp = chMode !== "log";
+
   $("#cl").innerHTML = `
-    <div class="fld" style="margin-top:20px"><label>Property</label>
+    <div class="fld" id="cheWrap" style="margin-top:20px;${showProp ? "" : "display:none"}"><label>Property</label>
       <select class="in" id="che"><option value="">Select a property</option>${MINE.map(e => `<option value="${esc(e.id)}" ${e.id === chEv ? "selected" : ""}>${esc(e.title)}</option>`).join("")}</select></div>
-    <div class="seg" id="chm">
+    <div class="seg" id="chm" style="margin-top:${showProp ? "0" : "20px"}">
       <button data-mo="in" class="${chMode === "in" ? "on" : ""}">Check in</button>
       <button data-mo="out" class="${chMode === "out" ? "on" : ""}">Check out</button>
+      <button data-mo="log" class="${chMode === "log" ? "on" : ""}">Log</button>
     </div>
     <div id="chpane"></div>`;
 
-  $("#che").onchange = e => {
+  const che = $("#che");
+  if (che) che.onchange = e => {
     chEv = e.target.value;
     const r = $("#chres"); if (r) r.innerHTML = "";
     refreshRoster();
   };
+
   $("#chm").onclick = e => {
     const b = e.target.closest("[data-mo]");
     if (!b) return;
     const mo = b.dataset.mo;
     if (mo === chMode) return;
     chMode = mo;
-    chFilter = mo === "out" ? "house" : "out";
+    if (mo === "log") {
+      /* nothing to reset — the log is across all properties */
+    } else {
+      chFilter = mo === "out" ? "house" : "out";
+    }
     stopScanner();
     rChk();
   };
 
   drawChPane();
   clearInterval(chPoll);
-  chPoll = setInterval(() => { if (tab === "chk" && chEv && !document.querySelector(".scn")) refreshRoster() }, 8000);
-  refreshRoster();
+  if (chMode !== "log") {
+    chPoll = setInterval(() => { if (tab === "chk" && chEv && !document.querySelector(".scn")) refreshRoster() }, 8000);
+    refreshRoster();
+  }
   runAutoCheckout(true);
 }
 
 function drawChPane() {
   const box = document.getElementById("chpane");
   if (!box) return;
+
+  if (chMode === "log") {
+    drawLogPane(box);
+    return;
+  }
+
   const out = chMode === "out";
   box.innerHTML = `
     <button class="btn b" id="scb">${I("scan")}${out ? "Scan booking QR to check out" : "Scan booking QR"}</button>
@@ -1607,12 +1856,208 @@ function drawChPane() {
   };
 }
 
+/* ---------- DAILY CHECK-IN LOG ---------- */
+async function loadLog() {
+  if (!me || !isOrg() || !MINE.length) { logRows = []; logLoaded = true; return; }
+  try {
+    const { data } = await sb.from("tickets").select("*").in("event_id", MINE.map(e => e.id));
+    logRows = (data || []).filter(t => t.checked_in_at || t.used_at);
+  } catch (e) {
+    console.warn("loadLog error:", e);
+    logRows = [];
+  }
+  logLoaded = true;
+}
+
+function drawLogPane(box) {
+  box.innerHTML = `
+    <p class="hint" style="margin:0 0 12px">Every guest who has checked in, grouped by day. Past days are collapsed — tap a day to expand.</p>
+    <div class="log-tools">
+      <button class="btn" id="logCsv">${I("download")}Download CSV</button>
+      <button class="btn s refresh" id="logRefresh" aria-label="Refresh log">${I("refresh")}</button>
+    </div>
+    <div id="logList"></div>`;
+
+  $("#logCsv").onclick = () => downloadLogCsv();
+  $("#logRefresh").onclick = async () => {
+    const list = $("#logList");
+    if (list) list.innerHTML = `<div class="sk"><div class="sk-line"></div><div class="sk-line short"></div></div>`;
+    await loadLog();
+    drawLogList();
+  };
+
+  if (!logLoaded) {
+    $("#logList").innerHTML = `<div class="sk"><div class="sk-line"></div><div class="sk-line short"></div></div>`;
+    loadLog().then(drawLogList);
+  } else {
+    drawLogList();
+  }
+}
+
+function drawLogList() {
+  const box = $("#logList");
+  if (!box) return;
+
+  if (!logRows.length) {
+    box.innerHTML = `<div class="emp">${I("users")}<p>No check-ins logged yet</p><p class="hint">Guests will appear here the moment they are checked in.</p></div>`;
+    return;
+  }
+
+  /* Group by the day the guest actually checked in. */
+  const dayOf = t => {
+    const iso = t.checked_in_at || t.used_at;
+    return iso ? String(iso).slice(0, 10) : null;
+  };
+
+  const groups = {};
+  logRows.forEach(t => {
+    const day = dayOf(t);
+    if (!day) return;
+    if (!groups[day]) groups[day] = [];
+    groups[day].push(t);
+  });
+
+  const days = Object.keys(groups).sort().reverse();   /* newest day first */
+  const todayStr = today();
+
+  /* Auto-open the most recent day if nothing has been opened yet. */
+  if (logExpanded.size === 0 && days.length) logExpanded.add(days[0]);
+
+  /* Whole-log summary (all-time totals). */
+  const allGuests = logRows.reduce((s, t) => s + (+t.qty || 1), 0);
+  const allAmount = logRows.reduce((s, t) => s + (+t.total || 0), 0);
+
+  box.innerHTML = `
+    <div class="log-summary">
+      <div class="k"><small>Days logged</small><b>${days.length}</b></div>
+      <div class="k"><small>Guests</small><b>${allGuests}</b></div>
+      <div class="k"><small>Total</small><b>${money(allAmount)}</b></div>
+    </div>
+    ${days.map(day => {
+      const entries = groups[day].slice().sort((a, b) =>
+        String(b.checked_in_at || b.used_at || "").localeCompare(String(a.checked_in_at || a.used_at || ""))
+      );
+      const isToday = day === todayStr;
+      const open = isToday || logExpanded.has(day);
+      const guestCount = entries.reduce((s, t) => s + (+t.qty || 1), 0);
+      const dayTotal = entries.reduce((s, t) => s + (+t.total || 0), 0);
+      return `
+        <div class="log-day ${open ? "open" : ""}" data-day="${esc(day)}">
+          <div class="log-day-h" role="button" tabindex="0" aria-expanded="${open}">
+            <div>
+              <b>${fdate(day)}${isToday ? `<span class="today-badge">Today</span>` : ""}</b>
+              <small>${entries.length} booking${entries.length === 1 ? "" : "s"} · ${guestCount} room${guestCount === 1 ? "" : "s"} · ${money(dayTotal)}</small>
+            </div>
+            <span class="log-chev">${I("chevR")}</span>
+          </div>
+          <div class="log-entries">
+            ${entries.map(t => {
+              const method = payLabel(t);
+              const methodCls = method.startsWith("Direct") || method === "Direct" ? "direct"
+                              : method === "In-app" ? "app" : "";
+              const cin = fdt(t.checked_in_at || t.used_at) || "—";
+              const cout = t.checked_out ? (fdt(t.checked_out_at) || "—") : "—";
+              return `
+                <div class="log-entry">
+                  <div class="log-row1">
+                    <b>${esc(t.buyer_name || "Guest")}</b>
+                    <span class="sp">${money(t.total)}</span>
+                  </div>
+                  <div class="log-row2">
+                    <span>${esc(t.event_title || "")}</span>
+                    <span>· ${esc(t.tier || "")} × ${t.qty || 1}</span>
+                  </div>
+                  <div class="log-row3">
+                    <span>${I("clock")} In ${cin}</span>
+                    <span>${I("clock")} Out ${cout}</span>
+                  </div>
+                  <div class="log-row4"><span class="log-tag ${methodCls}">${esc(method)}</span></div>
+                </div>`;
+            }).join("")}
+          </div>
+        </div>`;
+    }).join("")}`;
+
+  /* Wire expand/collapse. */
+  box.querySelectorAll(".log-day").forEach(d => {
+    const h = d.querySelector(".log-day-h");
+    const day = d.dataset.day;
+    h.onclick = () => {
+      const isOpen = d.classList.toggle("open");
+      h.setAttribute("aria-expanded", String(isOpen));
+      if (isOpen) logExpanded.add(day); else logExpanded.delete(day);
+    };
+    h.onkeydown = e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
+    };
+  });
+}
+
+function downloadLogCsv() {
+  if (!logRows.length) return toast("No check-ins to download yet");
+
+  const rows = logRows.slice().sort((a, b) =>
+    String(b.checked_in_at || b.used_at || "").localeCompare(String(a.checked_in_at || a.used_at || ""))
+  );
+
+  const csvField = v => {
+    const s = String(v ?? "");
+    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  const csvRow = arr => arr.map(csvField).join(",");
+
+  const headers = [
+    "Day",
+    "Guest",
+    "Phone",
+    "Property",
+    "Room type",
+    "Rooms",
+    "Payment method",
+    "Amount paid (ZMW)",
+    "Check-in",
+    "Check-out"
+  ];
+
+  const lines = [csvRow(headers)];
+  rows.forEach(t => {
+    const day = (t.checked_in_at || t.used_at || "").slice(0, 10);
+    lines.push(csvRow([
+      day,
+      t.buyer_name || "",
+      t.buyer_phone || "",
+      t.event_title || "",
+      t.tier || "",
+      t.qty || 1,
+      payLabel(t),
+      Number(t.total || 0),
+      fdt(t.checked_in_at || t.used_at) || "",
+      t.checked_out ? (fdt(t.checked_out_at) || "") : ""
+    ]));
+  });
+
+  const csv = "\ufeff" + lines.join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `zambia-stays-checkin-log-${today()}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  toast("CSV downloaded");
+}
+
+/* ---------- CHECK / ADMIT / CHECK-OUT ---------- */
 async function checkCode(code, evId, mode) {
   try {
     const { data: t } = await sb.from("tickets").select("*").eq("code", code).maybeSingle();
     if (!t) return { s: "nf" };
     if (t.event_id !== evId) return { s: "wrong", t };
     if (t.checked_out) return { s: "out", t };
+    if (mode !== "out" && (t.pay_status === "awaiting" || t.pay_status === "declined"))
+      return { s: "unpaid", t };
     if (mode === "out") {
       if (adm(t) <= 0) return { s: "notin", t };
       return { s: "okout", t };
@@ -1633,13 +2078,13 @@ async function admit(id, n) {
     const a = adm(f) + n;
     const nowIso = new Date().toISOString();
     const u = { admitted: a, used: a >= f.qty, used_at: nowIso };
-    /* First admission sets the automatic check-out time: 10:00 AM tomorrow. */
     if (!f.checked_in_at) {
       u.checked_in_at = nowIso;
       u.checkout_due = checkoutDueFrom(nowIso);
     }
     const { error } = await updateTicket(id, u);
     if (error) return { err: error.message };
+    logLoaded = false;   /* daily log will refresh next time it is opened */
     return { s: "done", t: { ...f, ...u }, n };
   } catch (e) { console.error("admit error:", e); return { err: "An error occurred" }; }
 }
@@ -1654,13 +2099,11 @@ async function checkoutTicket(id, at) {
     if (!f.checked_in_at && f.used_at) u.checked_in_at = f.used_at;
     const { error } = await updateTicket(id, u);
     if (error) return { err: error.message };
+    logLoaded = false;
     return { s: "done", t: { ...f, ...u } };
   } catch (e) { console.error("checkout error:", e); return { err: "An error occurred" }; }
 }
 
-/* Sweeps every booking belonging to this host and checks out anyone
-   whose 10:00 AM departure time has passed. The check-out timestamp is
-   stamped with the due time, not the moment the sweep happens to run. */
 async function autoCheckout() {
   if (!me || !isOrg() || !MINE.length) return 0;
   let rows = [];
@@ -1702,6 +2145,13 @@ async function showRes(el, r, code, after) {
   if (r.s === "nf") return void (el.innerHTML = res("r", "Booking not found", `No booking matches ${esc(code)}`));
   if (r.s === "wrong") return void (el.innerHTML = res("r", "Wrong property", `This booking is for <b style="display:inline">${esc(t.event_title)}</b>, checking in ${fdate(t.date)}`));
   if (r.s === "notin") return void (el.innerHTML = res("a", "Not checked in", `<b style="display:inline">${esc(t.buyer_name)}</b> has not checked in yet, so there is nothing to check out.`));
+
+  if (r.s === "unpaid") return void (el.innerHTML = res("r",
+    t.pay_status === "declined" ? "Payment declined" : "Payment not confirmed",
+    `<b style="display:inline">${esc(t.buyer_name)}</b><br>${esc(t.tier)} · ${t.qty} room${t.qty > 1 ? "s" : ""}<br>
+     ${t.pay_status === "declined"
+        ? "This booking's payment was declined by the host."
+        : "The host has not confirmed this payment yet."}`));
 
   if (r.s === "out" || r.s === "outdone") {
     return void (el.innerHTML = res("g", "Checked out ✓",
@@ -1802,7 +2252,6 @@ function drawRoster() {
   const box = $("#chlist");
   if (!box || !chEv) return;
 
-  /* ---------- CHECK IN VIEW ---------- */
   if (chMode === "in") {
     const tot = chRows.reduce((s, t) => s + t.qty, 0);
     const inn = chRows.reduce((s, t) => s + adm(t), 0);
@@ -1820,14 +2269,13 @@ function drawRoster() {
         const tick = t.checked_out ? "✓" : a >= t.qty ? "✓" : a ? a : "·";
         const cls = t.checked_out ? "" : a >= t.qty ? "" : a ? "part" : "off";
         return `<div class="chk-tile" data-c="${esc(t.code)}"><div class="chk-tick ${cls}">${tick}</div>
-        <div><b>${esc(t.buyer_name)}</b><br><small>${esc(t.tier)} · ${esc(t.code)}${t.checked_out ? "<br>" + outLabel(t) : ""}</small></div>
+        <div><b>${esc(t.buyer_name)}</b><br><small>${esc(t.tier)} · ${esc(t.code)}${needsApproval(t) ? " · ⏳ unpaid" : ""}${t.checked_out ? "<br>" + outLabel(t) : ""}</small></div>
         <span class="rt">${a}/${t.qty}</span></div>`;
       }).join("") : `<p class="hint c">${chRows.length ? "Nobody in this list" : "No bookings for this property yet"}</p>`}
       ${rows.length ? `<p class="hint c">Tap a guest to check them in by hand.</p>` : ""}`;
     return;
   }
 
-  /* ---------- CHECK OUT VIEW ---------- */
   const house = chRows.filter(inHouse);
   const due = house.filter(isDueOut);
   const done = chRows.filter(t => t.checked_out);
@@ -1989,7 +2437,6 @@ async function openScan() {
 
     const r = await checkCode(code, chEv, chMode);
 
-    /* In check-out mode a valid scan checks the guest out immediately. */
     if (chMode === "out" && r.s === "okout" && r.t) {
       const done = await checkoutTicket(r.t.id, new Date().toISOString());
       if (navigator.vibrate) navigator.vibrate(60);
@@ -2076,6 +2523,7 @@ function rOrg() {
       <div class="kpi"><small>Gross revenue</small><b>${money(gross)}</b></div>
       <div class="kpi"><small>Your ${100 - fee}% share</small><b>${money(yourShare)}</b></div>
     </div>
+    <div id="payApprove"></div>
     ${MINE.length ? `<h2 class="h2">Rooms booked per property</h2><div class="chart-container"><canvas id="orgChart"></canvas></div>` : ""}
     <h2 class="h2">Earnings breakdown</h2>
     <div class="grp">
@@ -2104,7 +2552,7 @@ function rOrg() {
         "";
       return `<div class="ocard"><div class="top" onclick="closeStay();openStay('${e.id}')">
         <div class="th" style="width:64px;height:64px">${e.img ? `<img src="${e.img}" loading="lazy" alt="">` : I("bed")}</div>
-        <div class="rb"><b>${esc(e.title)}</b><span>${esc(e.city)} · ${fdate(e.date)}</span><span>${s} / ${n} rooms booked · ${money(rev)}</span>${fbadge}</div></div>
+        <div class="rb"><b>${esc(e.title)}</b><span>${esc(e.city)} · ${fdate(e.date)}</span><span>${s} / ${n} rooms booked · ${money(rev)}</span>${fbadge}${payInfo(e).method === "direct" ? `<span class="pay-method-tag">Direct · ${esc(payInfo(e).phone || "not set")}</span>` : `<span class="pay-method-tag">In-app payments</span>`}</div></div>
         <div class="acts">
           <button class="btn s sm" onclick="shareStay('${e.id}')">${I("share")}Share</button>
           <button class="btn s sm" onclick="sales('${e.id}')">${I("users")}Guests</button>
@@ -2114,6 +2562,116 @@ function rOrg() {
     }).join("") : `<div class="emp">${I("home")}<p>No properties yet. List your first one.</p></div>`}`;
 
   drawOrgChart();
+  loadPending();
+}
+
+/* ---------- PAYMENT APPROVALS (host) ---------- */
+async function loadPending() {
+  const box = document.getElementById("payApprove");
+  if (!box || !me || !isOrg()) return;
+  if (!MINE.length) { box.innerHTML = ""; PENDING = []; return; }
+  box.innerHTML = `<h2 class="h2">Payments to approve</h2><div class="sk"><div class="sk-line"></div></div>`;
+
+  let rows = [];
+  try {
+    const { data } = await sb.from("tickets").select("*").in("event_id", MINE.map(e => e.id));
+    rows = (data || []).filter(needsApproval);
+  } catch (e) { console.warn("loadPending:", e); }
+  PENDING = rows;
+
+  if (!rows.length) {
+    box.innerHTML = `<h2 class="h2">Payments to approve</h2>
+      <p class="hint c">No payments are waiting for approval.</p>`;
+    return;
+  }
+
+  box.innerHTML = `<h2 class="h2">Payments to approve (${rows.length})</h2>` + rows.map(t => `
+    <div class="ocard">
+      <div class="top" data-view="${esc(t.id)}">
+        <div class="th" style="width:64px;height:64px">
+          ${t.pay_proof ? `<img src="${t.pay_proof}" loading="lazy" alt="">` : I("ticket")}</div>
+        <div class="rb"><b>${esc(t.buyer_name)}</b>
+          <span>${esc(t.event_title)}</span>
+          <span>${esc(t.tier)} × ${t.qty} · ${money(t.total)}</span>
+          <span class="pay-status ps-awaiting">Awaiting your approval</span></div>
+      </div>
+      <div class="acts">
+        <button class="btn s sm" data-view="${esc(t.id)}">View proof</button>
+        <button class="btn sm" data-ok="${esc(t.id)}">✓ Approve</button>
+        <button class="btn d sm" data-no="${esc(t.id)}">✗ Decline</button>
+      </div>
+    </div>`).join("");
+
+  box.querySelectorAll("[data-view]").forEach(b => b.onclick = () => viewProof(b.dataset.view));
+  box.querySelectorAll("[data-ok]").forEach(b => b.onclick = () => approvePayment(b.dataset.ok));
+  box.querySelectorAll("[data-no]").forEach(b => b.onclick = () => declinePayment(b.dataset.no));
+}
+
+function findPending(id) {
+  return PENDING.find(x => x.id === id) || null;
+}
+
+function viewProof(id) {
+  const t = findPending(id);
+  if (!t) return toast("Payment not found");
+  const n = nightsOf(t);
+  const m = sheet(sh("Payment proof", esc(t.event_title)) +
+    `<div class="grp">
+       <div class="gi">${I("user")}<span>${esc(t.buyer_name)}
+         <small>${esc(t.buyer_phone || "")}${t.buyer_email ? " · " + esc(t.buyer_email) : ""}</small></span></div>
+       <div class="gi">${I("bed")}<span>${esc(t.tier)} × ${t.qty}
+         <small>${n} night${n > 1 ? "s" : ""} · check-in ${fdate(t.date)}</small></span>
+         <span class="sp">${money(t.total)}</span></div>
+       ${t.pay_ref ? `<div class="gi">${I("ticket")}<span>Reference<small>${esc(t.pay_ref)}</small></span></div>` : ""}
+     </div>
+     <div class="proof">${t.pay_proof
+       ? `<img src="${t.pay_proof}" alt="Payment screenshot">`
+       : `<p class="hint">No screenshot was uploaded.</p>`}</div>
+     <div class="two"><button class="btn d" id="dno">Decline</button>
+       <button class="btn" id="dok">Approve payment</button></div>`);
+  m.querySelector("#dok").onclick = () => { m.close(); approvePayment(id) };
+  m.querySelector("#dno").onclick = () => { m.close(); declinePayment(id) };
+}
+
+async function approvePayment(id) {
+  const t = findPending(id);
+  if (!t) return toast("Payment not found");
+  const ok = await ask("Approve this payment?",
+    `Confirm that you received <b>${money(t.total)}</b> from <b>${esc(t.buyer_name)}</b>.
+     The guest gets their booking receipt immediately.`, "Approve payment");
+  if (!ok) return;
+
+  const patch = {
+    pay_status: "approved",
+    pay_approved_at: new Date().toISOString(),
+    pay_approved_by: me.id
+  };
+  let { error } = await sb.from("tickets").update(patch).eq("id", id);
+  if (error && /column|schema|does not exist|unknown/i.test(error.message || "")) {
+    ({ error } = await sb.from("tickets").update({ pay_status: "approved" }).eq("id", id));
+  }
+  if (error) return toast(error.message);
+
+  toast("Payment approved — receipt issued to the guest");
+  await loadAll();
+  rOrg();
+}
+
+async function declinePayment(id) {
+  const t = findPending(id);
+  if (!t) return toast("Payment not found");
+  const ok = await ask("Decline this payment?",
+    `The booking for <b>${esc(t.buyer_name)}</b> will be cancelled and the room released.
+     Only do this if the money never arrived.`, "Decline & release room", "d");
+  if (!ok) return;
+
+  const { error } = await sb.from("tickets").update({ pay_status: "declined" }).eq("id", id);
+  if (error) return toast(error.message);
+
+  await releaseRooms(t.event_id, t.tier, t.qty);
+  toast("Payment declined — room released");
+  await loadAll();
+  rOrg();
 }
 
 function drawOrgChart() {
@@ -2182,9 +2740,12 @@ function openEditor(id) {
     const D = e
       ? { title: e.title, category: e.category, city: e.city, venue: e.venue, date: e.date, time: e.time,
           desc: e.description || "", tagline: e.tagline || "", featured: !!e.featured,
-          featuredStatus: e.featured_status || (e.featured ? "approved" : "none") }
+          featuredStatus: e.featured_status || (e.featured ? "approved" : "none"),
+          payMethod: e.pay_method || "app", payNetwork: e.pay_network || "MTN",
+          payPhone: e.pay_phone || "", payName: e.pay_name || "" }
       : { title: "", category: "", city: "", venue: "", date: "", time: "14:00",
-          desc: "", tagline: "", featured: false, featuredStatus: "none" };
+          desc: "", tagline: "", featured: false, featuredStatus: "none",
+          payMethod: "app", payNetwork: "MTN", payPhone: "", payName: "" };
 
     const T = e ? e.tiers.map(t => ({ ...t })) : [{ name: "Standard Room", price: "", qty: "", sold: 0 }];
     const PR = e ? (e.presenters || []).map(x => ({ ...x })) : [];
@@ -2232,6 +2793,27 @@ function openEditor(id) {
           <p class="hint">${featHint}</p>
         </div>
 
+        <h2 class="h2" style="margin-top:8px">Payments</h2>
+        <p class="sub">Choose how guests pay for rooms at this property.</p>
+        <div class="seg" id="payseg">
+          <button data-pm="app" class="${D.payMethod === "app" ? "on" : ""}">Through the app</button>
+          <button data-pm="direct" class="${D.payMethod === "direct" ? "on" : ""}">Direct to me</button>
+        </div>
+        ${D.payMethod === "direct" ? `
+          <div class="fld"><label>Mobile money network</label>
+            <div class="seg">${PAY_NETWORKS.map(n =>
+              `<button data-pn="${n}" class="${n === D.payNetwork ? "on" : ""}">${n}</button>`).join("")}</div></div>
+          <div class="fld"><label>Number that receives the money</label>
+            <input class="in" data-k="payPhone" type="tel" value="${esc(D.payPhone)}"
+                   placeholder="0977 123 456" autocomplete="tel"></div>
+          <div class="fld"><label>Name on the mobile money account</label>
+            <input class="in" data-k="payName" value="${esc(D.payName)}"
+                   placeholder="e.g. Zambezi River Lodge" autocomplete="name"></div>
+          <p class="hint">Guests send the money to this number, upload a screenshot,
+          and you approve it before they get a receipt.</p>
+        ` : `<p class="hint">Guests pay inside Zambia Stays with mobile money. Bookings
+        are confirmed automatically and payouts go to your host balance.</p>`}
+
         <h2 class="h2" style="margin-top:8px">Rooms</h2>
         <p class="sub">Price is per room, per night. Use 0 for free rooms. A ${fee}% platform fee applies.</p>
         ${T.map((t, i) => `<div class="trow">
@@ -2254,6 +2836,8 @@ function openEditor(id) {
       m.querySelectorAll("[data-pr]").forEach(b => b.onclick = () => { PR.splice(+b.dataset.pr, 1); draw() });
       m.querySelectorAll("[data-pi]").forEach(i => i.onchange = () => shrink(i.files[0], 400, u => { PR[i.dataset.pi].img = u; draw() }));
       g("#ap").onclick = () => { PR.push({ name: "", role: "", img: "" }); draw() };
+      m.querySelectorAll("[data-pm]").forEach(b => b.onclick = () => { D.payMethod = b.dataset.pm; draw() });
+      m.querySelectorAll("[data-pn]").forEach(b => b.onclick = () => { D.payNetwork = b.dataset.pn; draw() });
       g("#fi").onchange = pick;
       g("#sv").onclick = save;
     };
@@ -2274,6 +2858,10 @@ function openEditor(id) {
         if (t.price === "" || +t.price < 0) return toast("Enter a valid nightly price");
         if (t.qty === "" || +t.qty < 1) return toast("Enter a room count");
         if (+t.qty < (t.sold || 0)) return toast(`"${t.name}" already has ${t.sold} booked`);
+      }
+      if (D.payMethod === "direct") {
+        if (!isValidPhone(D.payPhone)) return toast("Enter the mobile money number that receives payments");
+        if (D.payName.trim().length < 2) return toast("Enter the name on the mobile money account");
       }
       const btn = g("#sv");
       btn.disabled = true;
@@ -2317,9 +2905,13 @@ function openEditor(id) {
           featured_requested_at: requestedAt,
           tagline: D.tagline.trim(),
           presenters: PR.filter(x => String(x.name).trim() || x.img).map(x => ({ name: x.name.trim(), role: (x.role || "").trim(), img: x.img || "" })),
-          status: "live"
+          status: "live",
+          pay_method: D.payMethod,
+          pay_network: D.payNetwork,
+          pay_phone: sanitizePhone(D.payPhone),
+          pay_name: D.payName.trim()
         };
-        const { error } = await (e ? sb.from("events").update(ev).eq("id", ev.id) : sb.from("events").insert(ev));
+        const { error } = await saveEventRow(ev, !!e);
         if (error) { btn.disabled = false; return toast(error.message) }
         m.close();
         toast(e ? "Property updated" : "Property published");
@@ -2464,6 +3056,9 @@ function rMe() {
       MINE = [];
       BOOKINGS = [];
       PAYOUTS = [];
+      logRows = [];
+      logLoaded = false;
+      logExpanded.clear();
       closeStay();
       go("home");
       toast("Signed out");
