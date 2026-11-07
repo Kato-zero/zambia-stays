@@ -211,6 +211,13 @@ select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .fbadge-rejected{background:rgba(255,59,48,.12);color:#c4281e}
 /* ================================== */
 
+/* ===== listing approval ===== */
+.listing-status-banner{padding:12px 14px;border-radius:12px;font-size:.85rem;line-height:1.5;margin:0 0 14px;font-weight:600}
+.listing-status-banner.pending{background:rgba(255,149,0,.14);color:#a55a00}
+.listing-status-banner.rejected{background:rgba(255,59,48,.12);color:#c4281e}
+.fbadge-pill.listed{background:rgba(52,199,89,.18);color:#1a7f37}
+/* ============================= */
+
 /* ===== payouts ===== */
 .pay-card{background:var(--g1);border-radius:16px;padding:16px;margin:12px 0}
 .pay-card small{color:var(--t2);font-size:.75rem;font-weight:600}
@@ -287,6 +294,49 @@ select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .pay-status.ps-awaiting{background:rgba(255,149,0,.16);color:#a55a00}
 .pay-method-tag{display:inline-block;margin-top:4px;font-size:.64rem;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--g2);color:var(--t2)}
 /* ==================================================================== */
+
+/* ===== footer + legal pages ===== */
+.site-footer{padding:32px 20px calc(24px + var(--sb));border-top:1px solid var(--sep);margin-top:32px;text-align:center;color:var(--t2);font-size:.8rem;line-height:1.5}
+.foot-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-bottom:14px}
+.foot-links button{color:var(--t2);font-weight:600;font-size:.82rem;padding:4px 2px;transition:color .15s}
+.foot-links button:hover,.foot-links button:focus-visible{color:var(--ac)}
+.foot-copy{font-size:.74rem;color:var(--t3);line-height:1.6}
+.foot-copy b{color:var(--t2)}
+
+.legal{color:var(--t2);line-height:1.65;font-size:.9rem}
+.legal h4{color:var(--tx);font-size:1rem;font-weight:700;margin:22px 0 8px;letter-spacing:-.01em}
+.legal h4:first-child{margin-top:4px}
+.legal p{margin:0 0 10px}
+.legal ul,.legal ol{margin:6px 0 12px 22px}
+.legal li{margin-bottom:6px}
+.legal b,.legal strong{color:var(--tx)}
+.legal code{font-family:ui-monospace,Menlo,monospace;background:var(--g1);padding:1px 5px;border-radius:4px;font-size:.82rem}
+.legal .note{background:rgba(255,149,0,.12);color:#a55a00;border-radius:10px;padding:10px 14px;font-size:.83rem;margin:12px 0;line-height:1.55}
+.legal .note b{color:#7a3f00}
+.legal .legal-meta{font-size:.75rem;color:var(--t3);margin-top:22px;padding-top:14px;border-top:1px solid var(--sep)}
+
+.policy-card{background:var(--g1);border-radius:14px;padding:14px 16px;margin:0 0 8px}
+.policy-card .badge-policy{display:inline-block;font-size:.66rem;font-weight:700;padding:2px 9px;border-radius:99px;background:rgba(52,199,89,.18);color:#1a7f37;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.policy-card .badge-policy.moderate{background:rgba(0,122,255,.15);color:#0057b8}
+.policy-card .badge-policy.strict{background:rgba(255,149,0,.16);color:#a55a00}
+.policy-card .badge-policy.nonrefundable{background:rgba(255,59,48,.12);color:#c4281e}
+.policy-card .badge-policy.custom{background:var(--g2);color:var(--t2)}
+.policy-card b{display:block;color:var(--tx);margin-bottom:4px;font-size:.95rem}
+.policy-card p{color:var(--t2);font-size:.85rem;line-height:1.55;margin:0}
+
+.book-policy{background:rgba(0,122,255,.06);border-radius:12px;padding:12px 14px;margin:12px 0;font-size:.82rem;color:var(--t2);line-height:1.55}
+.book-policy b{display:block;color:var(--tx);font-size:.85rem;margin-bottom:3px}
+/* ================================== */
+
+/* ===== signup terms acceptance ===== */
+.agree-box{margin:6px 0 4px}
+.agree-label{display:flex;align-items:flex-start;gap:10px;background:var(--g1);border-radius:12px;padding:12px 14px;font-size:.82rem;line-height:1.55;color:var(--t2);cursor:pointer;border:2px solid transparent;transition:border-color .2s,background .2s}
+.agree-label input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac);margin-top:1px;flex-shrink:0;cursor:pointer}
+.agree-label span{flex:1;color:var(--tx);font-weight:500}
+.agree-label .legal-link{color:var(--ac);font-weight:700;text-decoration:underline;font-size:inherit;padding:0;display:inline;cursor:pointer}
+.agree-label.err{border-color:var(--rd);background:rgba(255,59,48,.08)}
+.agree-label.err span{color:#a32219}
+/* ================================== */
 </style>
 </head>
 <body>
@@ -303,6 +353,19 @@ select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
     <div id="feat"></div>
     <h2 class="h2" id="hl">Places to stay</h2>
     <div id="list"></div>
+
+    <footer class="site-footer">
+      <div class="foot-links">
+        <button data-legal="about">About</button>
+        <button data-legal="terms">Terms &amp; Conditions</button>
+        <button data-legal="refund">Refund Policy</button>
+        <button data-legal="disclaimer">Disclaimer</button>
+      </div>
+      <p class="foot-copy">
+        <b>Zambia Stays</b> is a booking platform only. All bookings, payments and refunds are between you and the property host. No-shows are not refundable.<br>
+        © <span id="foot-year"></span> Zambia Stays. All rights reserved.
+      </p>
+    </footer>
   </section>
   <section class="pg" id="p-tix"><h1 class="lt">Stay</h1><div id="tl"></div></section>
   <section class="pg" id="p-org"><h1 class="lt">Host</h1><div id="ol"></div></section>
@@ -316,44 +379,20 @@ select.in{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 "use strict";
 
 /* ===== ZAMBIA STAYS — IMPROVEMENTS SUMMARY =====
-  ✓ Converted from event ticketing to lodge / hotel room booking
-  ✓ Better event listener cleanup (no memory leaks)
-  ✓ Debounced search input
-  ✓ Proper error handling & validation
-  ✓ Safe localStorage quota management
-  ✓ Robust phone number validation
-  ✓ Better async/await error boundaries
-  ✓ Proper QR code failure handling
-  ✓ Scanner resource cleanup
-  ✓ Chart instance management
-  ✓ Faster local storage performance
-  ✓ Real Lipila mobile-money payments
-  ✓ Stay sharing (native share, copy link, WhatsApp)
-  ✓ Deep links: ?stay=<id> opens the property; back button closes it
-  ✓ Featured approval workflow (host request → admin approve/decline)
-  ✓ Host payout requests (balance, request, status history)
-  ✓ Bookings now carry a `nights` value (checkout date is derived)
-  ✓ Fixed UTC date-shift bug in ymd()/today()/dAhead()
-  ✓ Gallery slideshow (auto-play, arrows, dots, swipe) right after
-    Rooms & rates — captions optional per slide
-  ✓ AUTOMATIC CHECK-OUT: every guest checked in is checked out at
-    10:00 AM the morning after check-in (CHECKOUT_HOUR). Check In tab
-    now has Check in / Check out modes, an in-house list, overdue
-    flags, manual early check-out, and a background sweep that runs
-    on load and every 60 seconds.
-  ✓ Host-controlled payment collection: hosts choose "through the app"
-    (Lipila) or "direct to me" (mobile money number + screenshot).
-    Direct payments require the host to approve the uploaded screenshot
-    before the guest's booking receipt is issued and check-in is allowed.
-  ✓ Direct-payment properties now show the host's mobile money number,
-    account name and screenshot uploader right inside the booking form
-    (no separate step), so the guest sees exactly where to send money.
-  ✓ DAILY CHECK-IN LOG: third tab in Check In shows every guest who has
-    checked in, grouped by day. Each group starts collapsed (today's
-    starts open) and expands on tap. Includes name, property, room type,
-    rooms, payment method, amount, check-in time and check-out time.
-    One-tap CSV download (day, guest, phone, property, room, rooms,
-    payment method, amount, check-in, check-out) — ready for Excel.
+  ✓ Room booking platform with in-app + direct mobile-money payments
+  ✓ Deep links (?stay=<id>) and native share
+  ✓ Featured approval workflow
+  ✓ LISTING APPROVAL WORKFLOW — new listings default to 'pending' and
+    do not appear on Explore until an admin approves them. Hosts see
+    every listing (with status badges) in their Host tab. Rejected
+    listings return to 'pending' when the host edits and saves them.
+  ✓ Host payouts
+  ✓ Auto check-out at 10:00 AM
+  ✓ Direct payment screenshots + host approval
+  ✓ Daily check-in log with CSV download
+  ✓ ABOUT / TERMS / REFUND POLICY / DISCLAIMER pages
+  ✓ PER-PROPERTY REFUND POLICY (default = Non-refundable).
+  ✓ SIGNUP TERMS ACCEPTANCE checkbox.
   ===============================================*/
 
 const SUPABASE_URL = "https://jxvszcxgpbjczwggdzzm.supabase.co";
@@ -442,7 +481,6 @@ const fdate = d => d ? new Date(d + "T00:00:00").toLocaleDateString("en-ZM", { d
 const ftime = t => { if (!t) return ""; const [h, m] = t.split(":"), d = new Date(); d.setHours(+h, +m); return d.toLocaleTimeString("en-ZM", { hour: "numeric", minute: "2-digit" }) };
 const fts = s => s ? new Date(s).toLocaleTimeString("en-ZM", { hour: "numeric", minute: "2-digit" }) : "";
 
-/* A property never expires — `date` is simply the earliest check-in date. */
 const ended = () => false;
 
 const isValidEmail = e => /^\S+@\S+\.\S+$/.test(e);
@@ -473,90 +511,19 @@ const P = {
 const I = (n, c = "") => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
 
 let me = null, ALL = [], MINE = [], BOOKINGS = [], SAVED = [], fee = 5, openStayId = null;
-let PENDING = [];   /* host-side bookings awaiting payment approval */
-let logRows = [], logLoaded = false, logExpanded = new Set();   /* daily check-in log */
+let PENDING = [];
+let logRows = [], logLoaded = false, logExpanded = new Set();
 let cat = "", city = "", dateF = "", priceF = "", q = "", psT = null, chartInst = null;
 let qSearchTimeout = null;
 
-/* ---------- PLACEHOLDER PROPERTIES ---------- */
+/* ---------- PLACEHOLDER PROPERTIES (disabled) ---------- */
 const SHOW_SAMPLES = false;
 const dAhead = n => { const d = new Date(); d.setDate(d.getDate() + n); return ymd(d) };
 
 const art = (a, b) => "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/></svg>`);
 const gimg = (t, a, b) => "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="600" height="600" fill="url(#g)"/><text x="300" y="315" font-family="Helvetica,Arial,sans-serif" font-size="42" font-weight="700" fill="#ffffff" text-anchor="middle">${String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</text></svg>`);
 
-const SAMPLES = [
-  ["Zambezi River Lodge", "Lodge", "Livingstone", "Mosi-oa-Tunya Road, Livingstone", 3, "14:00", true, ["#007AFF", "#5856D6"],
-    [["Standard Room", 850, 14, 5], ["Deluxe River View", 1450, 8, 3], ["Executive Suite", 2400, 4, 1]],
-    "Riverside chalets ten minutes from Victoria Falls.",
-    "Twenty-six thatched chalets set in mature gardens along the banks of the Zambezi. Every room has air conditioning, an en-suite bathroom, mosquito nets and a private veranda.\n\nThe lodge has an outdoor pool, a riverside bar and a restaurant serving local and international dishes. Sunset cruises and Victoria Falls tours can be arranged at reception.\n\nCheck-in is from 14:00 and check-out is by 10:00. Airport transfers from Harry Mwanga Nkumbula International Airport can be booked in advance.",
-    ["Infinity Pool|Open 6am – 9pm daily", "Riverside Bar|Sundowners from 17:00", "The Deck Restaurant|Breakfast, lunch and dinner", "Garden Chalets|Twenty-six rooms in total", "Sunset Cruise Jetty|Departs at 16:30"]],
-
-  ["Copperbelt Executive Hotel", "Hotel", "Ndola", "President Avenue, Ndola", 6, "14:00", true, ["#0A84FF", "#30B0C7"],
-    [["Standard Room", 950, 24, 9], ["Executive Room", 1600, 12, 4], ["Presidential Suite", 2900, 3, 1]],
-    "Business hotel in the heart of Ndola with a conference centre.",
-    "A modern hotel built for business travellers, five minutes from Ndola city centre and twenty minutes from Simon Mwansa Kapwepwe International Airport.\n\nAll rooms include air conditioning, DSTV, free fibre Wi-Fi, a work desk and tea and coffee facilities. The hotel has two conference rooms, a gym, a rooftop bar and secure on-site parking.\n\nBreakfast is served from 06:00 to 10:00 and is included in the Executive and Presidential rates.",
-    ["Rooftop Bar|Open until midnight", "Conference Centre|Two rooms, up to 120 guests", "Fitness Centre|Open 5am – 10pm", "Secure Parking|24-hour security", "Restaurant|Local and international menu"]],
-
-  ["Leopards Hill Guesthouse", "Guesthouse", "Lusaka", "Leopards Hill Road, Lusaka", 2, "13:00", false, ["#34C759", "#248A3D"],
-    [["Garden Room", 620, 8, 3], ["Family Room", 980, 5, 2]],
-    "Quiet garden guesthouse in Kabulonga, Lusaka.",
-    "A small family-run guesthouse in a leafy part of Lusaka, ten minutes from Kabulonga and fifteen from the city centre.\n\nRooms open onto a shared garden with a shaded breakfast terrace. Breakfast is included and served from 06:30 to 09:30. Laundry and airport pick-up can be arranged.\n\nFree secure parking and Wi-Fi throughout.",
-    ["Garden Terrace|Breakfast served daily", "Secure Parking|Off-street, gated", "Breakfast Room|06:30 – 09:30", "Lounge|Books, TV and board games"]],
-
-  ["South Luangwa Safari Camp", "Safari Camp", "South Luangwa", "Mfuwe, South Luangwa National Park", 9, "14:00", true, ["#A2845E", "#FF9500"],
-    [["Safari Tent", 1250, 10, 4], ["Luxury Tent", 2100, 6, 2], ["Family Chalet", 3200, 3, 1]],
-    "Tented camp on the banks of the Luangwa River.",
-    "A classic bush camp overlooking a busy stretch of the Luangwa River, inside the national park. Elephants and hippos are regularly seen from the deck.\n\nRates include all meals, two game activities per day (game drive or walking safari) and park fees. Tents have en-suite open-air bathrooms, solar lighting and mosquito nets.\n\nThe camp runs on solar power. There is no mobile signal in camp, but Wi-Fi is available in the main area. Closed during the rainy season.",
-    ["River Deck|Elephant and hippo sightings", "Game Drives|Morning and afternoon", "Walking Safaris|With a licensed guide", "Dining Under the Stars|Three-course dinners", "Bar|Ice-cold drinks all day"]],
-
-  ["Lake Kariba B&B", "Bed & Breakfast", "Siavonga", "Lake Kariba Shoreline, Siavonga", 5, "14:00", false, ["#00C7BE", "#007AFF"],
-    [["Garden Room", 520, 6, 2], ["Lakeview Room", 700, 4, 3]],
-    "Bed and breakfast on the shores of Lake Kariba.",
-    "A relaxed B&B a short walk from the lake shore, with views across the water from the upper rooms.\n\nBreakfast is included and served on the veranda. There is a small pool, a braai area and secure parking. Boat trips and fishing charters can be booked at reception.\n\nSiavonga town centre is a five-minute drive away.",
-    ["Lakeview Veranda|Breakfast with a view", "Braai Area|Guests welcome to use", "Small Pool|Open 7am – 8pm", "Boat Trips|Booked at reception"]],
-
-  ["Lower Zambezi Tented Camp", "Safari Camp", "Lower Zambezi", "Chiawa, Lower Zambezi", 14, "14:00", false, ["#FF9500", "#FF2D55"],
-    [["River Tent", 2200, 8, 3], ["Luxury Tent", 3400, 4, 1]],
-    "Exclusive tented camp in the Lower Zambezi valley.",
-    "An intimate camp of twelve tents set under winterthorn trees on the Zambezi floodplain, facing the Mana Pools escarpment.\n\nRates include all meals, drinks, two daily activities and park fees. Activities include canoe safaris, boat cruises, game drives and walking safaris.\n\nAccess is by light aircraft from Lusaka or Kariba. Transfers can be arranged.",
-    ["Canoe Safaris|Guided, half day", "Boat Cruises|Sunset and sunrise", "Main Deck|Views of Mana Pools", "Fire Pit|Evening drinks and stories"]],
-
-  ["Chipata Garden Lodge", "Lodge", "Chipata", "Great East Road, Chipata", 4, "14:00", false, ["#64D2FF", "#5E5CE6"],
-    [["Standard Room", 480, 12, 4], ["Deluxe Room", 720, 6, 2], ["Family Chalet", 1100, 3, 0]],
-    "Comfortable stopover on the Great East Road.",
-    "A convenient lodge on the Great East Road, popular with travellers heading to or from South Luangwa and Malawi.\n\nAll rooms have en-suite bathrooms, air conditioning, DSTV and free Wi-Fi. The restaurant serves breakfast, lunch and dinner, and there is a bar and a secure car park.\n\nCheck-in is from 14:00, and early check-in can be arranged on request.",
-    ["Restaurant|06:30 – 21:30", "Bar|Open until 23:00", "Secure Parking|Gated, 24-hour guard", "Garden|Shaded seating area"]],
-
-  ["Lusaka Backpackers Hub", "Backpackers", "Lusaka", "Cairo Road, Lusaka", 1, "12:00", false, ["#5E5CE6", "#BF5AF2"],
-    [["Dorm Bed", 180, 20, 11], ["Private Room", 420, 6, 2]],
-    "Budget beds in the centre of Lusaka.",
-    "A friendly backpackers in the middle of Lusaka, walking distance from the bus terminals and the main markets.\n\nDorm beds are in shared rooms with lockers and reading lights. Private rooms have en-suite bathrooms. There is a shared kitchen, a courtyard bar and a travel desk that arranges onward transport and safaris.\n\nFree Wi-Fi in all areas.",
-    ["Shared Kitchen|Self-catering", "Courtyard Bar|Open until late", "Travel Desk|Tours and transport", "Lockers|Bring your own padlock"]],
-
-  ["Kitwe Business Suites", "Self-Catering", "Kitwe", "Freedom Avenue, Kitwe", 8, "15:00", false, ["#0A84FF", "#34C759"],
-    [["Studio", 640, 10, 4], ["One-Bedroom", 890, 6, 1], ["Two-Bedroom", 1250, 3, 0]],
-    "Serviced apartments for longer stays in Kitwe.",
-    "Fully serviced self-catering apartments in central Kitwe, ideal for contractors, consultants and families on longer stays.\n\nEach apartment has a full kitchen, a lounge, DSTV, free Wi-Fi and a washing machine. Housekeeping is provided three times a week. Secure parking and 24-hour security are included.\n\nMinimum stay is two nights.",
-    ["Full Kitchen|Cook for yourself", "Housekeeping|Three times a week", "Secure Parking|Undercover bays", "Laundry|In-apartment washing machine"]],
-
-  ["Kasama Coffee Lodge", "Boutique Hotel", "Kasama", "Chikumanino Road, Kasama", 11, "14:00", false, ["#BF5AF2", "#FF375F"],
-    [["Garden Room", 580, 8, 2], ["Coffee Suite", 940, 4, 1]],
-    "Boutique lodge on a working coffee farm outside Kasama.",
-    "A small boutique lodge built around a working arabica coffee farm in the Northern Province highlands.\n\nRooms are furnished with local timber and hand-woven textiles. Rates include breakfast, a farm tour and a coffee tasting. Dinner is available on request.\n\nThe lodge is a 25-minute drive from Kasama town and an hour from the Kalambo Falls.",
-    ["Coffee Farm Tour|Included in your stay", "Coffee Tasting|Guided, every afternoon", "Farm Kitchen|Dinner on request", "Fireplace Lounge|Cool highland evenings"]]
-].map((s, i) => ({
-  id: "demo_" + i, demo: true, owner: "demo", owner_name: "Zambia Stays Sample",
-  title: s[0], category: s[1], city: s[2], venue: s[3], date: dAhead(s[4]), time: s[5],
-  featured: s[6], img: art(...s[7]),
-  tiers: s[8].map(t => ({ name: t[0], price: t[1], qty: t[2], sold: t[3] })),
-  tagline: s[9], description: s[10],
-  presenters: s[11].map((x, gi) => {
-    const [n, r] = x.split("|");
-    return { name: n, role: r, img: gimg(n, s[7][gi % 2], s[7][(gi + 1) % 2]) };
-  }),
-  status: "live"
-}));
+const SAMPLES = [];
 
 /* ---------- LOCALSTORAGE BACKEND (only used when USE_LOCAL=true) ---------- */
 function localSb() {
@@ -587,10 +554,7 @@ function localSb() {
   const seed = () => {
     if (seeded) return;
     seeded = true;
-    let ev = rd("events", []);
-    if (localStorage.getItem(K + "seeded") !== SEED) ev = SAMPLES.map(({ demo, ...e }) => e);
-    ev = ev.map(e => { const s = SAMPLES.find(z => z.id === e.id); return s ? { ...e, date: s.date } : e });
-    wr("events", ev);
+    wr("events", []);
     wr("seeded", SEED);
   };
 
@@ -808,7 +772,20 @@ function openAuth(after, startMode = "login") {
           f("re", "Email", "email", "you@example.com", "email") +
           f("rp", "Phone (WhatsApp)", "tel", "0977 123 456", "tel") +
           f("rw", "Password", "password", "At least 8 characters", "new-password") +
-          `<div class="fld"><label>I want to</label><div class="seg"><button data-r="customer" class="${role === "customer" ? "on" : ""}">Book stays</button><button data-r="organiser" class="${role === "organiser" ? "on" : ""}">List a property</button></div><p class="hint">Guests book rooms. Hosts list and manage properties.</p></div>`
+          `<div class="fld"><label>I want to</label><div class="seg"><button data-r="customer" class="${role === "customer" ? "on" : ""}">Book stays</button><button data-r="organiser" class="${role === "organiser" ? "on" : ""}">List a property</button></div><p class="hint">Guests book rooms. Hosts list and manage properties.</p></div>
+           <div class="fld agree-box">
+             <label class="agree-label" for="agree">
+               <input type="checkbox" id="agree">
+               <span>
+                 I agree to the
+                 <button type="button" class="legal-link" data-legal="terms">Terms &amp; Conditions</button>,
+                 and confirm I have read the
+                 <button type="button" class="legal-link" data-legal="disclaimer">Disclaimer</button>
+                 and
+                 <button type="button" class="legal-link" data-legal="refund">Refund Policy</button>.
+               </span>
+             </label>
+           </div>`
         : f("le", "Email", "email", "you@example.com", "email") + f("lw", "Password", "password", "Your password", "current-password")) +
       `<button class="btn b" id="go" style="margin-top:6px">${mode === "login" ? "Sign in" : "Create account"}</button>`;
 
@@ -818,8 +795,14 @@ function openAuth(after, startMode = "login") {
       m.querySelectorAll("[data-r]").forEach(x => x.classList.toggle("on", x === b));
     });
     m.querySelectorAll("input").forEach(i => {
+      if (i.type === "checkbox") return;
       i.onkeydown = e => { if (e.key === "Enter") g("#go").click() };
     });
+    const ag = g("#agree");
+    if (ag) ag.onchange = () => {
+      const lb = g(".agree-label");
+      if (lb) lb.classList.remove("err");
+    };
     g("#go").onclick = submit;
   };
 
@@ -832,15 +815,22 @@ function openAuth(after, startMode = "login") {
     const btn = g("#go");
     if (mode === "register") {
       const n = v("rn"), e = v("re").toLowerCase(), p = v("rp"), pw = g("#rw").value;
+      const agree = g("#agree");
       if (n.length < 2) return toast("Enter your full name");
       if (!isValidEmail(e)) return toast("Enter a valid email address");
       if (!isValidPhone(p)) return toast("Enter a valid phone number (at least 9 digits)");
       if (pw.length < 8) return toast("Password must be at least 8 characters");
+      if (!agree || !agree.checked) {
+        const lb = g(".agree-label");
+        if (lb) lb.classList.add("err");
+        if (agree) agree.focus();
+        return toast("Please tick the box to accept the Terms, Disclaimer and Refund Policy");
+      }
       btn.disabled = true;
       try {
         const { data, error } = await sb.auth.signUp({
           email: e, password: pw,
-          options: { data: { name: n, phone: sanitizePhone(p), role } }
+          options: { data: { name: n, phone: sanitizePhone(p), role, accepted_terms_at: new Date().toISOString() } }
         });
         if (error) { btn.disabled = false; return toast(error.message) }
         if (!data.session) {
@@ -907,7 +897,6 @@ async function loadAll() {
       BOOKINGS = [];
       PAYOUTS = [];
     }
-    /* Invalidate the daily log so it re-fetches the next time it's opened */
     logLoaded = false;
   } catch (e) {
     console.error("loadAll error:", e);
@@ -918,7 +907,6 @@ async function loadAll() {
 const minP = e => { const p = (e.tiers || []).map(t => +t.price); return p.length ? Math.min(...p) : 0 };
 const left = e => (e.tiers || []).reduce((s, t) => s + (t.qty - t.sold), 0);
 
-/* Rooms are counted as guests for check-in purposes — `qty` = rooms booked. */
 const adm = t => {
   if (!t) return 0;
   if (typeof t.admitted === "number") return t.admitted;
@@ -928,19 +916,15 @@ const adm = t => {
 
 /* ============================================================
    CHECK-OUT
-   Every guest who checks in is checked out automatically at
-   CHECKOUT_HOUR (10:00 AM) the morning after their check-in.
    ============================================================ */
 const CHECKOUT_HOUR = 10, CHECKOUT_MIN = 0;
 
-/* Builds the ISO timestamp of the next 10:00 AM local time after `iso`. */
 function checkoutDueFrom(iso) {
   const d = iso ? new Date(iso) : new Date();
   if (isNaN(d.getTime())) return null;
   return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, CHECKOUT_HOUR, CHECKOUT_MIN, 0, 0).toISOString();
 }
 
-/* Stored due date if present, otherwise derived from the first check-in. */
 function checkoutDueOf(t) {
   if (!t) return null;
   if (t.checkout_due) return t.checkout_due;
@@ -964,8 +948,6 @@ const outLabel = t => t.checked_out
   ? "Checked out " + (fdt(t.checked_out_at) || "")
   : "Due out " + fdt(checkoutDueOf(t)) + " (10:00 AM)";
 
-/* Updates a ticket, gracefully degrading if the check-out columns
-   have not been added to the database yet. */
 let checkoutWarned = false;
 async function updateTicket(id, patch) {
   let { error } = await sb.from("tickets").update(patch).eq("id", id);
@@ -985,6 +967,277 @@ async function updateTicket(id, patch) {
   }
   return { error };
 }
+
+/* ============================================================
+   LEGAL PAGES: ABOUT · TERMS · REFUND POLICY · DISCLAIMER
+   ============================================================ */
+
+const REFUND_TEMPLATES = {
+  flexible: {
+    label: "Flexible",
+    short: "Free cancellation up to 7 days before check-in · No-show = no refund",
+    text: "Free cancellation up to 7 days before check-in. Cancel between 7 and 3 days before check-in: 50% refund. Cancel within 3 days: no refund. No-shows are not refundable and the property may release the room after the first night."
+  },
+  moderate: {
+    label: "Moderate",
+    short: "Free cancellation up to 14 days before check-in · No-show = no refund",
+    text: "Free cancellation up to 14 days before check-in. Cancel between 14 and 7 days before check-in: 50% refund. Cancel within 7 days: no refund. No-shows are not refundable — if you do not arrive and do not cancel in writing in advance, you forfeit the whole amount paid and the property may release the room after the first night."
+  },
+  strict: {
+    label: "Strict",
+    short: "Free cancellation up to 21 days before check-in · No-show = no refund",
+    text: "Free cancellation up to 21 days before check-in. Cancel within 21 days of check-in: no refund. No-shows are not refundable — the full amount paid is forfeited and the room may be released after the first night."
+  },
+  nonrefundable: {
+    label: "Non-refundable",
+    short: "No refunds · No-show = no refund",
+    text: "This booking is non-refundable. Once payment is confirmed, no refund is issued for cancellations, changes, early check-out, late arrival or no-shows. If you do not arrive on the check-in date and do not contact the property in advance, the room may be released and the full amount paid is forfeited. Please only book if you are certain of your travel dates."
+  },
+  custom: {
+    label: "Custom",
+    short: "Host's own written policy — see property page",
+    text: ""
+  }
+};
+
+const DEFAULT_REFUND_KEY = "nonrefundable";
+
+function refundOf(e){
+  const key = (e && e.refund_policy) || DEFAULT_REFUND_KEY;
+  const tpl = REFUND_TEMPLATES[key] || REFUND_TEMPLATES[DEFAULT_REFUND_KEY];
+  const customText = (e && e.refund_policy_text || "").trim();
+  const finalText = key === "custom" && customText ? customText : tpl.text;
+  return { key, label: tpl.label, short: tpl.short, text: finalText };
+}
+
+function policyBadgeCls(key){
+  return (key === "flexible" || key === "moderate" || key === "strict" || key === "nonrefundable") ? key : "custom";
+}
+
+function openLegal(kind){
+  const year = new Date().getFullYear();
+  const lastUpdated = "November 2025";
+
+  const pages = {
+    about: {
+      title: "About Zambia Stays",
+      body: `
+        <div class="legal">
+          <h4>What we do</h4>
+          <p>Zambia Stays is an online booking platform that helps travellers discover and reserve rooms at lodges, hotels, guesthouses, safari camps and self-catering properties across Zambia. We list properties, show live availability, and pass confirmed bookings straight through to the property you have chosen.</p>
+
+          <h4>What we do not do</h4>
+          <p>We are <b>not</b> a hotel, lodge or travel agent. We do not own, operate or manage any of the properties listed on this website. Every property is owned and operated by an independent host. When you book through Zambia Stays, your contract of accommodation is with the property, not with us.</p>
+
+          <h4>How bookings work</h4>
+          <ul>
+            <li><b>In-app payment:</b> you pay through Zambia Stays using mobile money. We forward the funds to the host after the stay, less our platform fee. Your booking is confirmed automatically.</li>
+            <li><b>Direct payment:</b> some hosts prefer to receive money directly on their mobile-money number. In that case you upload a screenshot and the host approves it before your receipt is issued.</li>
+          </ul>
+
+          <h4>Listing approval</h4>
+          <p>Every new property is reviewed by our team before it appears on Explore. Listings show as "pending" in the host's dashboard until an admin approves them. This is to protect guests from inaccurate or misleading listings.</p>
+
+          <h4>Our role</h4>
+          <p>We provide the technology, the booking workflow, the payment rails and the check-in tools that hosts use. We do not provide the rooms, staff, food, transport or experiences sold by hosts. Any complaint about what happens on the property is between you and the host.</p>
+
+          <h4>Getting in touch</h4>
+          <p>Questions about the platform? Email <b>hello@zambiastays.com</b>. Questions about your stay? Contact the property directly using the phone number shown on your booking receipt.</p>
+
+          <p class="legal-meta">Last updated: ${lastUpdated}. © ${year} Zambia Stays.</p>
+        </div>`
+    },
+
+    terms: {
+      title: "Terms & Conditions",
+      body: `
+        <div class="legal">
+          <h4>1. Acceptance</h4>
+          <p>By creating an account, browsing or booking on Zambia Stays you agree to these Terms. If you do not agree, please do not use the platform.</p>
+
+          <h4>2. What Zambia Stays is</h4>
+          <p>Zambia Stays is a technology platform that connects guests with independent hosts. We are not a party to the accommodation contract between you and the host. See the <b>Disclaimer</b> for details.</p>
+
+          <h4>3. Your account</h4>
+          <ul>
+            <li>You must be at least 18 to book a stay.</li>
+            <li>You are responsible for keeping your password secure and for all activity on your account.</li>
+            <li>You must provide accurate contact details, including a working mobile number, so the property can reach you.</li>
+            <li>We may suspend or close accounts that are used fraudulently or that breach these Terms.</li>
+          </ul>
+
+          <h4>4. Bookings</h4>
+          <ul>
+            <li>A booking is confirmed when a valid receipt with a booking code is issued to you in the Stays tab.</li>
+            <li>One room is held per booking line. Extra guests in a room may be charged by the property on arrival, per its own policy.</li>
+            <li>Check-in is from the time stated on the property page. Check-out is 10:00 AM the morning after check-in unless the property states otherwise in writing.</li>
+            <li>You must show your booking code (printed, on-screen, or as a QR code) at reception to check in.</li>
+          </ul>
+
+          <h4>5. Payments</h4>
+          <ul>
+            <li><b>In-app payment:</b> Zambia Stays collects the amount in ZMW via mobile money on the host's behalf. The amount shown is the total you pay for the room; we do not add a booking fee on top.</li>
+            <li><b>Direct payment:</b> where a property has chosen direct payment, you send money straight to the host's mobile-money number and upload proof. Zambia Stays does not process or hold that money. The host must approve your proof before your receipt is issued.</li>
+            <li>Prices are set by the host and may change before your booking is confirmed. The amount you paid at the time of booking is the amount owed.</li>
+          </ul>
+
+          <h4>6. Cancellations &amp; refunds</h4>
+          <p>The refund policy for your booking is the one shown on the property page when you book, and again on your receipt. Each property chooses its own policy. The default policy across Zambia Stays is <b>non-refundable</b>: once you have paid, you must arrive on your check-in date. <b>No-shows are not refundable.</b> Cancelling, changing dates, arriving late, checking out early or failing to show up does not entitle you to a refund unless the property's stated policy says otherwise. See the <b>Refund Policy</b> page for the full terms.</p>
+
+          <h4>7. Host obligations</h4>
+          <p>Hosts agree to: (a) describe their property truthfully, (b) honour every confirmed booking at the price agreed, (c) keep the room available for the nights booked, and (d) comply with Zambian law, including tourism licensing, fire safety and health regulations. Zambia Stays is not responsible for a host's failure to meet these obligations.</p>
+
+          <h4>8. Guest obligations</h4>
+          <p>Guests agree to: (a) behave respectfully on the property, (b) comply with the property's house rules, (c) pay for any damage they or their party cause, (d) not sub-let the room, and (e) leave the room by check-out time.</p>
+
+          <h4>9. Disputes</h4>
+          <p>Disputes about the stay itself (quality, cleanliness, service, extra charges) are between you and the host. You can raise a complaint with the host directly using the contact details on your receipt. Zambia Stays may, at its sole discretion, help mediate, but is not obliged to issue refunds the host has not agreed to.</p>
+
+          <h4>10. Limitation of liability</h4>
+          <p>To the maximum extent permitted by Zambian law, Zambia Stays is not liable for any loss, injury, delay, damage or expense arising from the acts or omissions of a host, or from events outside our reasonable control. Our total liability to you for any claim about the platform is limited to the platform fee we charged for the affected booking.</p>
+
+          <h4>11. Changes</h4>
+          <p>We may update these Terms occasionally. Material changes will be announced on this page. Continuing to use the platform after a change means you accept the updated Terms.</p>
+
+          <h4>12. Governing law</h4>
+          <p>These Terms are governed by the laws of the Republic of Zambia.</p>
+
+          <p class="legal-meta">Last updated: ${lastUpdated}. © ${year} Zambia Stays.</p>
+        </div>`
+    },
+
+    refund: {
+      title: "Refund Policy",
+      body: `
+        <div class="legal">
+          <div class="note">
+            <b>No-shows are not refundable.</b>
+            In Zambia, once a booking is confirmed and paid for, you must arrive on the date you booked. If you do not arrive and do not cancel in writing in advance, the property keeps the money and the room may be released after the first night. Please only book when your travel dates are certain.
+          </div>
+
+          <div class="note">
+            <b>The exact policy for your stay is set by the property you booked.</b>
+            Each host chooses one of the options below, or a custom policy, and that is the policy that applies. It is shown on the property page before you book and on your receipt afterwards.
+          </div>
+
+          <h4>Standard policy options</h4>
+
+          <p><b>Flexible</b><br>
+            Free cancellation up to 7 days before check-in. 50% refund if you cancel 7–3 days before check-in. No refund if you cancel within 3 days. <b>No-shows are not refundable.</b></p>
+
+          <p><b>Moderate</b><br>
+            Free cancellation up to 14 days before check-in. 50% refund if you cancel 14–7 days before check-in. No refund if you cancel within 7 days. <b>No-shows are not refundable.</b></p>
+
+          <p><b>Strict</b><br>
+            Free cancellation up to 21 days before check-in. No refund after that. <b>No-shows are not refundable.</b></p>
+
+          <p><b>Non-refundable</b><br>
+            No refunds at all — no exceptions for cancellations, changes, early check-out or no-shows. This is the most common policy in Zambia and the default on Zambia Stays.</p>
+
+          <p><b>Custom</b><br>
+            The host has written their own policy. It is shown on the property page and on your receipt, and it is the version that applies.</p>
+
+          <h4>No-shows — please read</h4>
+          <ul>
+            <li>If you do not arrive on your check-in date and do not cancel in writing before check-in, the booking is treated as a no-show.</li>
+            <li><b>A no-show is not refundable.</b> The property keeps the full amount paid for the nights missed.</li>
+            <li>The property may release the room after the first night. If you then show up later in the stay, the room may no longer be available and no refund is owed for the nights you missed.</li>
+            <li>If you are delayed by something outside your control (flight cancellation, medical emergency) contact the property directly as soon as possible. Refunds or date changes in these cases are at the host's sole discretion.</li>
+          </ul>
+
+          <h4>How to cancel</h4>
+          <ul>
+            <li>Open the <b>Stays</b> tab, tap your booking, and use the delete (trash) button. This records your cancellation.</li>
+            <li>The refund, if any, is calculated against the policy in force at the time you booked.</li>
+            <li>For in-app payments, refunds are returned to the mobile-money number you paid from within 3–5 working days.</li>
+            <li>For direct payments, refunds are made by the host, not by Zambia Stays. Contact the host using the number shown on your receipt.</li>
+          </ul>
+
+          <h4>Early check-out</h4>
+          <p>If you check out before your scheduled departure date, unused nights are refundable only if the property's policy says so. Most properties in Zambia do not refund unused nights. Please plan your stay length carefully.</p>
+
+          <h4>Force majeure</h4>
+          <p>If a stay cannot go ahead because of an event outside anyone's control (natural disaster, government travel restriction, serious illness with documentation), the host may, at their discretion, offer to move your booking to a later date, issue a credit, or refund the amount paid. This is at the host's discretion, not guaranteed by Zambia Stays.</p>
+
+          <h4>How Zambia Stays helps</h4>
+          <p>We provide the cancellation button, we record the policy in force at the time of booking, and we can help mediate a dispute. We do not issue refunds ourselves. All refunds are the responsibility of the host, using the payment channel that was used at the time of booking.</p>
+
+          <p class="legal-meta">Last updated: ${lastUpdated}. © ${year} Zambia Stays.</p>
+        </div>`
+    },
+
+    disclaimer: {
+      title: "Disclaimer",
+      body: `
+        <div class="legal">
+          <h4>Platform, not provider</h4>
+          <p>Zambia Stays is a booking platform. We are not a hotel, lodge, guesthouse, travel agent or tour operator. We do not own, manage or operate any of the properties listed on this website. Every property is owned and run by an independent host.</p>
+
+          <h4>Property descriptions</h4>
+          <p>All property names, descriptions, prices, photos, amenities, house rules and policies are supplied by the host and are the host's responsibility. While we review listings before they go live, we cannot guarantee that every detail is accurate, up to date, or matches what you find on arrival.</p>
+
+          <h4>Photos</h4>
+          <p>Photos are provided by the host to illustrate the property and its rooms. They are indicative, not contractual. Furniture, décor, views, room layout and available amenities may differ slightly between what is shown and what you find on arrival.</p>
+
+          <h4>Payments</h4>
+          <ul>
+            <li><b>In-app payments</b> are processed through a licensed mobile-money gateway on the host's behalf. Zambia Stays holds the funds only long enough to forward them to the host and never takes ownership of the money.</li>
+            <li><b>Direct payments</b> are sent by you straight to the host's mobile-money number. Zambia Stays does not receive, hold or process those funds. Once you have sent money directly to the host, any dispute about that money is between you and the host.</li>
+          </ul>
+
+          <h4>Availability</h4>
+          <p>Availability shown on the platform is based on the numbers the host has entered. Very occasionally two guests may book the last room at the same moment. If that happens, the second guest is refunded in full and the host is notified. Zambia Stays is not liable for any inconvenience beyond the refund of the amounts paid through the platform.</p>
+
+          <h4>Independent hosts</h4>
+          <p>Hosts are independent businesses. They are responsible for their own licensing, safety, insurance, staff, food handling, tax compliance and adherence to Zambian law. Zambia Stays does not supervise day-to-day operations at any property and is not liable for anything that happens on a property.</p>
+
+          <h4>Third-party links</h4>
+          <p>Any links to external websites (tour operators, transport, restaurants) are provided for convenience only. We do not control and are not responsible for third-party content or services.</p>
+
+          <h4>Limitation of liability</h4>
+          <p>To the fullest extent permitted by Zambian law, Zambia Stays, its directors, employees and agents accept no liability for any loss, injury, delay, theft, damage or expense arising out of a stay, a host's acts or omissions, or events beyond our reasonable control. Our total liability to you for any claim about the platform itself is limited to the platform fee we charged for the affected booking.</p>
+
+          <h4>Reporting a problem</h4>
+          <p>To report a problem with a property, a host or a booking, email <b>hello@zambiastays.com</b>. To report a problem with the platform itself, use the same address.</p>
+
+          <p class="legal-meta">Last updated: ${lastUpdated}. © ${year} Zambia Stays.</p>
+        </div>`
+    }
+  };
+
+  const page = pages[kind];
+  if (!page) return;
+
+  const sheet = document.createElement("div");
+  sheet.className = "ov";
+  sheet.innerHTML = `
+    <div class="sh">
+      <div class="grab"></div>
+      <div class="sht">
+        <h3>${esc(page.title)}</h3>
+        <button class="xb" data-x aria-label="Close">${I("x")}</button>
+      </div>
+      ${page.body}
+      <button class="btn b" data-x style="margin-top:20px">Close</button>
+    </div>`;
+  sheet.onclick = ev => {
+    if (ev.target === sheet || ev.target.closest("[data-x]")) {
+      sheet.classList.add("out");
+      setTimeout(() => sheet.remove(), 230);
+    }
+  };
+  document.body.appendChild(sheet);
+}
+
+document.addEventListener("click", ev => {
+  const b = ev.target.closest("[data-legal]");
+  if (b) { openLegal(b.dataset.legal); return; }
+});
+
+(function(){
+  const y = document.getElementById("foot-year");
+  if (y) y.textContent = new Date().getFullYear();
+})();
 
 /* ---------- NAVIGATION ---------- */
 let tab = "home";
@@ -1099,13 +1352,16 @@ function matchesPrice(e) {
 function rHome() {
   const ql = q.toLowerCase().trim(), filt = ql || cat || city || dateF || priceF;
   const l = ALL.filter(e => {
+    // Only approved listings appear publicly on Explore
+    const ls = e.listing_status || "approved"; // backwards compat for pre-migration rows
+    if (ls !== "approved") return false;
     if (ql && ![e.title, e.city, e.venue, e.category].some(x => (x || "").toLowerCase().includes(ql))) return false;
     if (cat && e.category !== cat) return false;
     if (city && e.city !== city) return false;
     return matchesDate(e) && matchesPrice(e);
   }).sort((a, b) => String(a.date).localeCompare(String(b.date)));
 
-  const fe = ALL.filter(e => e.featured && !ended(e));
+  const fe = ALL.filter(e => e.featured && !ended(e) && (e.listing_status || "approved") === "approved");
   $("#feat").innerHTML = !filt && fe.length ? `<h2 class="h2">Featured stays</h2><div class="car">${fe.map(fc).join("")}</div>` : "";
   $("#hl").textContent = filt ? `${l.length} stay${l.length === 1 ? "" : "s"}` : "Places to stay";
   $("#list").innerHTML = l.length ? l.map(row).join("") : `<div class="emp">${I("search")}<p>No properties found</p></div>`;
@@ -1137,10 +1393,34 @@ function gallerySlides(pr) {
 function openStay(id, fromHistory) {
   const e = ALL.find(x => x.id === id);
   if (!e) return toast("Property not found");
-  const dis = left(e) <= 0, p = minP(e), pr = e.presenters || [];
+
+  const ls = e.listing_status || "approved";
+  const isOwner = me && e.owner === me.id;
+  const isAdminUser = me && me.role === "admin";
+
+  // Guests (and anyone not the host/admin) cannot view unapproved listings
+  if (ls !== "approved" && !isOwner && !isAdminUser) {
+    toast("This property is not currently available");
+    return;
+  }
+
+  const dis = left(e) <= 0 || ls !== "approved";
+  const bookLabel = ls === "pending" ? "Awaiting approval"
+                  : ls === "rejected" ? "Listing declined"
+                  : dis ? "No rooms available" : "Book now";
+
+  const statusBanner =
+    ls === "pending"  ? `<div class="listing-status-banner pending">⏳ Awaiting admin approval — this property is not visible to guests yet.</div>` :
+    ls === "rejected" ? `<div class="listing-status-banner rejected">✗ This listing was declined. Edit it to resubmit for approval.</div>` :
+    "";
+
+  const p = minP(e), pr = e.presenters || [];
+  const rp = refundOf(e);
+  const isNoRefund = rp.key === "nonrefundable";
+
   $("#detail").innerHTML = `<div class="bkw"><button class="bk" onclick="closeStay()" aria-label="Back">${I("back")}</button></div>
   <div class="dimg">${e.img ? `<img src="${e.img}" alt="" loading="lazy">` : I("bed")}</div>
-  <div class="dbd"><span class="cat">${esc(e.category)}</span><h1>${esc(e.title)}</h1>
+  <div class="dbd">${statusBanner}<span class="cat">${esc(e.category)}</span><h1>${esc(e.title)}</h1>
   <div style="display:flex;gap:8px;margin-bottom:16px">
     <button class="btn icon heart ${isSaved(e.id) ? "saved" : ""}" data-save="${e.id}" onclick="toggleSave('${e.id}')" aria-label="Save stay">${I("heart")}</button>
     <button class="btn icon" onclick="shareStay('${e.id}')" aria-label="Share stay">${I("share")}</button>
@@ -1154,13 +1434,35 @@ function openStay(id, fromHistory) {
   <h2 class="h2">Rooms &amp; rates</h2>
   <div class="grp">${(e.tiers || []).map(t => `<div class="gi"><span>${esc(t.name)}<small>${t.qty - t.sold <= 0 ? "No rooms left" : (t.qty - t.sold) + " room" + (t.qty - t.sold === 1 ? "" : "s") + " left"}</small></span><span class="sp">${+t.price === 0 ? "Free" : money(t.price)}</span></div>`).join("") || `<div class="gi"><span>No room types listed</span></div>`}</div>
   <p class="hint">Rates are per room, per night.</p>
+
+  <h2 class="h2">Cancellation &amp; refund policy</h2>
+  <div class="policy-card">
+    <span class="badge-policy ${policyBadgeCls(rp.key)}">${esc(rp.label)}</span>
+    <b>${esc(rp.short)}</b>
+    <p>${esc(rp.text)}</p>
+  </div>
+  <p class="hint">
+    ${isNoRefund
+      ? "<b>Please only book if your travel dates are certain.</b> No-shows are not refundable."
+      : "Please only book if your travel dates are certain. No-shows are not refundable on any policy."}
+    The policy is set by the host — Zambia Stays does not issue refunds directly.
+    <button type="button" data-legal="refund" style="color:var(--ac);font-weight:600;text-decoration:underline;font-size:.78rem;margin-left:4px">Read full policy</button>
+  </p>
+
+  ${e.house_rules ? `<h2 class="h2">House rules</h2><p class="desc">${esc(e.house_rules)}</p>` : ""}
+  ${e.check_in_notes ? `<h2 class="h2">Before you arrive</h2><p class="desc">${esc(e.check_in_notes)}</p>` : ""}
+
   ${pr.length ? `<h2 class="h2">Gallery</h2>${gallerySlides(pr)}` : ""}
   ${e.tagline ? `<h2 class="h2">About</h2><p class="desc">${esc(e.tagline)}</p>` : ""}
   <h2 class="h2">${e.tagline || pr.length ? "Full description" : "About"}</h2>
   <p class="desc">${esc(e.description || "No description provided.")}</p>
   <p class="hint">Hosted by ${esc(e.owner_name || "Host")}</p></div>
-  <div class="bar"><div><small>From</small><b>${p ? money(p) : "Free"}</b></div>
-  <button class="btn" ${dis ? "disabled" : ""} onclick="book('${e.id}')">${dis ? "No rooms available" : "Book now"}</button></div>`;
+  <div class="bar">
+    <div><small>From</small><b>${p ? money(p) : "Free"}</b>
+      <button style="display:block;font-size:.7rem;color:var(--t2);text-decoration:underline;margin-top:2px" onclick="openLegal('refund')">Refund policy</button>
+    </div>
+    <button class="btn" ${dis ? "disabled" : ""} onclick="book('${e.id}')">${bookLabel}</button>
+  </div>`;
   $("#detail").classList.add("on");
   $("#detail").scrollTop = 0;
   if (pr.length) initPS($("#detail"));
@@ -1365,7 +1667,6 @@ const needsApproval = t => payStatusOf(t) === "awaiting";
 const isApproved = t => payStatusOf(t) === "approved";
 const isDeclined = t => payStatusOf(t) === "declined";
 
-/* Human-friendly payment-method label used in logs. */
 function payLabel(t) {
   if (t && t.method) return t.method;
   const s = payStatusOf(t);
@@ -1375,7 +1676,6 @@ function payLabel(t) {
   return s || "—";
 }
 
-/* Inserts a booking, dropping optional columns the database may not have yet. */
 async function insertTicket(bk) {
   const attempts = [bk];
   const noNights = { ...bk }; delete noNights.nights;
@@ -1395,7 +1695,6 @@ async function insertTicket(bk) {
   return { error: last };
 }
 
-/* Saves a property, dropping payment columns if the DB isn't migrated yet. */
 async function saveEventRow(ev, isEdit) {
   const run = row => isEdit
     ? sb.from("events").update(row).eq("id", row.id)
@@ -1403,14 +1702,15 @@ async function saveEventRow(ev, isEdit) {
   let { error } = await run(ev);
   if (error && /column|schema|does not exist|unknown|could not find/i.test(error.message || "")) {
     const safe = { ...ev };
-    ["pay_method", "pay_network", "pay_phone", "pay_name"].forEach(k => delete safe[k]);
+    ["pay_method", "pay_network", "pay_phone", "pay_name",
+     "refund_policy", "refund_policy_text", "house_rules", "check_in_notes",
+     "listing_status"].forEach(k => delete safe[k]);
     ({ error } = await run(safe));
-    if (!error) toast("Saved — add the payment columns to enable direct payments");
+    if (!error) toast("Saved — add the payment and refund columns to enable them");
   }
   return { error };
 }
 
-/* Puts rooms back on sale when a host declines a direct payment. */
 async function releaseRooms(eventId, tierName, qty) {
   try {
     const { data: row } = await sb.from("events").select("*").eq("id", eventId).single();
@@ -1421,7 +1721,6 @@ async function releaseRooms(eventId, tierName, qty) {
   } catch (e) { console.warn("releaseRooms failed:", e); }
 }
 
-/* Shown to the guest right after they submit a screenshot. */
 function paymentPending(t) {
   const m = sheet(sh("Payment submitted", "Your screenshot has been sent to the host.") +
     `<div class="pstrip wait">${I("clock")}<div><b>Waiting for the host to confirm</b><br>
@@ -1441,6 +1740,7 @@ function book(id) {
     const e = ALL.find(x => x.id === id);
     if (!e) return;
     if (e.demo) return toast("Sample property: booking is disabled");
+    if ((e.listing_status || "approved") !== "approved") return toast("This property is awaiting admin approval");
     if (!(e.tiers || []).length) return toast("No rooms available for this property");
     if (left(e) <= 0) return toast("No rooms available");
 
@@ -1453,6 +1753,7 @@ function book(id) {
       const t = e.tiers[ti], av = t.qty - t.sold, tot = t.price * qty * nights;
       const info = payInfo(e);
       const direct = info.method === "direct" && tot > 0 && !!info.phone;
+      const rp = refundOf(e);
 
       g(".sh").innerHTML = `<div class="grab"></div>` + sh("Book your stay", esc(e.title) + " · " + esc(e.city)) +
         `<div class="fld"><label>Room type</label>${e.tiers.map((x, i) =>
@@ -1491,6 +1792,14 @@ function book(id) {
         ${tot > 0 && !direct ? `<div class="fld"><label>Pay with mobile money</label><div class="seg">${["MTN", "Airtel", "Zamtel"].map(p => `<button data-p="${p}" class="${p === pay ? "on" : ""}">${p}</button>`).join("")}</div></div>` : ""}
         <div class="tot"><span>Total</span><b>${tot ? money(tot) : "Free"}</b></div>
         ${tot > 0 ? `<p class="brk">${money(t.price)} × ${qty} room${qty > 1 ? "s" : ""} × ${nights} night${nights > 1 ? "s" : ""}</p>` : ""}
+        <div class="book-policy">
+          <b>Cancellation policy: ${esc(rp.label)}</b>
+          ${esc(rp.short)}.<br>
+          <span style="display:block;margin-top:6px;color:#a55a00;font-weight:600">
+            ⚠ Please only book if your travel dates are certain. In Zambia, no-shows are not refundable.
+          </span>
+          <button type="button" data-legal="refund" style="color:var(--ac);font-weight:600;text-decoration:underline;font-size:.82rem;margin-top:4px">Read full policy</button>
+        </div>
         <button class="btn b" id="pay" style="margin-top:12px">${!tot ? "Confirm booking" : direct ? "Submit payment" : "Pay " + money(tot)}</button>
         <p class="hint c">${!tot
           ? "No payment is needed for free rooms."
@@ -1651,7 +1960,7 @@ function book(id) {
     draw();
   });
 }
-const buy = book; // alias
+const buy = book;
 
 const nightsOf = b => {
   const n = Number(b && b.nights);
@@ -1767,7 +2076,20 @@ const rTix = rStays;
 async function delBooking(id) {
   const t = BOOKINGS.find(x => x.id === id);
   if (!t) return;
-  if (!confirm(`Cancel your booking at ${t.event_title}?\n\nBooking: ${t.code}`)) return;
+
+  const ev = ALL.find(x => x.id === t.event_id);
+  const rp = refundOf(ev || {});
+  if (rp.key === "nonrefundable") {
+    const ok = await ask(
+      "This booking is non-refundable",
+      `Cancelling <b>${esc(t.event_title)}</b> (${esc(t.code)}) will not produce a refund. The full amount paid is forfeited. Only cancel if you are certain.`,
+      "Cancel anyway", "d"
+    );
+    if (!ok) return;
+  } else {
+    if (!confirm(`Cancel your booking at ${t.event_title}?\n\nBooking: ${t.code}\n\nPolicy: ${rp.label} — ${rp.short}`)) return;
+  }
+
   try {
     await sb.from("tickets").delete().eq("id", id);
     await loadAll();
@@ -1810,7 +2132,6 @@ function rChk() {
     if (mo === chMode) return;
     chMode = mo;
     if (mo === "log") {
-      /* nothing to reset — the log is across all properties */
     } else {
       chFilter = mo === "out" ? "house" : "out";
     }
@@ -1903,7 +2224,6 @@ function drawLogList() {
     return;
   }
 
-  /* Group by the day the guest actually checked in. */
   const dayOf = t => {
     const iso = t.checked_in_at || t.used_at;
     return iso ? String(iso).slice(0, 10) : null;
@@ -1917,13 +2237,11 @@ function drawLogList() {
     groups[day].push(t);
   });
 
-  const days = Object.keys(groups).sort().reverse();   /* newest day first */
+  const days = Object.keys(groups).sort().reverse();
   const todayStr = today();
 
-  /* Auto-open the most recent day if nothing has been opened yet. */
   if (logExpanded.size === 0 && days.length) logExpanded.add(days[0]);
 
-  /* Whole-log summary (all-time totals). */
   const allGuests = logRows.reduce((s, t) => s + (+t.qty || 1), 0);
   const allAmount = logRows.reduce((s, t) => s + (+t.total || 0), 0);
 
@@ -1978,7 +2296,6 @@ function drawLogList() {
         </div>`;
     }).join("")}`;
 
-  /* Wire expand/collapse. */
   box.querySelectorAll(".log-day").forEach(d => {
     const h = d.querySelector(".log-day-h");
     const day = d.dataset.day;
@@ -2006,31 +2323,13 @@ function downloadLogCsv() {
   };
   const csvRow = arr => arr.map(csvField).join(",");
 
-  const headers = [
-    "Day",
-    "Guest",
-    "Phone",
-    "Property",
-    "Room type",
-    "Rooms",
-    "Payment method",
-    "Amount paid (ZMW)",
-    "Check-in",
-    "Check-out"
-  ];
-
+  const headers = ["Day","Guest","Phone","Property","Room type","Rooms","Payment method","Amount paid (ZMW)","Check-in","Check-out"];
   const lines = [csvRow(headers)];
   rows.forEach(t => {
     const day = (t.checked_in_at || t.used_at || "").slice(0, 10);
     lines.push(csvRow([
-      day,
-      t.buyer_name || "",
-      t.buyer_phone || "",
-      t.event_title || "",
-      t.tier || "",
-      t.qty || 1,
-      payLabel(t),
-      Number(t.total || 0),
+      day, t.buyer_name || "", t.buyer_phone || "", t.event_title || "", t.tier || "",
+      t.qty || 1, payLabel(t), Number(t.total || 0),
       fdt(t.checked_in_at || t.used_at) || "",
       t.checked_out ? (fdt(t.checked_out_at) || "") : ""
     ]));
@@ -2084,7 +2383,7 @@ async function admit(id, n) {
     }
     const { error } = await updateTicket(id, u);
     if (error) return { err: error.message };
-    logLoaded = false;   /* daily log will refresh next time it is opened */
+    logLoaded = false;
     return { s: "done", t: { ...f, ...u }, n };
   } catch (e) { console.error("admit error:", e); return { err: "An error occurred" }; }
 }
@@ -2515,8 +2814,10 @@ function rOrg() {
   const sold = MINE.reduce((s, e) => s + (e.tiers || []).reduce((a, t) => a + t.sold, 0), 0);
   const gross = MINE.reduce((s, e) => s + (e.tiers || []).reduce((a, t) => a + t.sold * t.price, 0), 0);
   const yourShare = Math.round(gross * (1 - fee / 100));
+  const pendingCount = MINE.filter(e => (e.listing_status || "approved") === "pending").length;
 
   $("#ol").innerHTML = `
+    ${pendingCount ? `<div class="listing-status-banner pending">⏳ ${pendingCount} listing${pendingCount === 1 ? "" : "s"} awaiting admin approval</div>` : ""}
     <div class="kpis">
       <div class="kpi"><small>Properties</small><b>${MINE.length}</b></div>
       <div class="kpi"><small>Rooms booked</small><b>${sold}</b></div>
@@ -2550,9 +2851,14 @@ function rOrg() {
         fstat === "approved" ? `<span class="fbadge-pill fbadge-approved">★ Featured</span>` :
         fstat === "rejected" ? `<span class="fbadge-pill fbadge-rejected">✗ Featured: declined</span>` :
         "";
+      const ls = e.listing_status || "approved";
+      const lsBadge =
+        ls === "approved" ? `<span class="fbadge-pill listed">✓ Live</span>` :
+        ls === "pending"  ? `<span class="fbadge-pill fbadge-pending">⏳ Awaiting approval</span>` :
+        ls === "rejected" ? `<span class="fbadge-pill fbadge-rejected">✗ Listing declined</span>` : "";
       return `<div class="ocard"><div class="top" onclick="closeStay();openStay('${e.id}')">
         <div class="th" style="width:64px;height:64px">${e.img ? `<img src="${e.img}" loading="lazy" alt="">` : I("bed")}</div>
-        <div class="rb"><b>${esc(e.title)}</b><span>${esc(e.city)} · ${fdate(e.date)}</span><span>${s} / ${n} rooms booked · ${money(rev)}</span>${fbadge}${payInfo(e).method === "direct" ? `<span class="pay-method-tag">Direct · ${esc(payInfo(e).phone || "not set")}</span>` : `<span class="pay-method-tag">In-app payments</span>`}</div></div>
+        <div class="rb"><b>${esc(e.title)}</b><span>${esc(e.city)} · ${fdate(e.date)}</span><span>${s} / ${n} rooms booked · ${money(rev)}</span>${lsBadge}${fbadge}${payInfo(e).method === "direct" ? `<span class="pay-method-tag">Direct · ${esc(payInfo(e).phone || "not set")}</span>` : `<span class="pay-method-tag">In-app payments</span>`}</div></div>
         <div class="acts">
           <button class="btn s sm" onclick="shareStay('${e.id}')">${I("share")}Share</button>
           <button class="btn s sm" onclick="sales('${e.id}')">${I("users")}Guests</button>
@@ -2685,7 +2991,7 @@ function drawOrgChart() {
       type: "bar",
       data: {
         labels: items.map(x => x.label),
-        datasets: [{ label: "Rooms booked", data: items.map(x => x.sold), backgroundColor: "#007AFF", borderRadius: 8, maxBarThickness: 38 }]
+        datasets: [{ label: "Rooms booked", data: items.map(x => x.sold), backgroundColor: "#d25614", borderRadius: 8, maxBarThickness: 38 }]
       },
       options: {
         responsive: true, maintainAspectRatio: false, animation: { duration: 500 },
@@ -2742,10 +3048,13 @@ function openEditor(id) {
           desc: e.description || "", tagline: e.tagline || "", featured: !!e.featured,
           featuredStatus: e.featured_status || (e.featured ? "approved" : "none"),
           payMethod: e.pay_method || "app", payNetwork: e.pay_network || "MTN",
-          payPhone: e.pay_phone || "", payName: e.pay_name || "" }
+          payPhone: e.pay_phone || "", payName: e.pay_name || "",
+          refundPolicy: e.refund_policy || DEFAULT_REFUND_KEY, refundText: e.refund_policy_text || "",
+          houseRules: e.house_rules || "", checkInNotes: e.check_in_notes || "" }
       : { title: "", category: "", city: "", venue: "", date: "", time: "14:00",
           desc: "", tagline: "", featured: false, featuredStatus: "none",
-          payMethod: "app", payNetwork: "MTN", payPhone: "", payName: "" };
+          payMethod: "app", payNetwork: "MTN", payPhone: "", payName: "",
+          refundPolicy: DEFAULT_REFUND_KEY, refundText: "", houseRules: "", checkInNotes: "" };
 
     const T = e ? e.tiers.map(t => ({ ...t })) : [{ name: "Standard Room", price: "", qty: "", sold: 0 }];
     const PR = e ? (e.presenters || []).map(x => ({ ...x })) : [];
@@ -2758,6 +3067,9 @@ function openEditor(id) {
         D.featuredStatus === "pending"  ? "⏳ Awaiting admin approval." :
         D.featuredStatus === "rejected" ? "✗ Request was declined. Tick to request again." :
         "Featured properties appear in the carousel at the top of Explore.";
+
+      const curRefund = D.refundPolicy || DEFAULT_REFUND_KEY;
+      const curTpl = REFUND_TEMPLATES[curRefund] || REFUND_TEMPLATES[DEFAULT_REFUND_KEY];
 
       g(".sh").innerHTML = `<div class="grab"></div>` + sh(e ? "Edit property" : "List a property") + `
         <div class="fld"><label>Property name</label><input class="in" data-k="title" value="${esc(D.title)}" placeholder="e.g. Zambezi River Lodge"></div>
@@ -2814,6 +3126,23 @@ function openEditor(id) {
         ` : `<p class="hint">Guests pay inside Zambia Stays with mobile money. Bookings
         are confirmed automatically and payouts go to your host balance.</p>`}
 
+        <h2 class="h2" style="margin-top:8px">Cancellation &amp; refund policy</h2>
+        <p class="sub">Choose the policy that will apply to every booking at this property. Guests see this on the listing, in the booking form and on their receipt.</p>
+        <div class="fld"><label>Refund policy</label>
+          <div class="seg" id="refundseg">
+            ${Object.entries(REFUND_TEMPLATES).map(([k, v]) =>
+              `<button data-rp="${k}" class="${curRefund === k ? "on" : ""}">${esc(v.label)}</button>`).join("")}
+          </div>
+        </div>
+        ${curRefund === "custom"
+          ? `<div class="fld"><label>Your policy (shown to guests)</label>
+               <textarea class="in" data-k="refundText" placeholder="e.g. Full refund if cancelled 14 days before arrival. 50% refund within 7 days. No refund within 48 hours or for no-shows.">${esc(D.refundText || "")}</textarea></div>`
+          : `<p class="hint" style="margin:-4px 0 12px">${esc(curTpl.text)}</p>`}
+        <div class="fld"><label>House rules (optional)</label>
+          <textarea class="in" data-k="houseRules" placeholder="e.g. No smoking indoors. No pets. Quiet hours 22:00–07:00.">${esc(D.houseRules || "")}</textarea></div>
+        <div class="fld"><label>Before you arrive (optional)</label>
+          <textarea class="in" data-k="checkInNotes" placeholder="e.g. Bring your booking code. Reception is open 24/7. Airport transfers on request.">${esc(D.checkInNotes || "")}</textarea></div>
+
         <h2 class="h2" style="margin-top:8px">Rooms</h2>
         <p class="sub">Price is per room, per night. Use 0 for free rooms. A ${fee}% platform fee applies.</p>
         ${T.map((t, i) => `<div class="trow">
@@ -2838,6 +3167,7 @@ function openEditor(id) {
       g("#ap").onclick = () => { PR.push({ name: "", role: "", img: "" }); draw() };
       m.querySelectorAll("[data-pm]").forEach(b => b.onclick = () => { D.payMethod = b.dataset.pm; draw() });
       m.querySelectorAll("[data-pn]").forEach(b => b.onclick = () => { D.payNetwork = b.dataset.pn; draw() });
+      m.querySelectorAll("[data-rp]").forEach(b => b.onclick = () => { D.refundPolicy = b.dataset.rp; draw() });
       g("#fi").onchange = pick;
       g("#sv").onclick = save;
     };
@@ -2863,6 +3193,9 @@ function openEditor(id) {
         if (!isValidPhone(D.payPhone)) return toast("Enter the mobile money number that receives payments");
         if (D.payName.trim().length < 2) return toast("Enter the name on the mobile money account");
       }
+      if (D.refundPolicy === "custom" && !(D.refundText || "").trim()) {
+        return toast("Please enter your custom refund policy text");
+      }
       const btn = g("#sv");
       btn.disabled = true;
 
@@ -2886,6 +3219,15 @@ function openEditor(id) {
         ? new Date().toISOString()
         : (e && e.featured_requested_at) || null;
 
+      // Listing approval: new → pending; edit preserves, except rejected → pending (resubmit)
+      let listingStatus;
+      if (e) {
+        const prior = e.listing_status || "approved";
+        listingStatus = prior === "rejected" ? "pending" : prior;
+      } else {
+        listingStatus = "pending";
+      }
+
       try {
         const ev = {
           id: e ? e.id : uid("ev_"),
@@ -2906,15 +3248,22 @@ function openEditor(id) {
           tagline: D.tagline.trim(),
           presenters: PR.filter(x => String(x.name).trim() || x.img).map(x => ({ name: x.name.trim(), role: (x.role || "").trim(), img: x.img || "" })),
           status: "live",
+          listing_status: listingStatus,
           pay_method: D.payMethod,
           pay_network: D.payNetwork,
           pay_phone: sanitizePhone(D.payPhone),
-          pay_name: D.payName.trim()
+          pay_name: D.payName.trim(),
+          refund_policy: D.refundPolicy || DEFAULT_REFUND_KEY,
+          refund_policy_text: D.refundPolicy === "custom" ? (D.refundText || "").trim() : "",
+          house_rules: (D.houseRules || "").trim(),
+          check_in_notes: (D.checkInNotes || "").trim()
         };
         const { error } = await saveEventRow(ev, !!e);
         if (error) { btn.disabled = false; return toast(error.message) }
         m.close();
-        toast(e ? "Property updated" : "Property published");
+        toast(e
+          ? (e.listing_status === "rejected" ? "Property resubmitted for review" : "Property updated")
+          : "Property submitted — awaiting admin approval");
         await loadAll();
         rOrg();
         rHome();
@@ -3027,8 +3376,6 @@ function payoutConfirmed(a) {
     `<p class="desc">Your payout of <b style="color:var(--tx)">${money(a)}</b> will be disbursed to you after verification and within 2 working days.</p>
      <button class="btn b" data-x style="margin-top:16px">Done</button>`);
 }
-
-/* ---------- END PAYOUTS ---------- */
 
 /* ---------- ACCOUNT ---------- */
 function rMe() {
@@ -3152,8 +3499,6 @@ $("#list").innerHTML = `<div class="sk">${skeleton(5)}</div>`;
   }
 })();
 
-/* Auto check-out sweep — runs on load and then every minute while
-   the app is open, so nobody stays checked in past 10:00 AM. */
 setInterval(() => { runAutoCheckout(false); }, 60000);
 </script>
 </body>
